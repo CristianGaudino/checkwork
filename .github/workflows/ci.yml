@@ -59,3 +59,36 @@ jobs:
           check "not found" http://127.0.0.1:8787/nope 404
           if grep -q 'ERROR' wrangler.log; then echo 'the Worker logged an error'; fail=1; fi
           if [ $fail = 1 ]; then grep -iE 'error|failed' wrangler.log | sort -u | head -20; exit 1; fi
+
+  # Playwright against a production build, in the image that has the browsers built in (no install step to stall).
+  # Keep the tag in step with @playwright/test in package-lock.json.
+  e2e:
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    container:
+      image: mcr.microsoft.com/playwright:v1.65.0-noble
+      options: --ipc=host
+    env:
+      NEXT_TELEMETRY_DISABLED: 1
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - name: Image matches the locked Playwright
+        run: |
+          locked=$(node -p "require('./package-lock.json').packages['node_modules/@playwright/test'].version")
+          image=$(grep -o 'playwright:v[0-9.]*-' .github/workflows/ci.yml | head -1 | sed 's/playwright:v//; s/-$//')
+          [ "$locked" = "$image" ] || { echo "::error::The image is Playwright $image but package-lock.json has $locked: change the tag"; exit 1; }
+      - run: npm run e2e
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: |
+            playwright-report
+            test-results
+          retention-days: 7

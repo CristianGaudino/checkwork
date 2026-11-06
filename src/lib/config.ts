@@ -1,18 +1,19 @@
-/** The one place the domain and brand facts live. Change SITE_URL (wrangler.jsonc) to move the site; this is only the fallback. */
-export const SITE_URL: string = (process.env.SITE_URL ?? 'https://checkwork.cgaudino.com').replace(/\/$/, '');
+/**
+ * The one place the domain lives (besides the route in wrangler.jsonc, which Cloudflare needs). Pages are built
+ * static, so an environment variable read here would be fixed at build time: change the constant, not a variable.
+ */
+export const SITE_URL = 'https://checkwork.cgaudino.com';
 
 export const SITE = {
     name: 'Checkwork',
     tagline: 'Websites that work.',
     description:
         'Checkwork designs and builds websites and dealer tools for car dealerships and growing businesses in Ireland.',
-    country: 'Ireland',
-    locale: 'en-IE',
 } as const;
 
-export const BRAND_COLORS = { midnight: '#0B0F1F', paper: '#F5F6FA' } as const;
+export const BRAND_COLORS = { midnight: '#0B0F1F' } as const;
 
-/** Production lets search engines in; everything else (local, previews) does not. */
+/** Production lets search engines in; everything else (local, previews) does not. Read at request time: see robots.ts. */
 export const isProduction = (): boolean => process.env.APP_ENV === 'production';
 
 export const ROUTES = {
