@@ -4,16 +4,19 @@ import type { NextConfig } from "next";
 // Lets `next dev` reach the D1 binding in wrangler.jsonc (local SQLite)
 initOpenNextCloudflareForDev();
 
-/** First-party plus Turnstile (the contact form's spam check). Cloudflare Web Analytics is added with its issue. */
+/** First-party plus Turnstile (the contact form's spam check) and Cloudflare Web Analytics. */
 const TURNSTILE = "https://challenges.cloudflare.com";
+// Cloudflare Web Analytics: its script, and the address it reports to
+const ANALYTICS_SCRIPT = "https://static.cloudflareinsights.com";
+const ANALYTICS_REPORT = "https://cloudflareinsights.com";
 const directives: Record<string, string> = {
     "default-src": "'self'",
     // Next's inline bootstrap scripts need 'unsafe-inline' on static pages; React's dev build uses eval
-    "script-src": `'self' 'unsafe-inline' ${process.env.NODE_ENV === "development" ? "'unsafe-eval'" : ""} ${TURNSTILE}`,
+    "script-src": `'self' 'unsafe-inline' ${process.env.NODE_ENV === "development" ? "'unsafe-eval'" : ""} ${TURNSTILE} ${ANALYTICS_SCRIPT}`,
     "style-src": "'self' 'unsafe-inline'",
     "img-src": "'self' data:",
     "font-src": "'self'",
-    "connect-src": `'self' ${TURNSTILE}`,
+    "connect-src": `'self' ${TURNSTILE} ${ANALYTICS_REPORT}`,
     "frame-src": TURNSTILE,
     "form-action": "'self'",
     "base-uri": "'self'",
