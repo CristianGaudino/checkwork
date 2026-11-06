@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Inter, Sora } from 'next/font/google';
 import { JsonLd } from '@/components/JsonLd';
+import { Analytics } from '@/components/Analytics';
 import { Footer } from '@/components/layout/Footer';
 import { Header } from '@/components/layout/Header';
 import { BRAND_COLORS, SITE, SITE_URL } from '@/lib/config';
@@ -28,6 +29,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
                 <Header />
                 <main id="main">{children}</main>
                 <Footer />
+                <Analytics />
             </body>
         </html>
     );

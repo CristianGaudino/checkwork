@@ -50,3 +50,9 @@ export const TEAM: readonly { name: string; role: string }[] = [
  */
 export const TURNSTILE_SITE_KEY = '1x00000000000000000000AA';
 export const TURNSTILE_TEST_SECRET = '1x0000000000000000000000000000000AA';
+
+/**
+ * Cloudflare Web Analytics token (public by design). Empty means analytics is off and no script is loaded.
+ * TODO (issue #10): create the site in Cloudflare (Analytics & Logs, Web Analytics) for checkwork.cgaudino.com and paste its token here.
+ */
+export const ANALYTICS_TOKEN = '';
