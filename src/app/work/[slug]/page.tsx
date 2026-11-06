@@ -44,7 +44,7 @@ export default async function CaseStudy({ params }: PageProps<'/work/[slug]'>) {
             <Section>
                 <Container className="grid gap-10 md:grid-cols-[1fr_1.2fr] md:gap-16">
                     <div className="grid max-w-prose content-start gap-4">
-                        <h2 className="font-display text-4xl font-semibold tracking-tight">The brief</h2>
+                        <h2 className="font-display text-4xl font-semibold">The brief</h2>
                         <p className="text-fg-muted">{project.intro}</p>
                         {project.forDealers && <p className="text-fg-muted">{project.forDealers}</p>}
                         {project.result && <p className="font-semibold">{project.result}</p>}
@@ -65,15 +65,15 @@ export default async function CaseStudy({ params }: PageProps<'/work/[slug]'>) {
 
             <Section className="border-t border-line bg-surface">
                 <Container>
-                    <h2 className="mb-10 font-display text-4xl font-semibold tracking-tight">More work</h2>
+                    <h2 className="mb-10 font-display text-4xl font-semibold">More work</h2>
                     <ul className="border-t border-line">
                         {others.map(p => (
-                            <li key={p.slug} className="grid gap-3 border-b border-line py-6 md:grid-cols-[1fr_1.5fr_auto] md:items-baseline md:gap-10">
+                            <li key={p.slug} className="group relative grid gap-3 border-b border-line py-6 transition-colors hover:bg-surface has-[:focus-visible]:bg-surface md:grid-cols-[1fr_1.5fr_auto] md:items-baseline md:gap-10 md:px-4">
                                 <h3 className="font-display text-2xl font-semibold">
-                                    <Link href={`${ROUTES.work}/${p.slug}`} className="hover:text-accent-alt">{p.name}</Link>
+                                    <Link href={`${ROUTES.work}/${p.slug}`} className="after:absolute after:inset-0">{p.name}</Link>
                                 </h3>
                                 <p className="text-fg-muted">{p.kind}.</p>
-                                <Link href={`${ROUTES.work}/${p.slug}`} aria-label={`${p.name}: case study`} className="text-accent-alt underline underline-offset-4">Case study</Link>
+                                <span aria-hidden="true" className="hidden text-accent-alt transition-transform group-hover:translate-x-1 md:inline">→</span>
                             </li>
                         ))}
                     </ul>

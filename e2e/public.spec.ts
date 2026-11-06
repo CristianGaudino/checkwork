@@ -1,7 +1,10 @@
 import axe from 'axe-core';
-import { expect, test } from '@playwright/test';
+import { expect, type Page, test } from '@playwright/test';
 import { PROJECTS } from '@/content/projects';
 import { ROUTES } from '@/lib/config';
+
+// Page animations (the home page's launch check) must be finished before axe measures colours or a screenshot is taken
+const settled = (page: Page) => page.waitForFunction(() => document.getAnimations().every(a => a.playState === 'finished'));
 
 // Add each page here as it lands.
 const PAGES = [ROUTES.home, ROUTES.work, ROUTES.contact, ROUTES.services, ROUTES.dealers, ROUTES.about, ROUTES.privacy, ...PROJECTS.map(p => `${ROUTES.work}/${p.slug}`)];
@@ -18,6 +21,7 @@ for (const path of PAGES) {
         await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute('content', 'summary_large_image');
         // Every block of structured data must parse
         for (const block of await page.locator('script[type="application/ld+json"]').allTextContents()) JSON.parse(block);
+        await settled(page);
         // Include colour contrast: the brand is dark-on-dark and easy to get wrong
         await page.addScriptTag({ content: axe.source });
         const violations = await page.evaluate(async () => (await (window as unknown as { axe: typeof axe }).axe.run(document)).violations.map(v => `${v.id}: ${v.nodes.map(n => n.target.join(' ')).join(' | ')}`));
@@ -27,6 +31,7 @@ for (const path of PAGES) {
     // Looked at by a person: screenshots land in test-results/screenshots (git-ignored)
     test(`${path}: screenshot`, async ({ page }, info) => {
         await page.goto(path);
+        await settled(page);
         await page.screenshot({ path: `test-results/screenshots/${info.project.name}${path === '/' ? '-home' : path.replaceAll('/', '-')}.png`, fullPage: true });
     });
 }

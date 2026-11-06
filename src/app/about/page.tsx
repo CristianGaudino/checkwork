@@ -35,7 +35,7 @@ export default function About() {
             </Section>
             <Section className="border-t border-line bg-surface">
                 <Container>
-                    <h2 className="mb-10 font-display text-4xl font-semibold tracking-tight">How we work</h2>
+                    <h2 className="mb-10 font-display text-4xl font-semibold">How we work</h2>
                     <ul className="border-t border-line">
                         {PRINCIPLES.map(p => (
                             <li key={p.title} className="grid gap-2 border-b border-line py-6 md:grid-cols-[1fr_1.6fr] md:gap-12">
@@ -49,7 +49,7 @@ export default function About() {
             {team.length > 0 && (
                 <Section>
                     <Container>
-                        <h2 className="mb-10 font-display text-4xl font-semibold tracking-tight">The team</h2>
+                        <h2 className="mb-10 font-display text-4xl font-semibold">The team</h2>
                         <ul className="border-t border-line">
                             {team.map(t => (
                                 <li key={t.name} className="grid gap-2 border-b border-line py-6 md:grid-cols-[1fr_1.6fr] md:gap-12">

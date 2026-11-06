@@ -1,6 +1,6 @@
 'use client';
 
-import { useActionState } from 'react';
+import { useActionState, useEffect, useRef } from 'react';
 import { sendEnquiry, type ContactState } from '@/app/contact/actions';
 import { Turnstile } from '@/components/Turnstile';
 import { NEEDS } from '@/content/contact';
@@ -19,6 +19,13 @@ function Field({ id, label, hint, error, children }: { id: string; label: string
 
 export function ContactForm() {
     const [state, action, pending] = useActionState<ContactState, FormData>(sendEnquiry, { status: 'idle' });
+    const form = useRef<HTMLFormElement>(null);
+
+    // After a failed send, put the cursor on the first field to fix (or the message) so keyboard and screen-reader users are not left at the button
+    useEffect(() => {
+        if (state.status !== 'error') return;
+        form.current?.querySelector<HTMLElement>('[aria-invalid=true]')?.focus();
+    }, [state]);
 
     if (state.status === 'sent') {
         return (
@@ -34,7 +41,7 @@ export function ContactForm() {
     const props = (name: keyof typeof e) => ({ name, id: name, defaultValue: v[name] ?? '', className: field, 'aria-invalid': e[name] ? true : undefined, 'aria-describedby': e[name] ? `${name}-error` : undefined });
 
     return (
-        <form action={action} noValidate className="grid gap-6">
+        <form ref={form} action={action} noValidate className="grid gap-6">
             <p aria-hidden="true" className="absolute -left-[9999px]">
                 <label>Leave this empty <input type="text" name="company_website" tabIndex={-1} autoComplete="off" /></label>
             </p>

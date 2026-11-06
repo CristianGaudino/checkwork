@@ -8,13 +8,14 @@ const rowsFor = (email: string) =>
 test.describe.configure({ mode: 'serial' });
 test.skip(!!process.env.E2E_BASE_URL, 'These tests read the local D1');
 
-test('empty form shows plain errors and keeps focus on the form', async ({ page }) => {
+test('empty form shows plain errors and moves focus to the first one', async ({ page }) => {
     await page.goto(ROUTES.contact);
     await page.getByRole('button', { name: 'Send message' }).click();
     await expect(page.getByText('Enter your name.')).toBeVisible();
     await expect(page.getByText('Enter an email address we can reply to')).toBeVisible();
     await expect(page.getByText('Write a few lines about what you need.')).toBeVisible();
     await expect(page.getByLabel('Your name')).toHaveAttribute('aria-invalid', 'true');
+    await expect(page.getByLabel('Your name')).toBeFocused();
 });
 
 test('a valid enquiry is stored in D1 and the visitor is told', async ({ page }) => {
