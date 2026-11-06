@@ -1,15 +1,15 @@
-import type { Metadata } from 'next';
 import Link from 'next/link';
+import { pageMetadata } from '@/lib/metadata';
 import { CtaBand } from '@/components/ui/CtaBand';
 import { Container, Section } from '@/components/ui/Container';
 import { PageHead } from '@/components/ui/PageHead';
 import { SERVICES } from '@/content/services';
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
     title: 'Services',
     description: 'Web design and development, dealer tools, custom web apps and ongoing support from Checkwork in Ireland.',
-    alternates: { canonical: '/services' },
-};
+    path: '/services',
+});
 
 export default function Services() {
     return (

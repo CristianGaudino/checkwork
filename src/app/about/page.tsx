@@ -1,14 +1,14 @@
-import type { Metadata } from 'next';
 import { CtaBand } from '@/components/ui/CtaBand';
 import { Container, Section } from '@/components/ui/Container';
 import { PageHead } from '@/components/ui/PageHead';
 import { TEAM } from '@/lib/config';
+import { pageMetadata } from '@/lib/metadata';
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
     title: 'About',
     description: 'Checkwork is a two-person web development company in Ireland building websites and dealer tools.',
-    alternates: { canonical: '/about' },
-};
+    path: '/about',
+});
 
 const PRINCIPLES = [
     { title: 'Plain answers', text: 'We explain what we are doing and why, without jargon.' },

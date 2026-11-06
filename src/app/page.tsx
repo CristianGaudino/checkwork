@@ -1,4 +1,3 @@
-import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
 import { CtaBand } from '@/components/ui/CtaBand';
@@ -8,13 +7,13 @@ import { Mark } from '@/components/ui/Mark';
 import { CHECKS } from '@/content/checks';
 import { SERVICES, STEPS } from '@/content/services';
 import { CTA, ROUTES } from '@/lib/config';
+import { pageMetadata } from '@/lib/metadata';
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
     title: { absolute: 'Checkwork: web design and development for car dealerships in Ireland' },
-    description:
-        'Checkwork builds fast, easy-to-run websites and dealer tools for car dealerships in Ireland. See Carright, a dealer website with stock, lead and social tools built in.',
-    alternates: { canonical: '/' },
-};
+    description: 'Checkwork builds fast, easy-to-run websites and dealer tools for car dealerships in Ireland. See Carright, a dealer website with stock, lead and social tools built in.',
+    path: '/',
+});
 
 export default function Home() {
     return (

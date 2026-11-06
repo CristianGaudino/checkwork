@@ -1,12 +1,15 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { JsonLd } from '@/components/JsonLd';
 import { CtaBand } from '@/components/ui/CtaBand';
 import { Container, Section } from '@/components/ui/Container';
 import { Frame } from '@/components/ui/Frame';
 import { PageHead } from '@/components/ui/PageHead';
 import { getProject, PROJECTS } from '@/content/projects';
 import { ROUTES } from '@/lib/config';
+import { pageMetadata } from '@/lib/metadata';
+import { breadcrumbs } from '@/lib/schema';
 
 // Only the case studies in content/projects.ts exist
 export const dynamicParams = false;
@@ -15,7 +18,7 @@ export const generateStaticParams = () => PROJECTS.map(p => ({ slug: p.slug }));
 export async function generateMetadata({ params }: PageProps<'/work/[slug]'>): Promise<Metadata> {
     const project = getProject((await params).slug);
     if (!project) return {};
-    return { title: `${project.name}: ${project.kind}`, description: project.summary, alternates: { canonical: `${ROUTES.work}/${project.slug}` } };
+    return pageMetadata({ title: `${project.name}: ${project.kind}`, description: project.summary, path: `${ROUTES.work}/${project.slug}` });
 }
 
 export default async function CaseStudy({ params }: PageProps<'/work/[slug]'>) {
@@ -25,6 +28,7 @@ export default async function CaseStudy({ params }: PageProps<'/work/[slug]'>) {
 
     return (
         <>
+            <JsonLd data={breadcrumbs([{ name: 'Home', path: ROUTES.home }, { name: 'Work', path: ROUTES.work }, { name: project.name, path: `${ROUTES.work}/${project.slug}` }])} />
             <PageHead title={project.name} lead={`${project.kind}.`}>
                 <Link href={ROUTES.work} className="text-accent-alt underline underline-offset-4">All work</Link>
             </PageHead>
