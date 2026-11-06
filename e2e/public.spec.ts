@@ -3,7 +3,7 @@ import { expect, test } from '@playwright/test';
 import { ROUTES } from '@/lib/config';
 
 // Add each page here as it lands.
-const PAGES = [ROUTES.home, ROUTES.services, ROUTES.about, ROUTES.privacy];
+const PAGES = [ROUTES.home, ROUTES.services, ROUTES.dealers, ROUTES.about, ROUTES.privacy];
 
 for (const path of PAGES) {
     test(`${path}: one h1, a title, a canonical, and no axe violations`, async ({ page }) => {
@@ -51,4 +51,11 @@ test('skip link is first on the tab order and the mobile menu opens and closes',
     await expect(services).toBeVisible();
     await page.getByRole('button', { name: 'Close' }).click();
     await expect(services).toBeHidden();
+});
+
+test('dealer page has FAQ structured data that parses', async ({ page }) => {
+    await page.goto(ROUTES.dealers);
+    const ld = JSON.parse((await page.locator('script[type="application/ld+json"]').first().textContent()) ?? '');
+    expect(ld['@type']).toBe('FAQPage');
+    expect(ld.mainEntity.length).toBeGreaterThan(0);
 });
