@@ -11,6 +11,6 @@ const variants = {
     secondary: 'border-fg/40 text-fg hover:border-fg',
 } as const;
 
-export function ButtonLink({ variant = 'primary', className = '', ...props }: ComponentProps<typeof Link> & { variant?: keyof typeof variants }) {
+export function Button({ variant = 'primary', className = '', ...props }: ComponentProps<typeof Link> & { variant?: keyof typeof variants }) {
     return <Link className={`${base} ${variants[variant]} ${className}`} {...props} />;
 }

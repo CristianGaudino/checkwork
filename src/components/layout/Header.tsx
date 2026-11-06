@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
-import { ButtonLink } from '@/components/ui/Button';
+import { Button } from '@/components/ui/Button';
 import { Container } from '@/components/ui/Container';
 import { CTA, NAV } from '@/lib/config';
 
@@ -47,7 +47,7 @@ export function Header() {
                             </li>
                         ))}
                     </ul>
-                    <ButtonLink href={CTA.href} onClick={() => setOpen(false)} className="mt-4 md:mt-0 md:px-4 md:py-2.5 md:text-sm">{CTA.label}</ButtonLink>
+                    <Button href={CTA.href} onClick={() => setOpen(false)} className="mt-4 md:mt-0 md:px-4 md:py-2.5 md:text-sm">{CTA.label}</Button>
                 </nav>
             </Container>
         </header>
