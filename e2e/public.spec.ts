@@ -1,9 +1,10 @@
 import axe from 'axe-core';
 import { expect, test } from '@playwright/test';
+import { PROJECTS } from '@/content/projects';
 import { ROUTES } from '@/lib/config';
 
 // Add each page here as it lands.
-const PAGES = [ROUTES.home, ROUTES.services, ROUTES.dealers, ROUTES.about, ROUTES.privacy];
+const PAGES = [ROUTES.home, ROUTES.work, ROUTES.services, ROUTES.dealers, ROUTES.about, ROUTES.privacy, ...PROJECTS.map(p => `${ROUTES.work}/${p.slug}`)];
 
 for (const path of PAGES) {
     test(`${path}: one h1, a title, a canonical, and no axe violations`, async ({ page }) => {
