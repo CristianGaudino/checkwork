@@ -13,6 +13,7 @@ export const metadata: Metadata = {
     title: { template: `%s · ${SITE.name}`, default: `${SITE.name}: ${SITE.tagline}` },
     description: SITE.description,
     applicationName: SITE.name,
+    icons: { icon: '/favicon.svg', apple: '/apple-touch-icon.png' },
     openGraph: { type: 'website', siteName: SITE.name, locale: 'en_IE', images: ['/og-image.png'] },
     twitter: { card: 'summary_large_image' },
 };

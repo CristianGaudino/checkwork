@@ -10,7 +10,7 @@ Follows the vintage repo's standards (../vintage/.claude/CLAUDE.md and README). 
 - Track work in GitHub issues and the Checkwork project (#7). Link PRs to issues.
 
 ## Before opening a PR
-Run the ponytail audit on what changed, fix what it raises, and run `npm run lint; echo $?`, `npm run typecheck`, `npm test`, `npm run build` (judge by exit code). Pages: also run the Playwright spec against a production build once it exists. Skip for docs-only changes and say so.
+Run the ponytail audit on what changed, fix what it raises, and run `npm run lint; echo $?`, `npm run typecheck`, `npm test`, `npm run build` (judge by exit code). Run `npm run e2e` (it builds and serves a production build itself) and look at the screenshots it writes to `test-results/screenshots/`. Add every new page to `PAGES` in `e2e/public.spec.ts`. Skip for docs-only changes and say so.
 
 ## Stack facts
 - Next 16 on Cloudflare via OpenNext. No Cache Components / partial prefetching (opennextjs-cloudflare#1450). Read `node_modules/next/dist/docs/` before using a Next API.
