@@ -1,14 +1,20 @@
+import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
 import type { NextConfig } from "next";
 
-/** Everything is first-party for now. Cloudflare Web Analytics and Turnstile are added with their issues. */
+// Lets `next dev` reach the D1 binding in wrangler.jsonc (local SQLite)
+initOpenNextCloudflareForDev();
+
+/** First-party plus Turnstile (the contact form's spam check). Cloudflare Web Analytics is added with its issue. */
+const TURNSTILE = "https://challenges.cloudflare.com";
 const directives: Record<string, string> = {
     "default-src": "'self'",
     // Next's inline bootstrap scripts need 'unsafe-inline' on static pages; React's dev build uses eval
-    "script-src": `'self' 'unsafe-inline' ${process.env.NODE_ENV === "development" ? "'unsafe-eval'" : ""}`,
+    "script-src": `'self' 'unsafe-inline' ${process.env.NODE_ENV === "development" ? "'unsafe-eval'" : ""} ${TURNSTILE}`,
     "style-src": "'self' 'unsafe-inline'",
     "img-src": "'self' data:",
     "font-src": "'self'",
-    "connect-src": "'self'",
+    "connect-src": `'self' ${TURNSTILE}`,
+    "frame-src": TURNSTILE,
     "form-action": "'self'",
     "base-uri": "'self'",
     "object-src": "'none'",

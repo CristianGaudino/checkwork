@@ -1,11 +1,11 @@
-import { afterEach, expect, it } from 'vitest';
+import { afterEach, expect, it, vi } from 'vitest';
 import robots from './robots';
 
-afterEach(() => { delete process.env.APP_ENV; });
+afterEach(() => { vi.unstubAllEnvs(); });
 
 it('keeps search engines out unless APP_ENV is production', () => {
     expect(robots().rules).toEqual({ userAgent: '*', disallow: '/' });
-    process.env.APP_ENV = 'production';
+    vi.stubEnv('APP_ENV', 'production');
     expect(robots().rules).toEqual({ userAgent: '*', allow: '/' });
     expect(robots().sitemap).toMatch(/\/sitemap\.xml$/);
 });
