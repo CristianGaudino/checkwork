@@ -10,10 +10,11 @@ Follows the vintage repo's standards (../vintage/.claude/CLAUDE.md and README). 
 - Track work in GitHub issues and the Checkwork project (#7). Link PRs to issues.
 
 ## Before opening a PR
-Run the ponytail audit on what changed, fix what it raises, and run `npm run lint; echo $?`, `npm run typecheck`, `npm test`, `npm run build` (judge by exit code). Run `npm run e2e` (it builds and serves a production build itself) and look at the screenshots it writes to `test-results/screenshots/`. Add every new page to `PAGES` in `e2e/public.spec.ts`. Skip for docs-only changes and say so.
+Run the ponytail audit on what changed, fix what it raises, and run `npm run lint; echo $?`, `npm run typecheck`, `npm test`, `npm run build` (judge by exit code). Run `npm run e2e` (it builds the Worker and serves it with a local D1 itself) and look at the screenshots it writes to `test-results/screenshots/`. Add every new page to `PAGES` in `e2e/public.spec.ts`. Skip for docs-only changes and say so.
 
 ## Stack facts
 - Next 16 on Cloudflare via OpenNext. No Cache Components / partial prefetching (opennextjs-cloudflare#1450). Read `node_modules/next/dist/docs/` before using a Next API.
+- Database is Cloudflare D1 via Drizzle (owner's decision, #1), not Neon. Migrations: edit `src/lib/db/schema.ts`, `npm run db:generate`, commit `drizzle/`. Migrations only add things.
 - Domain lives in `src/lib/config.ts` (SITE_URL, set in `wrangler.jsonc`). Current: checkwork.cgaudino.com.
 - Components use semantic Tailwind tokens (`bg-canvas`, `text-fg-muted`), never raw colours.
 

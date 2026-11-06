@@ -1,6 +1,6 @@
 {
 	// The site on Cloudflare Workers, built by OpenNext (`npx opennextjs-cloudflare build`).
-	// Secrets (DATABASE_URL, TURNSTILE_SECRET_KEY) are set on the Worker in the dashboard, never here.
+	// Secrets (TURNSTILE_SECRET_KEY) are set on the Worker in the dashboard, never here.
 	"$schema": "node_modules/wrangler/config-schema.json",
 	"name": "checkwork",
 	"main": ".open-next/worker.js",
@@ -12,5 +12,7 @@
 	"vars": { "APP_ENV": "production" },
 	"routes": [{ "pattern": "checkwork.cgaudino.com", "custom_domain": true }],
 	"workers_dev": false,
+	// Enquiries. TODO (issue #8): `npx wrangler d1 create checkwork`, then put the real id here. This placeholder is enough for local dev.
+	"d1_databases": [{ "binding": "DB", "database_name": "checkwork", "database_id": "00000000-0000-0000-0000-000000000000", "migrations_dir": "drizzle" }],
 	"observability": { "enabled": true }
 }
