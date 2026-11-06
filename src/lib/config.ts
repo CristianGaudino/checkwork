@@ -36,3 +36,9 @@ export const CTA = { href: ROUTES.contact, label: 'Start a project' } as const;
 
 /** TODO (issue #2): real registered company details. Empty values are not shown. */
 export const LEGAL = { companyName: 'Checkwork', companyNumber: '', registeredOffice: '' } as const;
+
+/** TODO (issue #2): real names. Entries with an empty name are not shown on the About page. */
+export const TEAM: readonly { name: string; role: string }[] = [
+    { name: '', role: 'Developer' },
+    { name: '', role: 'Developer' },
+];
