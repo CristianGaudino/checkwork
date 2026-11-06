@@ -1,0 +1,32 @@
+@layer theme, base, components, utilities;
+@import "tailwindcss";
+
+/* Brand tokens (checkwork-brand-pack). Components use the semantic utilities below, never raw colours. */
+:root {
+    --canvas:     #0b0f1f; /* Midnight */
+    --surface:    #121832;
+    --fg:         #f5f6fa; /* Off-white */
+    --fg-muted:   #aab0cc; /* 8.7:1 on canvas */
+    --line:       rgb(255 255 255 / 0.11);
+    --accent:     #6366f1; /* Indigo */
+    --accent-alt: #a78bfa; /* Lavender */
+    --action:     #5a5deb; /* white text on it is 5:1 */
+    color-scheme: dark;
+}
+
+@theme inline {
+    --color-canvas: var(--canvas);
+    --color-surface: var(--surface);
+    --color-fg: var(--fg);
+    --color-fg-muted: var(--fg-muted);
+    --color-line: var(--line);
+    --color-accent: var(--accent);
+    --color-accent-alt: var(--accent-alt);
+    --color-action: var(--action);
+    --font-display: var(--font-sora), system-ui, sans-serif;
+    --font-sans: var(--font-inter), system-ui, sans-serif;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}
