@@ -1,0 +1,26 @@
+import type { Metadata, Viewport } from 'next';
+import { Inter, Sora } from 'next/font/google';
+import { BRAND_COLORS, SITE, SITE_URL } from '@/lib/config';
+import '@/styles/globals.css';
+
+const sora = Sora({ subsets: ['latin'], variable: '--font-sora', display: 'swap' });
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' });
+
+export const metadata: Metadata = {
+    metadataBase: new URL(SITE_URL),
+    title: { template: `%s · ${SITE.name}`, default: `${SITE.name}: ${SITE.tagline}` },
+    description: SITE.description,
+    applicationName: SITE.name,
+    openGraph: { type: 'website', siteName: SITE.name, locale: 'en_IE', images: ['/og-image.png'] },
+    twitter: { card: 'summary_large_image' },
+};
+
+export const viewport: Viewport = { width: 'device-width', initialScale: 1, themeColor: BRAND_COLORS.midnight };
+
+export default function RootLayout({ children }: LayoutProps<'/'>) {
+    return (
+        <html lang="en-IE" className={`${sora.variable} ${inter.variable}`}>
+            <body className="bg-canvas font-sans text-fg antialiased">{children}</body>
+        </html>
+    );
+}

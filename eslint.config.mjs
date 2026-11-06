@@ -1,0 +1,33 @@
+import { defineConfig, globalIgnores } from "eslint/config";
+import nextVitals from "eslint-config-next/core-web-vitals";
+import nextTs from "eslint-config-next/typescript";
+
+const eslintConfig = defineConfig([
+  ...nextVitals,
+  ...nextTs,
+  {
+    rules: {
+      // `const { dropped, ...rest } = row` is how a key is left out of a copy
+      "@typescript-eslint/no-unused-vars": ["warn", { ignoreRestSiblings: true }],
+    },
+  },
+  // Override default ignores of eslint-config-next.
+  globalIgnores([
+    // Default ignores of eslint-config-next:
+    ".next/**",
+    "out/**",
+    "build/**",
+    "next-env.d.ts",
+    // The Worker build (opennextjs-cloudflare) and Wrangler's state: generated, and big enough to run ESLint out of memory
+    ".open-next/**",
+    ".wrangler/**",
+    // Local Claude Code skills and settings, not the app
+    ".claude/**",
+    ".agents/**",
+    // The Astro mock and the brand pack: reference material, not the app
+    "checkwork-site/**",
+    "checkwork-brand-pack/**",
+  ]),
+]);
+
+export default eslintConfig;
