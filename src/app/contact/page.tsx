@@ -1,15 +1,15 @@
-import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ContactForm } from '@/components/ContactForm';
 import { Container, Section } from '@/components/ui/Container';
 import { PageHead } from '@/components/ui/PageHead';
 import { ROUTES } from '@/lib/config';
+import { pageMetadata } from '@/lib/metadata';
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
     title: 'Start a project',
     description: 'Tell Checkwork about your dealership or business and what you need. We reply by email.',
-    alternates: { canonical: ROUTES.contact },
-};
+    path: ROUTES.contact,
+});
 
 export default function Contact() {
     return (

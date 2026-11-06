@@ -13,6 +13,11 @@ for (const path of PAGES) {
         await expect(page.getByRole('heading', { level: 1 })).toHaveCount(1);
         await expect(page).toHaveTitle(/Checkwork/);
         await expect(page.locator('link[rel=canonical]')).toHaveCount(1);
+        // Share tags: what a link looks like in WhatsApp, LinkedIn and Slack
+        for (const tag of ['og:title', 'og:description', 'og:url', 'og:image']) await expect(page.locator(`meta[property="${tag}"]`)).toHaveCount(1);
+        await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute('content', 'summary_large_image');
+        // Every block of structured data must parse
+        for (const block of await page.locator('script[type="application/ld+json"]').allTextContents()) JSON.parse(block);
         // Include colour contrast: the brand is dark-on-dark and easy to get wrong
         await page.addScriptTag({ content: axe.source });
         const violations = await page.evaluate(async () => (await (window as unknown as { axe: typeof axe }).axe.run(document)).violations.map(v => `${v.id}: ${v.nodes.map(n => n.target.join(' ')).join(' | ')}`));
@@ -54,9 +59,8 @@ test('skip link is first on the tab order and the mobile menu opens and closes',
     await expect(services).toBeHidden();
 });
 
-test('dealer page has FAQ structured data that parses', async ({ page }) => {
+test('dealer page has site, service and FAQ structured data', async ({ page }) => {
     await page.goto(ROUTES.dealers);
-    const ld = JSON.parse((await page.locator('script[type="application/ld+json"]').first().textContent()) ?? '');
-    expect(ld['@type']).toBe('FAQPage');
-    expect(ld.mainEntity.length).toBeGreaterThan(0);
+    const types = (await page.locator('script[type="application/ld+json"]').allTextContents()).map(t => JSON.parse(t)['@type'] ?? 'graph');
+    expect(types).toEqual(expect.arrayContaining(['graph', 'Service', 'FAQPage']));
 });

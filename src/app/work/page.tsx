@@ -1,4 +1,3 @@
-import type { Metadata } from 'next';
 import Link from 'next/link';
 import { CtaBand } from '@/components/ui/CtaBand';
 import { Container, Section } from '@/components/ui/Container';
@@ -6,12 +5,13 @@ import { Frame } from '@/components/ui/Frame';
 import { PageHead } from '@/components/ui/PageHead';
 import { PROJECTS } from '@/content/projects';
 import { ROUTES } from '@/lib/config';
+import { pageMetadata } from '@/lib/metadata';
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
     title: 'Our work',
     description: 'Websites and web apps built by Checkwork: Carright, a car dealer system, plus tools for resellers and a vintage clothing website.',
-    alternates: { canonical: ROUTES.work },
-};
+    path: ROUTES.work,
+});
 
 export default function Work() {
     const [lead, ...rest] = PROJECTS;

@@ -1,14 +1,14 @@
-import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Container, Section } from '@/components/ui/Container';
 import { PageHead } from '@/components/ui/PageHead';
 import { LEGAL, ROUTES } from '@/lib/config';
+import { pageMetadata } from '@/lib/metadata';
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
     title: 'Privacy notice',
     description: 'How Checkwork uses the details you send us.',
-    alternates: { canonical: '/privacy' },
-};
+    path: '/privacy',
+});
 
 // TODO (issue #2): have this notice reviewed before launch, and update it with any new tool that collects data.
 const UPDATED = '6 November 2026';

@@ -1,4 +1,3 @@
-import type { Metadata } from 'next';
 import Link from 'next/link';
 import { JsonLd } from '@/components/JsonLd';
 import { Button } from '@/components/ui/Button';
@@ -7,13 +6,14 @@ import { Container, Section } from '@/components/ui/Container';
 import { PageHead } from '@/components/ui/PageHead';
 import { CHECKS } from '@/content/checks';
 import { CTA, ROUTES } from '@/lib/config';
+import { pageMetadata } from '@/lib/metadata';
+import { dealerService } from '@/lib/schema';
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
     title: 'Car dealer websites in Ireland',
-    description:
-        'Custom websites for car dealerships in Ireland: stock that stays current, enquiries that reach your team, and a site that Google can find. Built by Checkwork.',
-    alternates: { canonical: ROUTES.dealers },
-};
+    description: 'Custom websites for car dealerships in Ireland: stock that stays current, enquiries that reach your team, and a site that Google can find. Built by Checkwork.',
+    path: ROUTES.dealers,
+});
 
 const FAQS = [
     { q: 'Can our team add and update cars without a developer?', a: 'Yes. On Carright, the dealership team manage their own site through dealer controls, and the owner has separate controls. We build the same kind of access for your team.' },
@@ -31,6 +31,7 @@ export default function CarDealerWebsites() {
                     mainEntity: FAQS.map(f => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
                 }}
             />
+            <JsonLd data={dealerService()} />
             <PageHead
                 title="Websites for car dealerships in Ireland"
                 lead="Your website is where buyers look at your stock before they ever call. We build dealer websites that keep that stock current, bring in enquiries and are easy to run."
