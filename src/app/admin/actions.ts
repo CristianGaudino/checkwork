@@ -20,3 +20,10 @@ export async function deleteEnquiry(id: number) {
     await getDb().delete(enquiries).where(eq(enquiries.id, id));
     revalidatePath('/admin');
 }
+
+export async function saveNotes(id: number, data: FormData) {
+    await requireAdmin();
+    const notes = String(data.get('notes') ?? '').trim().slice(0, 2000);
+    await getDb().update(enquiries).set({ notes }).where(eq(enquiries.id, id));
+    revalidatePath('/admin');
+}

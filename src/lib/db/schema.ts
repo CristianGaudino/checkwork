@@ -13,4 +13,5 @@ export const enquiries = sqliteTable('enquiries', {
     message: text('message').notNull(),
     createdAt: text('created_at').notNull(),
     status: text('status', { enum: ENQUIRY_STATUSES }).notNull().default('new'),
+    notes: text('notes').notNull().default(''),
 });

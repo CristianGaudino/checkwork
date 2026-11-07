@@ -1,0 +1,1 @@
+ALTER TABLE `enquiries` ADD `notes` text DEFAULT '' NOT NULL;
