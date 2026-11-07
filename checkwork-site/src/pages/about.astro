@@ -1,0 +1,51 @@
+---
+import Base from '../layouts/Base.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { site } from '../config';
+const team = site.team.filter((t) => t.name);
+const principles = [
+  { title: 'Plain answers', text: 'We explain what we are doing and why, without jargon.' },
+  { title: 'Built to be run', text: 'We build things your team can use day to day, not things only a developer can change.' },
+  { title: 'Checked before launch', text: 'Nothing goes live until it passes the same checks, every time.' },
+];
+---
+<Base title="About" description="Checkwork is a two-person web development company in Ireland building websites and dealer tools.">
+  <section class="page-head">
+    <div class="wrap">
+      <h1>Two developers, one company</h1>
+      <p class="lead">Checkwork is a web development company in Ireland. We design and build websites, and the software behind them, for car dealerships and growing businesses.</p>
+    </div>
+  </section>
+
+  <section class="section surface-paper">
+    <div class="wrap split prose">
+      <div><h2>What we have built</h2></div>
+      <div>
+        <p class="muted">We build in code, end to end. That is how we made Carright, a dealer website with stock, lead and social media tools, and a set of apps for resellers that track stock, profit and finances.</p>
+        <p class="muted">We started in the motor trade because we have connections there, and because a dealership gives a website a clear job: sell cars.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section surface-dark">
+    <div class="wrap">
+      <div class="section-head"><h2>How we work</h2></div>
+      <ul class="rows">
+        {principles.map((p) => <li class="row"><h3>{p.title}</h3><p class="muted">{p.text}</p></li>)}
+      </ul>
+    </div>
+  </section>
+
+  {team.length > 0 && (
+    <section class="section surface-paper">
+      <div class="wrap">
+        <div class="section-head"><h2>The team</h2></div>
+        <ul class="rows">
+          {team.map((t) => <li class="row"><h3>{t.name}</h3><p class="muted">{t.role}</p></li>)}
+        </ul>
+      </div>
+    </section>
+  )}
+
+  <CtaBand />
+</Base>

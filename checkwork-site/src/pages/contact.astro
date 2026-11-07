@@ -1,0 +1,138 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../config';
+---
+<Base title="Start a project" description="Tell Checkwork about your dealership or business and what you need. We reply by email.">
+  <section class="page-head">
+    <div class="wrap">
+      <h1>Start a project</h1>
+      <p class="lead">Tell us about your business and what is not working. A few lines is enough.</p>
+    </div>
+  </section>
+
+  <section class="section surface-dark" style="padding-top:clamp(2rem,4vw,3rem)">
+    <div class="wrap contact-grid">
+      <form class="form" id="contact-form" novalidate>
+        <p class="hp" aria-hidden="true"><label>Leave this empty <input type="text" name="company_website" tabindex="-1" autocomplete="off" /></label></p>
+
+        <div class="field">
+          <label for="name">Your name</label>
+          <input class="input" id="name" name="name" type="text" autocomplete="name" required />
+          <span class="field-error" id="name-error" hidden>Enter your name.</span>
+        </div>
+        <div class="field">
+          <label for="business">Business name <span class="hint">(optional)</span></label>
+          <input class="input" id="business" name="business" type="text" autocomplete="organization" />
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input class="input" id="email" name="email" type="email" autocomplete="email" required />
+          <span class="field-error" id="email-error" hidden>Enter an email address we can reply to, like name@example.ie.</span>
+        </div>
+        <div class="field">
+          <label for="phone">Phone <span class="hint">(optional)</span></label>
+          <input class="input" id="phone" name="phone" type="tel" autocomplete="tel" />
+        </div>
+        <div class="field">
+          <label for="need">What do you need?</label>
+          <select class="input" id="need" name="need">
+            <option>A website for my dealership</option>
+            <option>Dealer tools (stock, leads, dashboard)</option>
+            <option>A custom web app</option>
+            <option>A website for another type of business</option>
+            <option>Something else</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="message">Tell us about it</label>
+          <textarea class="input" id="message" name="message" required></textarea>
+          <span class="field-error" id="message-error" hidden>Write a few lines about what you need.</span>
+        </div>
+
+        <div class="btn-row"><button class="btn btn-primary" type="submit" id="submit">Send message</button></div>
+        <div class="form-status" id="status" role="status" aria-live="polite" hidden></div>
+      </form>
+
+      <aside>
+        <h2 style="font-size:var(--step-2)">Prefer email?</h2>
+        <p class="muted" style="margin-top:.75rem"><a class="link" href={`mailto:${site.email}`}>{site.email}</a></p>
+        <h2 style="font-size:var(--step-2);margin-top:2.5rem">What happens next</h2>
+        <p class="muted measure" style="margin-top:.75rem">We read your message and reply by email. If it looks like a fit, we arrange a call to talk it through. We only use your details to reply to you; see the <a class="link" href="/privacy">privacy notice</a>.</p>
+      </aside>
+    </div>
+  </section>
+</Base>
+
+<script>
+  import { site } from '../config';
+
+  const form = document.getElementById('contact-form') as HTMLFormElement;
+  const statusEl = document.getElementById('status') as HTMLElement;
+  const submit = document.getElementById('submit') as HTMLButtonElement;
+  const endpoint = import.meta.env.PUBLIC_FORM_ENDPOINT as string | undefined;
+  const accessKey = import.meta.env.PUBLIC_FORM_ACCESS_KEY as string | undefined;
+
+  const rules: Record<string, (v: string) => boolean> = {
+    name: (v) => v.trim().length > 0,
+    email: (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()),
+    message: (v) => v.trim().length > 0,
+  };
+
+  function show(state: 'success' | 'error' | 'info', text: string) {
+    statusEl.hidden = false;
+    statusEl.dataset.state = state;
+    statusEl.textContent = text;
+  }
+
+  function validate(): boolean {
+    let firstBad: HTMLElement | null = null;
+    for (const [field, ok] of Object.entries(rules)) {
+      const input = form.elements.namedItem(field) as HTMLInputElement;
+      const err = document.getElementById(`${field}-error`)!;
+      const good = ok(input.value);
+      err.hidden = good;
+      input.setAttribute('aria-invalid', String(!good));
+      if (!good) {
+        input.setAttribute('aria-describedby', `${field}-error`);
+        firstBad ??= input;
+      }
+    }
+    firstBad?.focus();
+    return !firstBad;
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    statusEl.hidden = true;
+    if (!validate()) return;
+
+    const data = Object.fromEntries(new FormData(form).entries());
+    if (data.company_website) return; // honeypot
+
+    // No endpoint configured yet: fall back to the visitor's email app.
+    if (!endpoint) {
+      const body = `Name: ${data.name}\nBusiness: ${data.business || '-'}\nPhone: ${data.phone || '-'}\nNeed: ${data.need}\n\n${data.message}`;
+      window.location.href = `mailto:${site.email}?subject=${encodeURIComponent('Project enquiry from ' + data.name)}&body=${encodeURIComponent(body)}`;
+      show('info', `Your email app should open with your message ready to send. If it does not, email ${site.email} directly.`);
+      return;
+    }
+
+    submit.disabled = true;
+    submit.textContent = 'Sending';
+    try {
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ ...data, ...(accessKey ? { access_key: accessKey } : {}), subject: `Project enquiry from ${data.name}` }),
+      });
+      if (!res.ok) throw new Error(String(res.status));
+      form.reset();
+      show('success', 'Message sent. We will reply by email.');
+    } catch {
+      show('error', `Your message did not send. Try again, or email ${site.email} directly.`);
+    } finally {
+      submit.disabled = false;
+      submit.textContent = 'Send message';
+    }
+  });
+</script>

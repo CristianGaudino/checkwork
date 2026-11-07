@@ -1,0 +1,31 @@
+---
+import { nav, cta } from '../config';
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const current = (href: string) => (path === href || path.startsWith(href + '/') ? 'page' : undefined);
+---
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand-link" href="/" aria-label="Checkwork, home">
+      <img src="/brand/checkwork-logo-on-dark.svg" alt="Checkwork" width="190" height="30" />
+    </a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <nav class="nav" id="site-nav" aria-label="Main" data-open="false">
+      <ul class="nav-list">
+        {nav.map((item) => (
+          <li><a class="nav-link" href={item.href} aria-current={current(item.href)}>{item.label}</a></li>
+        ))}
+      </ul>
+      <a class="btn btn-primary" href={cta.href}>{cta.label}</a>
+    </nav>
+  </div>
+</header>
+<script>
+  const btn = document.querySelector<HTMLButtonElement>('.menu-toggle');
+  const nav = document.getElementById('site-nav');
+  btn?.addEventListener('click', () => {
+    const open = nav?.getAttribute('data-open') !== 'true';
+    nav?.setAttribute('data-open', String(open));
+    btn.setAttribute('aria-expanded', String(open));
+    btn.textContent = open ? 'Close' : 'Menu';
+  });
+</script>

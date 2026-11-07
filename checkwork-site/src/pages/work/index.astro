@@ -1,0 +1,35 @@
+---
+import Base from '../../layouts/Base.astro';
+import Frame from '../../components/Frame.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { projects } from '../../data/projects';
+---
+<Base title="Our work" description="Websites and web apps built by Checkwork: Carright, a car dealer system, plus tools for resellers and a vintage clothing website.">
+  <section class="page-head">
+    <div class="wrap">
+      <h1>Our work</h1>
+      <p class="lead">A dealer website with its own management system, two apps for resellers and a public website for a vintage clothing shop.</p>
+    </div>
+  </section>
+
+  <section class="section surface-paper">
+    <div class="wrap work-grid">
+      {projects.map((p, i) => (
+        <article class:list={['work-item', { 'work-lead': i === 0 }]}>
+          <a class="cover" href={`/work/${p.slug}`}>
+            <Frame label={p.name} alt={p.shots[0].alt} hint={`public/work/${p.slug}/1.png`} />
+          </a>
+          <div>
+            <a class="cover" href={`/work/${p.slug}`}>
+              {i === 0 ? <h2>{p.name}</h2> : <h3>{p.name}</h3>}
+            </a>
+            <p class="muted">{p.kind}.</p>
+            <p class="muted">{p.summary}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <CtaBand title="Want something like this?" />
+</Base>

@@ -1,0 +1,67 @@
+---
+import Base from '../../layouts/Base.astro';
+import Frame from '../../components/Frame.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { projects, getProject } from '../../data/projects';
+
+export function getStaticPaths() {
+  return projects.map((p) => ({ params: { slug: p.slug } }));
+}
+const project = getProject(Astro.params.slug!)!;
+const others = projects.filter((p) => p.slug !== project.slug);
+---
+<Base title={`${project.name}: ${project.kind}`} description={project.summary}>
+  <section class="page-head">
+    <div class="wrap">
+      <a class="crumb" href="/work">All work</a>
+      <h1>{project.name}</h1>
+      <p class="lead">{project.kind}.</p>
+    </div>
+  </section>
+
+  <section class="section surface-paper">
+    <div class="wrap">
+      <div class:list={['shots', { multi: project.shots.length > 1 }]}>
+        {project.shots.map((s, i) => (
+          <Frame label={project.name} alt={s.alt} caption={s.caption} src={s.src} hint={`public/work/${project.slug}/${i + 1}.png`} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section surface-paper" style="padding-top:0">
+    <div class="wrap split">
+      <div>
+        <h2>The brief</h2>
+        <p class="measure muted" style="margin-top:1rem">{project.intro}</p>
+        {project.forDealers && <p class="measure muted" style="margin-top:1rem">{project.forDealers}</p>}
+        {project.result && <p class="measure" style="margin-top:1rem"><strong>{project.result}</strong></p>}
+      </div>
+      <div>
+        <h2 class="visually-hidden">What we built</h2>
+        <dl class="defs">
+          {project.built.map((b) => (
+            <div><dt>{b.title}</dt><dd>{b.text}</dd></div>
+          ))}
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="section surface-dark">
+    <div class="wrap">
+      <div class="section-head"><h2>More work</h2></div>
+      <ul class="rows">
+        {others.map((p) => (
+          <li class="row">
+            <h3><a href={`/work/${p.slug}`}>{p.name}</a></h3>
+            <p class="muted">{p.kind}.</p>
+            <a class="link" href={`/work/${p.slug}`} aria-label={`${p.name}: case study`}>Case study</a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>

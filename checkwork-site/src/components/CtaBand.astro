@@ -1,0 +1,13 @@
+---
+import { cta } from '../config';
+const { title = 'Tell us what you need', text = 'A short message is enough to start. We will reply by email.' } = Astro.props;
+---
+<section class="cta-band surface-dark">
+  <div class="wrap">
+    <h2>{title}</h2>
+    <p class="lead">{text}</p>
+    <div class="btn-row">
+      <a class="btn btn-primary" href={cta.href}>{cta.label}</a>
+    </div>
+  </div>
+</section>
