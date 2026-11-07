@@ -2,7 +2,7 @@
 
 import Script from 'next/script';
 import { useEffect, useRef } from 'react';
-import { TURNSTILE_SITE_KEY } from '@/lib/config';
+import { SITE_URL, TURNSTILE_SITE_KEY, TURNSTILE_TEST_SITE_KEY } from '@/lib/config';
 
 type TurnstileApi = { render: (el: HTMLElement, opts: { sitekey: string; theme: string }) => string; reset: (id?: string) => void; remove: (id: string) => void };
 declare global { interface Window { turnstile?: TurnstileApi } }
@@ -13,7 +13,7 @@ export function Turnstile({ resetKey }: { resetKey: unknown }) {
     const id = useRef<string>(undefined);
 
     const render = () => {
-        if (el.current && window.turnstile && !id.current) id.current = window.turnstile.render(el.current, { sitekey: TURNSTILE_SITE_KEY, theme: 'dark' });
+        if (el.current && window.turnstile && !id.current) id.current = window.turnstile.render(el.current, { sitekey: location.hostname === new URL(SITE_URL).hostname ? TURNSTILE_SITE_KEY : TURNSTILE_TEST_SITE_KEY, theme: 'dark' });
     };
     useEffect(() => { render(); return () => { if (id.current) window.turnstile?.remove(id.current); id.current = undefined; }; }, []);
     useEffect(() => { if (id.current) window.turnstile?.reset(id.current); }, [resetKey]);

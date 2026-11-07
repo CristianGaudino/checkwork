@@ -45,10 +45,11 @@ export const TEAM: readonly { name: string; role: string }[] = [
 ];
 
 /**
- * Turnstile site key (public by design). This is Cloudflare's always-pass TEST key: replace it with the real widget's key
- * before launch (issue #8). With a test key and the real secret, every check fails, so the form fails closed rather than open.
+ * Turnstile site keys (public by design). The real widget only works on SITE_URL's hostname; everywhere else (local dev, e2e, previews)
+ * the component uses Cloudflare's always-pass TEST key, which pairs with the test secret.
  */
-export const TURNSTILE_SITE_KEY = '1x00000000000000000000AA';
+export const TURNSTILE_SITE_KEY = '0x4AAAAAAF3jkXJUAd2J0tuT';
+export const TURNSTILE_TEST_SITE_KEY = '1x00000000000000000000AA';
 export const TURNSTILE_TEST_SECRET = '1x0000000000000000000000000000000AA';
 
 /**
