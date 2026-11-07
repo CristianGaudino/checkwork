@@ -1,0 +1,124 @@
+---
+import Base from '../layouts/Base.astro';
+import Frame from '../components/Frame.astro';
+import Mark from '../components/Mark.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { cta } from '../config';
+import { checks } from '../data/checks';
+import { projects } from '../data/projects';
+
+const carright = projects.find((p) => p.slug === 'carright')!;
+const others = projects.filter((p) => !p.featured);
+
+const services = [
+  { title: 'Dealership websites', href: '/car-dealer-websites', text: 'A fast stock website for your dealership, designed to bring in enquiries and set up so Google can find it.' },
+  { title: 'Dealer tools', href: '/services#dealer-tools', text: 'Stock management, lead tracking, metrics dashboards and social media posting in one system your team can run.' },
+  { title: 'Custom web apps', href: '/services#web-apps', text: 'Business software built around how you work, like our inventory, profit and finance apps for resellers.' },
+  { title: 'Ongoing support', href: '/services#support', text: 'Updates, fixes and improvements after launch, so the site keeps working.' },
+];
+const steps = [
+  { title: 'Talk', text: 'We learn how your business sells and what the website has to do for it.' },
+  { title: 'Design', text: 'We design the pages and tools, and agree them with you before we build.' },
+  { title: 'Build', text: 'We build it in code, test it on real phones and check it against the launch list.' },
+  { title: 'Launch and look after', text: 'We launch it, set it up for Google and stay on to keep it working.' },
+];
+---
+<Base home title="Checkwork: web design and development for car dealerships in Ireland"
+  description="Checkwork builds fast, easy-to-run websites and dealer tools for car dealerships in Ireland. See Carright, a dealer website with stock, lead and social tools built in.">
+
+  <section class="hero" data-anim>
+    <div class="wrap hero-grid">
+      <div>
+        <h1>Websites that work<Mark class="stamp" id="hero" /></h1>
+        <p class="lead">Custom websites and dealer tools for car dealerships across Ireland. Fast on a phone, easy to find on Google, and easy for your team to run.</p>
+        <div class="btn-row">
+          <a class="btn btn-primary" href={cta.href}>{cta.label}</a>
+          <a class="btn btn-secondary" href="/work/carright">See Carright</a>
+        </div>
+      </div>
+
+      <div class="sheet" aria-labelledby="sheet-title">
+        <h2 class="sheet-title" id="sheet-title">Before any site goes live</h2>
+        <p class="sheet-sub">Every Checkwork site passes these five checks.</p>
+        <ul class="sheet-list">
+          {checks.map((c, i) => (
+            <li class="sheet-item" style={`--i:${i}`}>
+              <span class="tick" aria-hidden="true">
+                <svg viewBox="0 0 16 16" fill="none"><path d="M2.5 8.6 6.2 12 13.5 4" pathLength="1" stroke="#A78BFA" stroke-width="2.2" stroke-linecap="square" stroke-linejoin="miter" /></svg>
+              </span>
+              <div>
+                <h3>{c.title}</h3>
+                <p>{c.text}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+        <p class="sheet-foot"><span>Launch check</span><strong class="count-final">5 of 5 passed</strong></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section surface-paper">
+    <div class="wrap feature">
+      <Frame label="Carright" alt="Carright dealer website and dashboard" hint="public/work/carright/home.png" />
+      <div>
+        <h2>Carright: a dealer website with the tools behind it</h2>
+        <p class="lead muted">{carright.summary}</p>
+        <ul class="facts">
+          {carright.built.slice(1).map((b) => <li>{b.title}<span>{b.text}</span></li>)}
+        </ul>
+        <a class="btn btn-primary" href="/work/carright">Read the Carright case study</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section surface-dark">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>What we build</h2>
+        <p class="lead muted">Websites first, then the tools that keep them useful.</p>
+      </div>
+      <ul class="rows">
+        {services.map((s) => (
+          <li class="row">
+            <h3><a href={s.href}>{s.title}</a></h3>
+            <p class="muted">{s.text}</p>
+            <a class="link" href={s.href} aria-label={`${s.title}: details`}>Details</a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section surface-paper">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>How a project runs</h2>
+        <p class="lead muted">Four stages, and you are involved in each one.</p>
+      </div>
+      <ol class="steps">
+        {steps.map((s) => <li><h3>{s.title}</h3><p>{s.text}</p></li>)}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section surface-dark">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Other things we have built</h2>
+        <p class="lead muted">Software for resellers, and a public website for a vintage clothing shop.</p>
+      </div>
+      <ul class="rows">
+        {others.map((p) => (
+          <li class="row">
+            <h3><a href={`/work/${p.slug}`}>{p.name}</a></h3>
+            <p class="muted">{p.kind}. {p.summary}</p>
+            <a class="link" href={`/work/${p.slug}`} aria-label={`${p.name}: case study`}>Case study</a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <CtaBand title="Running a dealership? Let's look at your website." text="Tell us about your stock, your enquiries and what is not working. We will reply by email." />
+</Base>

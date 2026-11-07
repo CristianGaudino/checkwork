@@ -1,0 +1,59 @@
+---
+import Base from '../layouts/Base.astro';
+import CtaBand from '../components/CtaBand.astro';
+
+const services = [
+  {
+    id: 'websites', title: 'Websites',
+    text: 'Design and development of fast, custom websites. We build them in code, so they load quickly and do exactly what your business needs, and we set up the technical basics Google looks for.',
+    points: ['Design and build, start to finish', 'Set up for search: titles, structured data, local details', 'Tested on real phones before launch'],
+    more: { href: '/car-dealer-websites', label: 'Dealership websites in detail' },
+  },
+  {
+    id: 'dealer-tools', title: 'Dealer tools',
+    text: 'The system behind a dealership website: the controls your team and owner use, where enquiries are tracked and how the business is doing. This is what we built for Carright.',
+    points: ['Dealer and owner controls', 'Lead tracking', 'A dashboard of business metrics', 'Social media management with automatic posting'],
+    more: { href: '/work/carright', label: 'See it in Carright' },
+  },
+  {
+    id: 'web-apps', title: 'Custom web apps',
+    text: 'Software built around a specific way of working. We have built inventory, profit and finance tools for resellers, and the two can be linked together.',
+    points: ['Stock, inventory and profit tracking', 'Sales, expenses, mileage and reports'],
+    more: { href: '/work/how-many', label: 'See How Many' },
+  },
+  {
+    id: 'support', title: 'Ongoing support',
+    text: 'A website is not finished at launch. We stay on to fix problems, keep things up to date and add what the business needs next.',
+    points: ['Fixes and updates', 'Improvements as the business changes'],
+  },
+];
+---
+<Base title="Services" description="Web design and development, dealer tools, custom web apps and ongoing support from Checkwork in Ireland.">
+  <section class="page-head">
+    <div class="wrap">
+      <h1>Services</h1>
+      <p class="lead">Websites for dealerships and growing businesses, the tools behind them, and support once they are live.</p>
+    </div>
+  </section>
+
+  <section class="section surface-paper">
+    <div class="wrap">
+      <ul class="rows" style="border-top:0">
+        {services.map((s) => (
+          <li class="row" id={s.id} style="border-top:1px solid var(--line-paper);scroll-margin-top:6rem">
+            <h2 style="font-size:var(--step-3)">{s.title}</h2>
+            <div>
+              <p class="muted">{s.text}</p>
+              <ul class="prose" style="margin:1rem 0 0;padding-left:1.1rem">
+                {s.points.map((p) => <li>{p}</li>)}
+              </ul>
+              {s.more && <p style="margin-top:1.25rem"><a class="link" href={s.more.href}>{s.more.label}</a></p>}
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <CtaBand title="Not sure which one you need?" text="Describe what is not working today. We will tell you what we would do about it." />
+</Base>

@@ -1,0 +1,39 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../config';
+// TODO: have this notice reviewed before launch, and update it if you add analytics,
+// a form provider that stores data outside the EU, or anything else that collects data.
+const updated = '6 November 2026';
+---
+<Base title="Privacy notice" description="How Checkwork uses the details you send us.">
+  <section class="page-head">
+    <div class="wrap">
+      <h1>Privacy notice</h1>
+      <p class="lead">Last updated {updated}.</p>
+    </div>
+  </section>
+  <section class="section surface-paper">
+    <div class="wrap prose">
+      <h2>Who we are</h2>
+      <p class="muted">{site.legal.companyName} runs this website. You can reach us at <a class="link" href={`mailto:${site.email}`}>{site.email}</a>.</p>
+
+      <h2>What we collect</h2>
+      <p class="muted">Only what you send us through the contact form or by email: your name, email address, and optionally your business name and phone number, plus the message you write.</p>
+
+      <h2>Why we use it</h2>
+      <p class="muted">To reply to your enquiry and, if you go ahead, to work with you. We do not use it for marketing and we do not sell it.</p>
+
+      <h2>Who sees it</h2>
+      <p class="muted">The people at {site.legal.companyName}, and the service that delivers form messages to us. We do not share it with anyone else unless the law requires it.</p>
+
+      <h2>How long we keep it</h2>
+      <p class="muted">We keep enquiries that do not lead to work for as long as we need to deal with them, and then delete them. If we work together, we keep what we need for the project and our records.</p>
+
+      <h2>Cookies and tracking</h2>
+      <p class="muted">This site does not use cookies or tracking tools.</p>
+
+      <h2>Your rights</h2>
+      <p class="muted">You can ask to see, correct or delete the details we hold about you by emailing us. You can also complain to the Data Protection Commission at <a class="link" href="https://www.dataprotection.ie">dataprotection.ie</a>.</p>
+    </div>
+  </section>
+</Base>

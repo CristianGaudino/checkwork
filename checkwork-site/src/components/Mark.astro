@@ -1,0 +1,14 @@
+---
+// The Checkwork check mark. Gradient id is passed in so several can sit on one page.
+const { id = 'mk', class: cls = '', ...rest } = Astro.props;
+---
+<svg class={cls} viewBox="0 0 64 64" aria-hidden="true" focusable="false" {...rest}>
+  <defs>
+    <linearGradient id={`g-${id}`} x1="24" y1="54" x2="58" y2="10" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#6366F1" />
+      <stop offset="1" stop-color="#A78BFA" />
+    </linearGradient>
+  </defs>
+  <path d="M4.00 31.28 L18.75 45.73 L25.32 38.09 L10.88 23.94 Z" fill="#6366F1" />
+  <path d="M20.21 47.17 L27.41 54.23 L60.00 16.36 L52.39 9.77 Z" fill={`url(#g-${id})`} />
+</svg>

@@ -1,0 +1,16 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Page not found" noindex>
+  <section class="notfound surface-dark" style="background:radial-gradient(50% 80% at 92% 0%, rgba(99,102,241,.25), transparent 70%), var(--midnight)">
+    <div class="wrap">
+      <h1>This page didn't pass the check.</h1>
+      <p class="lead muted" style="margin-block:1.25rem 2rem">The page you wanted does not exist, or it has moved. Try one of these instead.</p>
+      <div class="btn-row">
+        <a class="btn btn-primary" href="/">Go to the home page</a>
+        <a class="btn btn-secondary" href="/work">See our work</a>
+        <a class="btn btn-secondary" href="/contact">Contact us</a>
+      </div>
+    </div>
+  </section>
+</Base>

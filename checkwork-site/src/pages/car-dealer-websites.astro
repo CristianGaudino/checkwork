@@ -1,0 +1,69 @@
+---
+import Base from '../layouts/Base.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { checks } from '../data/checks';
+import { cta } from '../config';
+
+const faqs = [
+  { q: 'Can our team add and update cars without a developer?', a: 'Yes. On Carright, the dealership team manage their own site through dealer controls, and the owner has separate controls. We build the same kind of access for your team.' },
+  { q: 'Will the website rank on Google?', a: 'We set up the foundations Google looks for: speed, page titles, structured data and local details. No one can promise a ranking, and anyone who does is guessing.' },
+  { q: 'What happens to enquiries?', a: 'Enquiries from the website are captured as leads in the system, so they are tracked in one place rather than left in an inbox.' },
+];
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
+---
+<Base title="Car dealer websites in Ireland" description="Custom websites for car dealerships in Ireland: stock that stays current, enquiries that reach your team, and a site that Google can find. Built by Checkwork." jsonLd={[faqLd]}>
+  <section class="page-head">
+    <div class="wrap">
+      <h1>Websites for car dealerships in Ireland</h1>
+      <p class="lead">Your website is where buyers look at your stock before they ever call. We build dealer websites that keep that stock current, bring in enquiries and are easy to run.</p>
+      <div class="btn-row" style="margin-top:2rem">
+        <a class="btn btn-primary" href={cta.href}>{cta.label}</a>
+        <a class="btn btn-secondary" href="/work/carright">See Carright</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section surface-paper">
+    <div class="wrap split">
+      <div>
+        <h2>What a dealer website has to do</h2>
+        <p class="muted measure" style="margin-top:1rem">Most dealer sites fail in the same few places. These are the five things we check before one goes live.</p>
+      </div>
+      <dl class="defs">
+        {checks.map((c) => <div><dt>{c.title}</dt><dd>{c.text}</dd></div>)}
+      </dl>
+    </div>
+  </section>
+
+  <section class="section surface-dark">
+    <div class="wrap split">
+      <div>
+        <h2>Built and running: Carright</h2>
+      </div>
+      <div class="prose">
+        <p class="muted">Carright is a second-hand car dealer. We redesigned their website and built the system behind it: dealer controls, owner controls, lead tracking, a metrics dashboard and social media tools with automatic posting.</p>
+        <p style="margin-top:1.5rem"><a class="link" href="/work/carright">Read the Carright case study</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section surface-paper">
+    <div class="wrap split prose">
+      <div><h2>Questions dealers ask</h2></div>
+      <div>
+        {faqs.map((f) => (
+          <div style="padding-block:1.25rem;border-top:1px solid var(--line-paper)">
+            <h3 style="font-size:var(--step-1);margin-bottom:.5rem">{f.q}</h3>
+            <p class="muted">{f.a}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand title="Let's look at your dealership's website" text="Tell us what you sell and what is not working. We will reply by email." />
+</Base>
