@@ -9,7 +9,7 @@ import { pageMetadata } from '@/lib/metadata';
 
 export const metadata = pageMetadata({
     title: 'Our work',
-    description: 'Websites and web apps built by Checkwork: Carright, a car dealer system, plus tools for resellers and a vintage clothing website.',
+    description: 'Websites and web apps built by Checkwork: our demo dealer website, plus tools for resellers and a vintage clothing website.',
     path: ROUTES.work,
 });
 
