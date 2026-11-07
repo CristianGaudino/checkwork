@@ -16,45 +16,49 @@ export type Project = {
 
 export const PROJECTS: Project[] = [
   {
-    slug: 'carright',
-    name: 'Carright',
-    kind: 'Website and dealer system for a second-hand car dealer',
+    slug: 'dealer-demo',
+    name: 'Dealer demo site',
+    kind: 'Demo website for a used car dealer',
     summary:
-      'A redesigned dealer website with the tools behind it: stock controls, lead tracking, a metrics dashboard and social media auto-posting.',
+      'Our demo dealer website: searchable stock, car pages, compare, saved cars, a finance calculator and enquiry forms that land in a database.',
     intro:
-      'Carright is a second-hand car dealer. We redesigned their public website and built the system behind it, so the people running the dealership can manage the site, follow up enquiries, see how the business is doing and handle social media from one place.',
+      'This is a demo we built to show what a modern used car dealer website can do. It is a full rebuild of a dealer site, with real-style stock, and every enquiry form goes somewhere it can be followed up. It is a demonstration, not a live client site.',
     built: [
       {
-        title: 'Public website redesign',
-        text: 'A redesigned public website for showing the dealership’s cars.',
+        title: 'Stock search and filters',
+        text: 'Browse by make, model, year, budget, body type, fuel and gearbox, with sorting and a grid or list view.',
       },
       {
-        title: 'Dealer controls',
-        text: 'Controls for the dealership team to manage their own site, so day-to-day changes do not wait on a developer.',
+        title: 'Car pages',
+        text: 'A photo gallery with full-screen view, the specs and equipment, a clear buy box and share button.',
       },
       {
-        title: 'Owner controls',
-        text: 'Controls for the owner, kept separate from the dealer team’s.',
+        title: 'Compare and saved cars',
+        text: 'Buyers can save cars and compare them side by side. Both are kept in their own browser, with no account.',
       },
       {
-        title: 'Lead tracking',
-        text: 'Enquiries from the website are captured as leads in the system, not left in an inbox.',
+        title: 'Finance calculator',
+        text: 'A repayment calculator on the site. The figures in the demo are placeholders, not real terms.',
       },
       {
-        title: 'Metrics dashboard',
-        text: 'A dashboard of metrics, so the numbers that matter are in one place.',
+        title: 'Enquiry forms',
+        text: 'Separate forms for a car enquiry, finance, a trade-in valuation with photos, a car search request and a general message. Each asks for consent and is spam-checked.',
       },
       {
-        title: 'Social media tools',
-        text: 'Social media management tools in the same system, including automatic posting.',
+        title: 'Enquiries stored, not lost',
+        text: 'Every enquiry is saved to a database with the consent text it was sent under, and cleared after a set retention period.',
+      },
+      {
+        title: 'Sold cars and search basics',
+        text: 'Sold cars stay up for a while as sold, and pages carry the structured data and share images search engines look for.',
       },
     ],
     forDealers:
-      'For a dealership, the website is a sales channel. The stock on it has to be current and every enquiry has to reach someone. The controls, lead tracking and dashboard in Carright are there for exactly that.',
+      'For a dealership, the website is a sales channel. The stock on it has to be easy to search and every enquiry has to reach someone. This demo is built around exactly that, and it is fast on a mid-range phone.',
     shots: [
-      { alt: 'Carright public website, stock listing page', caption: 'Public stock listing' },
-      { alt: 'Carright dealer controls, editing a vehicle', caption: 'Dealer controls' },
-      { alt: 'Carright metrics dashboard', caption: 'Metrics dashboard' },
+      { alt: 'Demo dealer site, stock listing page', caption: 'Stock listing' },
+      { alt: 'Demo dealer site, car page', caption: 'Car page' },
+      { alt: 'Demo dealer site, finance calculator', caption: 'Finance calculator' },
     ],
     featured: true,
   },

@@ -12,10 +12,10 @@ export const SERVICES = [
     {
         id: 'dealer-tools',
         title: 'Dealer tools',
-        summary: 'Stock management, lead tracking, metrics dashboards and social media posting in one system your team can run.',
-        text: 'The system behind a dealership website: the controls your team and owner use, where enquiries are tracked and how the business is doing. This is what we built for Carright.',
-        points: ['Dealer and owner controls', 'Lead tracking', 'A dashboard of business metrics', 'Social media management with automatic posting'],
-        more: { href: `${ROUTES.work}/carright`, label: 'See it in Carright' },
+        summary: 'Searchable stock, compare and saved cars, a finance calculator and enquiry forms that store every lead.',
+        text: 'The tools a buyer uses on a dealership website, and the system that catches their enquiries so none are lost. See it working in our demo dealer site.',
+        points: ['Stock search with filters', 'Compare and saved cars', 'Finance calculator', 'Enquiry forms with every lead stored'],
+        more: { href: `${ROUTES.work}/dealer-demo`, label: 'See the demo dealer site' },
     },
     {
         id: 'web-apps',

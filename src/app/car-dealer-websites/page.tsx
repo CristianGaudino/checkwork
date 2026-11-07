@@ -16,9 +16,9 @@ export const metadata = pageMetadata({
 });
 
 const FAQS = [
-    { q: 'Can our team add and update cars without a developer?', a: 'Yes. On Carright, the dealership team manage their own site through dealer controls, and the owner has separate controls. We build the same kind of access for your team.' },
+    { q: 'Can our team add and update cars without a developer?', a: 'Day-to-day changes should not wait on a developer. We set up how stock gets onto the site with you, around the feed or system you already use.' },
     { q: 'Will the website rank on Google?', a: 'We set up the foundations Google looks for: speed, page titles, structured data and local details. No one can promise a ranking, and anyone who does is guessing.' },
-    { q: 'What happens to enquiries?', a: 'Enquiries from the website are captured as leads in the system, so they are tracked in one place rather than left in an inbox.' },
+    { q: 'What happens to enquiries?', a: 'Every enquiry from the website is saved as a lead with the consent it was sent under, so it is kept in one place rather than lost in an inbox.' },
 ] as const;
 
 export default function CarDealerWebsites() {
@@ -37,7 +37,7 @@ export default function CarDealerWebsites() {
                 lead="Your website is where buyers look at your stock before they ever call. We build dealer websites that keep that stock current, bring in enquiries and are easy to run."
                         >
                 <Button href={CTA.href}>{CTA.label}</Button>
-                <Button href={`${ROUTES.work}/carright`} variant="secondary">See Carright</Button>
+                <Button href={`${ROUTES.work}/dealer-demo`} variant="secondary">See the demo</Button>
             </PageHead>
 
             <Section>
@@ -59,10 +59,10 @@ export default function CarDealerWebsites() {
 
             <Section className="border-t border-line bg-surface">
                 <Container className="grid gap-8 md:grid-cols-[1fr_1.4fr] md:gap-16">
-                    <h2 className="font-display text-4xl font-semibold">Built and running: Carright</h2>
+                    <h2 className="font-display text-4xl font-semibold">See it working: our demo site</h2>
                     <div className="grid max-w-prose gap-5 text-fg-muted">
-                        <p>Carright is a second-hand car dealer. We redesigned their website and built the system behind it: dealer controls, owner controls, lead tracking, a metrics dashboard and social media tools with automatic posting.</p>
-                        <p><Link href={`${ROUTES.work}/carright`} className="text-accent-alt underline underline-offset-4">Read the Carright case study</Link></p>
+                        <p>We built a demo dealer website so you can try it yourself: stock search and filters, compare, saved cars, a finance calculator and enquiry forms that store every lead. It is a demonstration, not a live client site.</p>
+                        <p><Link href={`${ROUTES.work}/dealer-demo`} className="text-accent-alt underline underline-offset-4">Read about the demo site</Link></p>
                     </div>
                 </Container>
             </Section>

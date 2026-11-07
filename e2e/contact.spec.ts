@@ -3,7 +3,7 @@ import { expect, test } from '@playwright/test';
 import { ROUTES } from '@/lib/config';
 
 const rowsFor = (email: string) =>
-    execFileSync('npx', ['wrangler', 'd1', 'execute', 'DB', '--local', '--json', '--command', `select name, business, need from enquiries where email = '${email}'`], { encoding: 'utf8' });
+    execFileSync(process.execPath, ['node_modules/wrangler/bin/wrangler.js', 'd1', 'execute', 'DB', '--local', '--json', '--command', `select name, business, need from enquiries where email = '${email}'`], { encoding: 'utf8' });
 
 test.describe.configure({ mode: 'serial' });
 test.skip(!!process.env.E2E_BASE_URL, 'These tests read the local D1');

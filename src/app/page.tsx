@@ -12,7 +12,7 @@ import { pageMetadata } from '@/lib/metadata';
 
 export const metadata = pageMetadata({
     title: { absolute: 'Checkwork: web design and development for car dealerships in Ireland' },
-    description: 'Checkwork builds fast, easy-to-run websites and dealer tools for car dealerships in Ireland. See Carright, a dealer website with stock, lead and social tools built in.',
+    description: 'Checkwork builds fast, easy-to-run websites and dealer tools for car dealerships in Ireland. See our demo dealer website, with stock search, a finance calculator and enquiry capture built in.',
     path: '/',
 });
 
@@ -31,7 +31,7 @@ export default function Home() {
                         </p>
                         <div className="rise flex flex-wrap gap-3" style={{ "--d": 2 } as CSSProperties}>
                             <Button href={CTA.href}>{CTA.label}</Button>
-                            <Button href={`${ROUTES.work}/carright`} variant="secondary">See Carright</Button>
+                            <Button href={`${ROUTES.work}/dealer-demo`} variant="secondary">See the demo</Button>
                         </div>
                     </div>
                     <div className="rounded-2xl border border-line bg-surface p-6 shadow-[0_30px_80px_-30px_rgb(0_0_0/0.7)] md:p-8" aria-labelledby="sheet-title">
@@ -57,13 +57,13 @@ export default function Home() {
 
             <Section className="border-t border-line">
                 <Container className="grid items-center gap-12 lg:grid-cols-2">
-                    <Frame label="Carright" alt="Carright dealer website and dashboard" hint="public/work/carright/home.png" />
+                    <Frame label="Dealer demo site" alt="Demo dealer website, stock listing" hint="public/work/dealer-demo/home.png" />
                     <div className="grid gap-6">
-                        <h2 className="font-display text-4xl font-semibold md:text-5xl">Carright: a dealer website with the tools behind it</h2>
+                        <h2 className="font-display text-4xl font-semibold md:text-5xl">Our demo dealer website</h2>
                         <p className="text-lg text-fg-muted">
-                            A redesigned dealer website with the tools behind it: stock controls, lead tracking, a metrics dashboard and social media auto-posting.
+                            A demo of what a modern dealer site can do: searchable stock, compare, saved cars, a finance calculator and enquiry forms that store every lead.
                         </p>
-                        <div><Button href={`${ROUTES.work}/carright`}>Read the Carright case study</Button></div>
+                        <div><Button href={`${ROUTES.work}/dealer-demo`}>See what is in the demo</Button></div>
                     </div>
                 </Container>
             </Section>

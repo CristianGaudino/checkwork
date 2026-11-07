@@ -1,6 +1,6 @@
 import { defineConfig, devices } from '@playwright/test';
 
-const PORT = 3100;
+const PORT = Number(process.env.E2E_PORT ?? 3100); // set E2E_PORT if 3100 is taken
 
 // Runs against the real Worker build (OpenNext + wrangler dev, with a local D1), not `next dev`, which drops navigations
 // mid-test and has no production runtime. E2E_BASE_URL tests a deployed site instead (the D1 check is then skipped).
@@ -16,5 +16,5 @@ export default defineConfig({
     ],
     webServer: process.env.E2E_BASE_URL
         ? undefined
-        : { command: `APP_ENV=production npx opennextjs-cloudflare build && npm run db:migrate:local && npx wrangler dev --port ${PORT} --ip 127.0.0.1 --var TURNSTILE_SECRET_KEY:${TURNSTILE_TEST_SECRET}`, url: `http://127.0.0.1:${PORT}`, reuseExistingServer: !process.env.CI, timeout: 300_000 },
+        : { command: `npx opennextjs-cloudflare build && npm run db:migrate:local && npx wrangler dev --port ${PORT} --ip 127.0.0.1 --var TURNSTILE_SECRET_KEY:${TURNSTILE_TEST_SECRET}`, url: `http://127.0.0.1:${PORT}`, reuseExistingServer: !process.env.CI, timeout: 300_000, env: { APP_ENV: 'production' } },
 });
