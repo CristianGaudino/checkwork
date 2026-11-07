@@ -24,6 +24,7 @@ export const ROUTES = {
     about: '/about',
     contact: '/contact',
     privacy: '/privacy',
+    admin: '/admin',
 } as const;
 
 export const NAV = [
