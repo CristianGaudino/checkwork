@@ -12,7 +12,7 @@
 	"vars": { "APP_ENV": "production" },
 	"routes": [{ "pattern": "checkwork.cgaudino.com", "custom_domain": true }],
 	"workers_dev": false,
-	// Enquiries. TODO (issue #8): `npx wrangler d1 create checkwork --jurisdiction eu` (EU only; it cannot be set later), then put the real id here. This placeholder is enough for local dev.
-	"d1_databases": [{ "binding": "DB", "database_name": "checkwork", "database_id": "00000000-0000-0000-0000-000000000000", "migrations_dir": "drizzle" }],
+	// Enquiries: an EU-jurisdiction D1 database (created with --jurisdiction eu; that cannot be changed later).
+	"d1_databases": [{ "binding": "DB", "database_name": "checkwork", "database_id": "2d6e67b3-0142-4cec-bcb1-5d024de8327d", "migrations_dir": "drizzle" }],
 	"observability": { "enabled": true }
 }
