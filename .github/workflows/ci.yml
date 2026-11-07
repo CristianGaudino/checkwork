@@ -59,6 +59,8 @@ jobs:
           check "not found" http://127.0.0.1:8787/nope 404
           if grep -q 'ERROR' wrangler.log; then echo 'the Worker logged an error'; fail=1; fi
           if [ $fail = 1 ]; then grep -iE 'error|failed' wrangler.log | sort -u | head -20; exit 1; fi
+          # Lighthouse (mobile) on every page against this same Worker; the runner's Chrome is used
+          CHROME_PATH=$(which google-chrome) BASE_URL=http://127.0.0.1:8787 npm run lighthouse
 
   # Playwright against a production build, in the image that has the browsers built in (no install step to stall).
   # Keep the tag in step with @playwright/test in package-lock.json.
@@ -81,8 +83,8 @@ jobs:
       - name: Image matches the locked Playwright
         run: |
           locked=$(node -p "require('./package-lock.json').packages['node_modules/@playwright/test'].version")
-          image=$(grep -o 'playwright:v[0-9.]*-' .github/workflows/ci.yml | head -1 | sed 's/playwright:v//; s/-$//')
-          [ "$locked" = "$image" ] || { echo "::error::The image is Playwright $image but package-lock.json has $locked: change the tag"; exit 1; }
+          image=$(grep -ho 'playwright:v[0-9.]*-' .github/workflows/*.yml | sed 's/playwright:v//; s/-$//' | sort -u)
+          [ "$locked" = "$image" ] || { echo "::error::The workflow images are Playwright $image but package-lock.json has $locked: change the tags (ci.yml and deploy-workers.yml)"; exit 1; }
       - run: npm run e2e
       - uses: actions/upload-artifact@v4
         if: failure()
