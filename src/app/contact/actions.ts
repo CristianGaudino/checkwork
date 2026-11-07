@@ -1,6 +1,7 @@
 'use server';
 
 import { headers } from 'next/headers';
+import { sendEnquiryAlert } from '@/lib/alert';
 import { getDb } from '@/lib/db';
 import { enquiries } from '@/lib/db/schema';
 import { type EnquiryErrors, parseEnquiry } from '@/lib/enquiry';
@@ -34,5 +35,7 @@ export async function sendEnquiry(_prev: ContactState, data: FormData): Promise<
         console.error('Could not store enquiry', error);
         return { status: 'error', message: 'Your message did not send. Please try again in a moment.', values };
     }
+    // Stored first: a failed alert never loses the enquiry or fails the form
+    await sendEnquiryAlert(parsed.data);
     return { status: 'sent' };
 }

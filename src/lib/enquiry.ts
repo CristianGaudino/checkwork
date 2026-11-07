@@ -23,3 +23,5 @@ export function parseEnquiry(raw: Record<string, FormDataEntryValue | null>) {
     for (const issue of result.error.issues) errors[issue.path[0] as EnquiryField] ??= issue.message;
     return { ok: false as const, errors };
 }
+
+export type EnquiryInput = z.infer<typeof enquirySchema>;

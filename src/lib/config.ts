@@ -52,3 +52,6 @@ export const TURNSTILE_TEST_SECRET = '1x0000000000000000000000000000000AA';
  * TODO (issue #10): create the site in Cloudflare (Analytics & Logs, Web Analytics) for checkwork.cgaudino.com and paste its token here.
  */
 export const ANALYTICS_TOKEN = '';
+
+/** Enquiry alert emails come from this address; the domain must be onboarded for Cloudflare Email Service (issue #28). Change it with the domain. */
+export const ENQUIRY_ALERT_FROM = 'enquiries@cgaudino.com';

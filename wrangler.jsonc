@@ -14,5 +14,7 @@
 	"workers_dev": false,
 	// Enquiries: an EU-jurisdiction D1 database (created with --jurisdiction eu; that cannot be changed later).
 	"d1_databases": [{ "binding": "DB", "database_name": "checkwork", "database_id": "2d6e67b3-0142-4cec-bcb1-5d024de8327d", "migrations_dir": "drizzle" }],
+	// Enquiry alert email (issue #28). Sent from ENQUIRY_ALERT_FROM in src/lib/config.ts to the ENQUIRY_ALERT_TO secret.
+	"send_email": [{ "name": "EMAIL" }],
 	"observability": { "enabled": true }
 }
