@@ -6,20 +6,21 @@ import { Container, Section } from '@/components/ui/Container';
 import { Frame } from '@/components/ui/Frame';
 import { Mark } from '@/components/ui/Mark';
 import { CHECKS } from '@/content/checks';
+import { PROJECTS } from '@/content/projects';
 import { SERVICES, STEPS } from '@/content/services';
 import { CTA, ROUTES } from '@/lib/config';
 import { pageMetadata } from '@/lib/metadata';
 
 export const metadata = pageMetadata({
-    title: { absolute: 'Checkwork: web design and development for car dealerships in Ireland' },
-    description: 'Checkwork builds fast, easy-to-run websites and dealer tools for car dealerships in Ireland. See our demo dealer website, with stock search, a finance calculator and enquiry capture built in.',
+    title: { absolute: 'Checkwork: websites and web apps for businesses in Ireland' },
+    description: 'Checkwork builds fast, easy-to-run websites and web apps for businesses in Ireland, from car dealerships to resellers and independent shops. See what we have built.',
     path: '/',
 });
 
 export default function Home() {
     return (
         <>
-            <section className="relative overflow-hidden bg-[radial-gradient(60%_70%_at_88%_0%,rgb(99_102_241/0.34),transparent_70%),radial-gradient(40%_50%_at_0%_100%,rgb(167_139_250/0.12),transparent_70%)] py-16 md:py-28">
+            <section className="py-12 md:py-14">
                 <Container className="grid items-center gap-14 lg:grid-cols-[1.15fr_0.85fr]">
                     <div>
                         <h1 className="font-display text-6xl font-bold md:text-8xl">
@@ -27,44 +28,60 @@ export default function Home() {
                             <Mark id="hero" className="ml-1 inline-block size-[0.7em] align-[-0.02em]" />
                         </h1>
                         <p className="rise mb-9 mt-7 max-w-xl text-lg text-fg-muted md:text-xl" style={{ "--d": 1 } as CSSProperties}>
-                            Custom websites and dealer tools for car dealerships across Ireland. Fast on a phone, easy to find on Google, and easy for your team to run.
+                            Custom websites and web apps for businesses across Ireland. Fast on a phone, easy to find on Google, and easy for your team to run.
                         </p>
                         <div className="rise flex flex-wrap gap-3" style={{ "--d": 2 } as CSSProperties}>
                             <Button href={CTA.href}>{CTA.label}</Button>
-                            <Button href={`${ROUTES.work}/dealer-demo`} variant="secondary">See the demo</Button>
+                            <Button href={ROUTES.work} variant="secondary">See our work</Button>
                         </div>
                     </div>
-                    <div className="rounded-2xl border border-line bg-surface p-6 shadow-[0_30px_80px_-30px_rgb(0_0_0/0.7)] md:p-8" aria-labelledby="sheet-title">
-                        <h2 id="sheet-title" className="font-display text-xl font-semibold">Before any site goes live</h2>
-                        <p className="mt-1 text-sm text-fg-muted">Every Checkwork site passes these five checks.</p>
-                        <ul className="mt-6 border-t border-line">
+                    {/* The one light surface on the page: a sign-off sheet. Ticks draw in, then the stamp lands. */}
+                    <div className="rounded-sm bg-paper p-7 text-ink shadow-[0_40px_90px_-40px_rgb(0_0_0/0.9)] md:p-9" aria-labelledby="sheet-title">
+                        <h2 id="sheet-title" className="font-sans text-xl font-semibold tracking-tight">Before it goes live</h2>
+                        <p className="mt-1 text-sm text-ink-muted">Every Checkwork site passes these checks.</p>
+                        <ul className="mt-6 border-t border-ink/15">
                             {CHECKS.map((c, i) => (
-                                <li key={c.title} className="grid grid-cols-[1.75rem_1fr] gap-4 border-b border-line py-4">
+                                <li key={c.title} className="grid grid-cols-[1.75rem_1fr] gap-4 border-b border-ink/15 py-4">
                                     <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" className="mt-0.5 size-5">
-                                        <path d="M2.5 8.6 6.2 12 13.5 4" pathLength={1} className="tick" style={{ "--i": i } as CSSProperties} stroke="#A78BFA" strokeWidth="2.2" />
+                                        <path d="M2.5 8.6 6.2 12 13.5 4" pathLength={1} className="tick" style={{ "--i": i } as CSSProperties} stroke="#4a4ede" strokeWidth="2.2" />
                                     </svg>
                                     <div>
                                         <h3 className="font-sans text-base font-semibold">{c.title}</h3>
-                                        <p className="mt-0.5 text-sm text-fg-muted">{c.text}</p>
+                                        <p className="mt-0.5 text-sm text-ink-muted">{c.text}</p>
                                     </div>
                                 </li>
                             ))}
                         </ul>
-                        <p className="appear mt-5 flex justify-between text-sm"><span className="text-fg-muted">Launch check</span><strong>5 of 5 passed</strong></p>
+                        <p className="stamp mt-7 w-fit rounded-md border-2 border-action-hover px-4 py-1.5 font-display text-lg font-bold text-action-hover">Checked</p>
                     </div>
                 </Container>
             </section>
 
             <Section className="border-t border-line">
-                <Container className="grid items-center gap-12 lg:grid-cols-2">
-                    <Frame label="Dealer demo site" alt="Demo dealer website, stock listing" hint="public/work/dealer-demo/home.png" />
-                    <div className="grid gap-6">
-                        <h2 className="font-display text-4xl font-semibold md:text-5xl">Our demo dealer website</h2>
-                        <p className="text-lg text-fg-muted">
-                            A demo of what a modern dealer site can do: searchable stock, compare, saved cars, a finance calculator and enquiry forms that store every lead.
-                        </p>
-                        <div><Button href={`${ROUTES.work}/dealer-demo`}>See what is in the demo</Button></div>
+                <Container className="grid gap-12">
+                    <div className="grid items-center gap-12 lg:grid-cols-2">
+                        <Frame label="Dealer demo site" alt="Demo dealer website, stock listing" hint="public/work/dealer-demo/home.png" />
+                        <div className="grid gap-6">
+                            <h2 className="font-display text-4xl font-semibold md:text-5xl">Our work</h2>
+                            <p className="text-lg text-fg-muted">
+                                A demo dealer website with searchable stock, a finance calculator and enquiry forms that store every lead. Also on the list: apps for resellers and a website for a vintage clothing shop.
+                            </p>
+                            <div className="flex flex-wrap gap-3">
+                                <Button href={`${ROUTES.work}/dealer-demo`}>See the demo</Button>
+                                <Button href={ROUTES.work} variant="secondary">All work</Button>
+                            </div>
+                        </div>
                     </div>
+                    <ul className="border-t border-line">
+                        {PROJECTS.map(p => (
+                            <li key={p.slug} className="group relative grid gap-1 border-b border-line py-5 transition-colors hover:bg-surface has-[:focus-visible]:bg-surface md:grid-cols-[1fr_1.5fr] md:gap-10 md:px-4">
+                                <h3 className="font-display text-xl font-semibold">
+                                    <Link href={`${ROUTES.work}/${p.slug}`} className="after:absolute after:inset-0">{p.name}</Link>
+                                </h3>
+                                <p className="text-fg-muted">{p.kind}</p>
+                            </li>
+                        ))}
+                    </ul>
                 </Container>
             </Section>
 
@@ -107,7 +124,7 @@ export default function Home() {
                 </Container>
             </Section>
 
-            <CtaBand title="Running a dealership? Let's look at your website." text="Tell us about your stock, your enquiries and what is not working. We will reply by email." />
+            <CtaBand title="Tell us about your business" text="Tell us what is not working today and what you want the site to do. We will reply by email." />
         </>
     );
 }

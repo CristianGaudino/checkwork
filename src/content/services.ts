@@ -4,18 +4,10 @@ export const SERVICES = [
     {
         id: 'websites',
         title: 'Websites',
-        summary: 'A fast stock website for your dealership, designed to bring in enquiries and set up so Google can find it.',
+        summary: 'A fast website that brings in enquiries and is set up so Google can find it.',
         text: 'Design and development of fast, custom websites. We build them in code, so they load quickly and do exactly what your business needs, and we set up the technical basics Google looks for.',
         points: ['Design and build, start to finish', 'Set up for search: titles, structured data, local details', 'Tested on real phones before launch'],
-        more: { href: ROUTES.dealers, label: 'Dealership websites in detail' },
-    },
-    {
-        id: 'dealer-tools',
-        title: 'Dealer tools',
-        summary: 'Searchable stock, compare and saved cars, a finance calculator and enquiry forms that store every lead.',
-        text: 'The tools a buyer uses on a dealership website, and the system that catches their enquiries so none are lost. See it working in our demo dealer site.',
-        points: ['Stock search with filters', 'Compare and saved cars', 'Finance calculator', 'Enquiry forms with every lead stored'],
-        more: { href: `${ROUTES.work}/dealer-demo`, label: 'See the demo dealer site' },
+        more: { href: ROUTES.dealers, label: 'Websites for car dealerships' },
     },
     {
         id: 'web-apps',
@@ -24,6 +16,14 @@ export const SERVICES = [
         text: 'Software built around a specific way of working. We have built inventory, profit and finance tools for resellers, and the two can be linked together.',
         points: ['Stock, inventory and profit tracking', 'Sales, expenses, mileage and reports'],
         more: { href: `${ROUTES.work}/how-many`, label: 'See How Many' },
+    },
+    {
+        id: 'dealer-tools',
+        title: 'Dealer tools',
+        summary: 'Searchable stock, compare and saved cars, a finance calculator and enquiry forms that store every lead.',
+        text: 'The tools a buyer uses on a dealership website, and the system that catches their enquiries so none are lost. See it working in our demo dealer site.',
+        points: ['Stock search with filters', 'Compare and saved cars', 'Finance calculator', 'Enquiry forms with every lead stored'],
+        more: { href: `${ROUTES.work}/dealer-demo`, label: 'See the demo dealer site' },
     },
     {
         id: 'support',

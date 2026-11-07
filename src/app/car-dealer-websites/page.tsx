@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/Button';
 import { CtaBand } from '@/components/ui/CtaBand';
 import { Container, Section } from '@/components/ui/Container';
 import { PageHead } from '@/components/ui/PageHead';
-import { CHECKS } from '@/content/checks';
+import { DEALER_CHECKS } from '@/content/checks';
 import { CTA, ROUTES } from '@/lib/config';
 import { pageMetadata } from '@/lib/metadata';
 import { dealerService } from '@/lib/schema';
@@ -47,7 +47,7 @@ export default function CarDealerWebsites() {
                         <p className="max-w-prose text-fg-muted">Most dealer sites fail in the same few places. These are the five things we check before one goes live.</p>
                     </div>
                     <dl className="border-t border-line">
-                        {CHECKS.map(c => (
+                        {DEALER_CHECKS.map(c => (
                             <div key={c.title} className="grid gap-1 border-b border-line py-5">
                                 <dt className="font-display text-xl font-semibold">{c.title}</dt>
                                 <dd className="text-fg-muted">{c.text}</dd>

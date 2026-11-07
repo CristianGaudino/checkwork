@@ -12,6 +12,9 @@
     --accent-alt: #a78bfa; /* Lavender */
     --action:     #5a5deb; /* white text on it is 5:1 */
     --action-hover: #4a4ede;
+    --paper:      #f4f6fb; /* the launch sheet: the one light surface */
+    --ink:        #161a33; /* 15:1 on paper */
+    --ink-muted:  #4a5070; /* 7:1 on paper */
     color-scheme: dark;
 }
 
@@ -25,6 +28,9 @@
     --color-accent-alt: var(--accent-alt);
     --color-action: var(--action);
     --color-action-hover: var(--action-hover);
+    --color-paper: var(--paper);
+    --color-ink: var(--ink);
+    --color-ink-muted: var(--ink-muted);
     --font-display: var(--font-sora), system-ui, sans-serif;
     --font-sans: var(--font-inter), system-ui, sans-serif;
 }
@@ -52,6 +58,9 @@
 .tick { stroke-dasharray: 1; animation: draw 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both; animation-delay: calc(0.4s + var(--i) * 0.2s); }
 .rise { animation: rise 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both; animation-delay: calc(var(--d, 0) * 90ms); }
 .appear { animation: appear 0.4s ease-out both; animation-delay: 1.5s; }
+/* The stamp lands after the last tick */
+@keyframes stamp { from { opacity: 0; transform: rotate(-6deg) scale(1.25); } to { opacity: 1; transform: rotate(-6deg); } }
+.stamp { animation: stamp 0.28s cubic-bezier(0.2, 0.7, 0.2, 1) both; animation-delay: 1.5s; transform: rotate(-6deg); }
 
 /* Translucent header: solid when the user asks for less transparency, with firmer lines and text for more contrast */
 @media (prefers-reduced-transparency: reduce) {
