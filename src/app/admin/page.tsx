@@ -35,12 +35,12 @@ export default async function Admin({ searchParams }: PageProps<'/admin'>) {
     return (
         <>
             <PageHead title="Enquiries" lead={`Signed in as ${email}. ${rows.length} shown, newest first.`} />
-            <Section className="pt-0 md:pt-0">
+            <Section className="pt-8 md:pt-10">
                 <Container className="grid gap-6">
                     <nav aria-label="Filter by status" className="flex flex-wrap gap-2">
                         {[undefined, ...ENQUIRY_STATUSES].map(s => (
                             <Link key={s ?? 'all'} href={href(s)} aria-current={s === status ? 'true' : undefined}
-                                className="rounded-full border border-line px-4 py-2 aria-[current=true]:border-fg aria-[current=true]:font-semibold">
+                                className="rounded-full border border-line px-3 py-1.5 text-sm aria-[current=true]:border-fg aria-[current=true]:font-semibold sm:px-4 sm:py-2 sm:text-base">
                                 {s ?? 'all'} <span className="text-fg-muted">{s ? (totals.get(s) ?? 0) : all}</span>
                             </Link>
                         ))}
@@ -48,7 +48,7 @@ export default async function Admin({ searchParams }: PageProps<'/admin'>) {
                     <form action={ROUTES.admin} className="flex flex-wrap gap-2">
                         {status && <input type="hidden" name="status" value={status} />}
                         <label htmlFor="q" className="sr-only">Search enquiries</label>
-                        <input id="q" name="q" type="search" defaultValue={q} placeholder="Search name, email, message or notes" className={`${field} min-w-0 flex-1`} />
+                        <input id="q" name="q" type="search" defaultValue={q} placeholder="Search enquiries" className={`${field} min-w-0 flex-1`} />
                         <button className="rounded-lg border border-fg/40 px-4 py-2 font-semibold hover:border-fg">Search</button>
                         {q && <Link href={{ pathname: ROUTES.admin, query: status ? { status } : {} }} className="px-2 py-2 text-fg-muted underline underline-offset-4">Clear</Link>}
                     </form>
@@ -60,7 +60,10 @@ export default async function Admin({ searchParams }: PageProps<'/admin'>) {
                             <article key={r.id} className="grid gap-3 rounded-xl border border-line bg-surface p-5">
                                 <div className="flex flex-wrap items-baseline justify-between gap-2">
                                     <h2 className="font-display text-xl font-semibold">{r.name}{r.business && <span className="font-normal text-fg-muted">, {r.business}</span>}</h2>
-                                    <p className="text-sm text-fg-muted">{when.format(new Date(r.createdAt))}</p>
+                                    <p className="flex items-center gap-2 text-sm text-fg-muted">
+                                        <span className="rounded-full border border-line px-2.5 py-0.5 text-fg">{r.status}</span>
+                                        {when.format(new Date(r.createdAt))}
+                                    </p>
                                 </div>
                                 <p className="text-sm text-fg-muted">
                                     <a href={`mailto:${r.email}`} className="underline underline-offset-4">{r.email}</a>
