@@ -46,6 +46,7 @@ test('not found page is a 404 and not indexed', async ({ page }) => {
 test('robots.txt lets search engines in and names the sitemap, which lists the pages', async ({ request }) => {
     const robots = await (await request.get('/robots.txt')).text();
     expect(robots).toContain('Allow: /');
+    expect(robots).toContain('Disallow: /admin');
     expect(robots).toContain('Sitemap:');
     const sitemap = await request.get('/sitemap.xml');
     expect(sitemap.ok()).toBe(true);
