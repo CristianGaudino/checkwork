@@ -43,7 +43,7 @@ export default function CarDealerWebsites() {
             <Section>
                 <Container className="grid gap-10 md:grid-cols-[1fr_1.4fr] md:gap-16">
                     <div className="grid content-start gap-4">
-                        <h2 className="font-display text-4xl font-semibold tracking-tight">What a dealer website has to do</h2>
+                        <h2 className="font-display text-4xl font-semibold">What a dealer website has to do</h2>
                         <p className="max-w-prose text-fg-muted">Most dealer sites fail in the same few places. These are the five things we check before one goes live.</p>
                     </div>
                     <dl className="border-t border-line">
@@ -59,7 +59,7 @@ export default function CarDealerWebsites() {
 
             <Section className="border-t border-line bg-surface">
                 <Container className="grid gap-8 md:grid-cols-[1fr_1.4fr] md:gap-16">
-                    <h2 className="font-display text-4xl font-semibold tracking-tight">Built and running: Carright</h2>
+                    <h2 className="font-display text-4xl font-semibold">Built and running: Carright</h2>
                     <div className="grid max-w-prose gap-5 text-fg-muted">
                         <p>Carright is a second-hand car dealer. We redesigned their website and built the system behind it: dealer controls, owner controls, lead tracking, a metrics dashboard and social media tools with automatic posting.</p>
                         <p><Link href={`${ROUTES.work}/carright`} className="text-accent-alt underline underline-offset-4">Read the Carright case study</Link></p>
@@ -69,7 +69,7 @@ export default function CarDealerWebsites() {
 
             <Section>
                 <Container className="grid gap-8 md:grid-cols-[1fr_1.4fr] md:gap-16">
-                    <h2 className="font-display text-4xl font-semibold tracking-tight">Questions dealers ask</h2>
+                    <h2 className="font-display text-4xl font-semibold">Questions dealers ask</h2>
                     <div className="border-t border-line">
                         {FAQS.map(f => (
                             <div key={f.q} className="grid gap-2 border-b border-line py-6">

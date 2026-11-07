@@ -25,7 +25,7 @@ export default function Work() {
                             <Frame label={lead.name} alt={lead.shots[0].alt} hint={`public/work/${lead.slug}/1.png`} />
                         </Link>
                         <div className="grid gap-3">
-                            <h2 className="font-display text-4xl font-semibold tracking-tight">
+                            <h2 className="font-display text-4xl font-semibold">
                                 <Link href={`${ROUTES.work}/${lead.slug}`} className="hover:text-accent-alt">{lead.name}</Link>
                             </h2>
                             <p className="text-fg">{lead.kind}.</p>

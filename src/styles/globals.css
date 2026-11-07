@@ -30,12 +30,33 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-    * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+    /* No delay either: the end state must show at once, not after the animation's wait */
+    * { animation-duration: 0.01ms !important; animation-delay: 0s !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
 }
 
 @layer base {
     :focus-visible { outline: 2px solid var(--accent-alt); outline-offset: 3px; border-radius: 4px; }
     html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
     h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; }
+    /* Tracking and leading follow size: the bigger the type, the tighter (apple-design, typography) */
+    h1 { letter-spacing: -0.03em; line-height: 1.04; }
+    h2 { letter-spacing: -0.022em; line-height: 1.1; }
+    h3 { letter-spacing: -0.012em; line-height: 1.25; }
     p { text-wrap: pretty; }
+}
+
+/* The launch check's signature moment: each tick draws in turn. Transform and stroke only (no opacity), so it never delays the page's paint. */
+@keyframes draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes rise { from { transform: translateY(10px); } to { transform: none; } }
+@keyframes appear { from { opacity: 0; } to { opacity: 1; } }
+.tick { stroke-dasharray: 1; animation: draw 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both; animation-delay: calc(0.4s + var(--i) * 0.2s); }
+.rise { animation: rise 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both; animation-delay: calc(var(--d, 0) * 90ms); }
+.appear { animation: appear 0.4s ease-out both; animation-delay: 1.5s; }
+
+/* Translucent header: solid when the user asks for less transparency, with firmer lines and text for more contrast */
+@media (prefers-reduced-transparency: reduce) {
+    .glass { background: var(--canvas) !important; backdrop-filter: none !important; }
+}
+@media (prefers-contrast: more) {
+    :root { --line: rgb(255 255 255 / 0.45); --fg-muted: #d9dcee; }
 }
