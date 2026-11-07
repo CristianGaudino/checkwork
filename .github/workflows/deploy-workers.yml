@@ -52,6 +52,9 @@ jobs:
       # CI does not run on main: the pull request ran it on an older main, so a merge of several is tested here
       - name: Tests
         run: npm test
+        # The unit tests assume a non-production env; the job-level APP_ENV would break them
+        env:
+          APP_ENV: ''
       # Migrations go forward only and run before the new code. A failure stops the deploy.
       - name: Migrate the production D1 database
         run: npm run db:migrate:remote
