@@ -4,7 +4,7 @@ import { PageHead } from '@/components/ui/PageHead';
 import { pageMetadata } from '@/lib/metadata';
 
 export const metadata = pageMetadata({
-    title: 'About',
+    title: 'A web development company in Ireland',
     description: 'Checkwork is a web development company in Ireland building websites and web apps for businesses, and helping teams use AI.',
     path: '/about',
 });

@@ -6,8 +6,8 @@ import { ROUTES } from '@/lib/config';
 import { pageMetadata } from '@/lib/metadata';
 
 export const metadata = pageMetadata({
-    title: 'Start a project',
-    description: 'Tell Checkwork about your business and what you need. We reply by email.',
+    title: 'Start a website or web app project',
+    description: 'Tell Checkwork about your business and what you need. A few lines is enough to start, and we reply by email.',
     path: ROUTES.contact,
 });
 

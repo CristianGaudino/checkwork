@@ -12,3 +12,9 @@ it('the service points at the organisation declared in the site graph', () => {
     const org = siteGraph()['@graph'][0]['@id'];
     expect(dealerService().provider['@id']).toBe(org);
 });
+
+it('the organisation lists every service the site offers, including AI', () => {
+    const names = siteGraph()['@graph'][0].hasOfferCatalog!.itemListElement.map(o => o.itemOffered.name);
+    expect(names).toContain('AI for your business');
+    expect(names).toHaveLength(5);
+});

@@ -6,7 +6,7 @@ import { PageHead } from '@/components/ui/PageHead';
 import { SERVICES } from '@/content/services';
 
 export const metadata = pageMetadata({
-    title: 'Services',
+    title: 'Web design, web apps and AI enablement',
     description: 'Web design and development, custom web apps, dealer tools, AI features and training, and ongoing support from Checkwork in Ireland.',
     path: '/services',
 });

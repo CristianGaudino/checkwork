@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Container, Section } from '@/components/ui/Container';
 import { PageHead } from '@/components/ui/PageHead';
-import { LEGAL, ROUTES } from '@/lib/config';
+import { ANALYTICS_TOKEN, LEGAL, ROUTES } from '@/lib/config';
 import { pageMetadata } from '@/lib/metadata';
 
 export const metadata = pageMetadata({
@@ -20,7 +20,7 @@ export default function Privacy() {
         ['Why we use it', 'To reply to your enquiry and, if you go ahead, to work with you. We do not use it for marketing and we do not sell it.'],
         ['Who sees it', `The people at ${LEGAL.companyName}. Your enquiry is stored in a database we host with Cloudflare (D1), and we are sent a copy by email through Cloudflare Email Service. We do not share it with anyone else unless the law requires it.`],
         ['How long we keep it', 'We keep enquiries that do not lead to work for as long as we need to deal with them, and then delete them. If we work together, we keep what we need for the project and our records.'],
-        ['Cookies and tracking', 'This site sets no cookies. We count visits with Cloudflare Web Analytics, which does not use cookies and does not track you across sites. The contact form uses Cloudflare Turnstile to block spam.'],
+        ['Cookies and tracking', `This site sets no cookies. ${ANALYTICS_TOKEN ? 'We count visits with Cloudflare Web Analytics, which does not use cookies and does not track you across sites. ' : ''}The contact form uses Cloudflare Turnstile to block spam.`],
         ['Your rights', <>You can ask to see, correct or delete the details we hold about you by sending us a message. You can also complain to the Data Protection Commission at <a href="https://www.dataprotection.ie" className="text-accent-alt underline underline-offset-4">dataprotection.ie</a>.</>],
     ];
     return (

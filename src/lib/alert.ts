@@ -16,15 +16,17 @@ export function buildEnquiryAlert(e: EnquiryInput) {
 }
 
 /**
- * Tells the owner a new enquiry arrived. Never throws: the enquiry is already stored, so a failed email is logged and nothing else.
- * No ENQUIRY_ALERT_TO secret means alerts are off (local dev, e2e).
+ * Tells the owner a new enquiry arrived. Runs after the response (waitUntil) so a slow email never keeps the visitor waiting, and never throws:
+ * the enquiry is already stored, so a failed email is logged and nothing else. No ENQUIRY_ALERT_TO secret means alerts are off (local dev, e2e).
  */
-export async function sendEnquiryAlert(e: EnquiryInput): Promise<void> {
+export function sendEnquiryAlert(e: EnquiryInput): void {
     const to = process.env.ENQUIRY_ALERT_TO;
     if (!to) return;
+    const log = (error: unknown) => console.error('Could not send enquiry alert', error);
     try {
-        await getCloudflareContext().env.EMAIL.send({ to, from: ENQUIRY_ALERT_FROM, ...buildEnquiryAlert(e) });
+        const { env, ctx } = getCloudflareContext();
+        ctx.waitUntil(env.EMAIL.send({ to, from: ENQUIRY_ALERT_FROM, ...buildEnquiryAlert(e) }).catch(log));
     } catch (error) {
-        console.error('Could not send enquiry alert', error);
+        log(error);
     }
 }

@@ -1,3 +1,4 @@
+import { SERVICES } from '@/content/services';
 import { ROUTES, SITE, SITE_URL } from '@/lib/config';
 
 // schema.org structured data. Only facts the site already states: no address, phone, ratings or social profiles until they exist (issue #2).
@@ -16,6 +17,11 @@ export const siteGraph = () => ({
             logo: `${SITE_URL}/apple-touch-icon.png`,
             description: SITE.description,
             areaServed: { '@type': 'Country', name: 'Ireland' },
+            hasOfferCatalog: {
+                '@type': 'OfferCatalog',
+                name: 'Services',
+                itemListElement: SERVICES.map(s => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: s.title, description: s.summary } })),
+            },
         },
         { '@type': 'WebSite', '@id': `${SITE_URL}/#website`, url: url('/'), name: SITE.name, publisher: { '@id': ORG_ID } },
     ],

@@ -18,7 +18,7 @@ export const generateStaticParams = () => PROJECTS.map(p => ({ slug: p.slug }));
 export async function generateMetadata({ params }: PageProps<'/work/[slug]'>): Promise<Metadata> {
     const project = getProject((await params).slug);
     if (!project) return {};
-    return pageMetadata({ title: `${project.name}: ${project.kind}`, description: project.summary, path: `${ROUTES.work}/${project.slug}` });
+    return pageMetadata({ title: `${project.name} case study`, description: project.summary.length < 120 ? `${project.summary} A Checkwork case study.` : project.summary, path: `${ROUTES.work}/${project.slug}` });
 }
 
 export default async function CaseStudy({ params }: PageProps<'/work/[slug]'>) {
