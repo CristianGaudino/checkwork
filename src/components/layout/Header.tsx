@@ -31,6 +31,7 @@ export function Header() {
 
     return (
         <header
+            style={{ viewTransitionName: 'site-header' }}
             className={`sticky top-0 z-50 border-b transition-[border-color,background-color] duration-200 ${
                 scrolled || open ? 'glass border-line bg-canvas/80 backdrop-blur-xl' : 'border-transparent bg-canvas/0'
             }`}

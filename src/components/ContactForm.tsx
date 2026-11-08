@@ -29,7 +29,7 @@ export function ContactForm() {
 
     if (state.status === 'sent') {
         return (
-            <div role="status" className="rounded-2xl border border-line bg-surface p-8">
+            <div role="status" className="rise rounded-2xl border border-line bg-surface p-8">
                 <h2 className="font-display text-2xl font-semibold">Message sent</h2>
                 <p className="mt-2 text-fg-muted">We will reply by email.</p>
             </div>
