@@ -1,5 +1,6 @@
 'use server';
 
+import { getCloudflareContext } from '@opennextjs/cloudflare';
 import { headers } from 'next/headers';
 import { sendEnquiryAlert } from '@/lib/alert';
 import { getDb } from '@/lib/db';
@@ -16,6 +17,17 @@ export type ContactState = {
 
 const text = (data: FormData) => Object.fromEntries([...data.entries()].filter((e): e is [string, string] => typeof e[1] === 'string'));
 
+// A second layer behind Turnstile. It fails open: if the limiter itself breaks, visitors still get through (and it is logged), because a dead
+// limiter must never mean a dead form. No IP (local dev, e2e) means nothing to count; Cloudflare always sends one in production.
+async function withinLimit(ip: string): Promise<boolean> {
+    try {
+        return (await getCloudflareContext().env.CONTACT_LIMITER.limit({ key: ip })).success;
+    } catch (error) {
+        console.error('Contact rate limiter failed, letting the request through', error);
+        return true;
+    }
+}
+
 export async function sendEnquiry(_prev: ContactState, data: FormData): Promise<ContactState> {
     // Honeypot: a field people never see. A bot that fills it is told it worked, and nothing is stored.
     if (data.get('company_website')) return { status: 'sent' };
@@ -25,6 +37,9 @@ export async function sendEnquiry(_prev: ContactState, data: FormData): Promise<
     if (!parsed.ok) return { status: 'error', errors: parsed.errors, values };
 
     const ip = (await headers()).get('cf-connecting-ip') ?? undefined;
+    if (ip && !(await withinLimit(ip))) {
+        return { status: 'error', message: 'Too many messages in a short time. Wait a minute and try again.', values };
+    }
     if (!(await verifyTurnstile(String(data.get('cf-turnstile-response') ?? ''), ip))) {
         return { status: 'error', message: 'We could not check that you are a person. Reload the page and try again.', values };
     }
@@ -36,6 +51,6 @@ export async function sendEnquiry(_prev: ContactState, data: FormData): Promise<
         return { status: 'error', message: 'Your message did not send. Please try again in a moment.', values };
     }
     // Stored first: a failed alert never loses the enquiry or fails the form
-    await sendEnquiryAlert(parsed.data);
+    sendEnquiryAlert(parsed.data);
     return { status: 'sent' };
 }

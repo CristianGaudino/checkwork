@@ -16,5 +16,5 @@ export default defineConfig({
     ],
     webServer: process.env.E2E_BASE_URL
         ? undefined
-        : { command: `npx opennextjs-cloudflare build && npm run db:migrate:local && npx wrangler dev --port ${PORT} --ip 127.0.0.1 --var TURNSTILE_SECRET_KEY:${TURNSTILE_TEST_SECRET}`, url: `http://127.0.0.1:${PORT}`, reuseExistingServer: !process.env.CI, timeout: 300_000, env: { APP_ENV: 'production' } },
+        : { command: `npx opennextjs-cloudflare build && npm run db:migrate:local && npx wrangler dev --port ${PORT} --ip 127.0.0.1 --var TURNSTILE_SECRET_KEY:${TURNSTILE_TEST_SECRET}`, url: `http://127.0.0.1:${PORT}`, reuseExistingServer: false, timeout: 300_000, env: { APP_ENV: 'production' } },
 });
