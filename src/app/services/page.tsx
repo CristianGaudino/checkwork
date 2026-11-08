@@ -7,14 +7,14 @@ import { SERVICES } from '@/content/services';
 
 export const metadata = pageMetadata({
     title: 'Services',
-    description: 'Web design and development, custom web apps, dealer tools and ongoing support from Checkwork in Ireland.',
+    description: 'Web design and development, custom web apps, dealer tools, AI features and training, and ongoing support from Checkwork in Ireland.',
     path: '/services',
 });
 
 export default function Services() {
     return (
         <>
-            <PageHead title="Services" lead="Websites and web apps for businesses in Ireland, and support once they are live." />
+            <PageHead title="Services" lead="Websites and web apps for businesses in Ireland, AI features and training for your team, and support once they are live." />
             <Section>
                 <Container>
                     <ul className="border-t border-line">

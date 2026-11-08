@@ -5,7 +5,7 @@ import { pageMetadata } from '@/lib/metadata';
 
 export const metadata = pageMetadata({
     title: 'About',
-    description: 'Checkwork is a web development company in Ireland building websites and web apps for businesses.',
+    description: 'Checkwork is a web development company in Ireland building websites and web apps for businesses, and helping teams use AI.',
     path: '/about',
 });
 
@@ -20,7 +20,7 @@ export default function About() {
         <>
             <PageHead
                 title="What we build and how we work"
-                lead="Checkwork is a web development company in Ireland. We design and build websites, and the software behind them, for businesses of any size."
+                lead="Checkwork is a web development company in Ireland. We design and build websites, and the software behind them, for businesses of any size. We also help teams use AI well, through training and enablement."
             />
             <Section>
                 <Container className="grid gap-8 md:grid-cols-[1fr_1.6fr] md:gap-12">

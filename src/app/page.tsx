@@ -13,7 +13,7 @@ import { pageMetadata } from '@/lib/metadata';
 
 export const metadata = pageMetadata({
     title: { absolute: 'Checkwork: websites and web apps for businesses in Ireland' },
-    description: 'Checkwork builds fast, easy-to-run websites and web apps for businesses in Ireland, from car dealerships to resellers and independent shops. See what we have built.',
+    description: 'Checkwork builds fast, easy-to-run websites and web apps for businesses in Ireland, and helps teams use AI through training and enablement. See what we have built.',
     path: '/',
 });
 

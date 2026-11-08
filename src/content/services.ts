@@ -26,6 +26,17 @@ export const SERVICES = [
         more: { href: `${ROUTES.work}/dealer-demo`, label: 'See the demo dealer site' },
     },
     {
+        id: 'ai',
+        title: 'AI for your business',
+        summary: 'AI features inside your website or tools, training for your team, and honest advice on where AI helps and where it does not.',
+        text: 'We put AI to work where it saves your team time, help your people use AI tools safely in their day-to-day work, and review your workflows to tell you where AI would and would not help.',
+        points: [
+            'AI features inside the tools we build, such as draft listing descriptions, reply suggestions and summaries',
+            'Training and enablement: your team learns to use AI tools safely',
+            'Advice and audits: where AI would and would not help, and the workflow around it',
+        ],
+    },
+    {
         id: 'support',
         title: 'Ongoing support',
         summary: 'Updates, fixes and improvements after launch, so the site keeps working.',
