@@ -7,7 +7,7 @@ import { pageMetadata } from '@/lib/metadata';
 
 export const metadata = pageMetadata({
     title: 'Start a project',
-    description: 'Tell Checkwork about your dealership or business and what you need. We reply by email.',
+    description: 'Tell Checkwork about your business and what you need. We reply by email.',
     path: ROUTES.contact,
 });
 

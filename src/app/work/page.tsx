@@ -17,7 +17,7 @@ export default function Work() {
     const [lead, ...rest] = PROJECTS;
     return (
         <>
-            <PageHead title="Our work" lead="A dealer website with its own management system, two apps for resellers and a public website for a vintage clothing shop." />
+            <PageHead title="Our work" lead="A demo dealer website, two apps for resellers and a public website for a vintage clothing shop." />
             <Section>
                 <Container className="grid gap-14">
                     <article className="grid items-center gap-8 lg:grid-cols-[1.4fr_1fr] lg:gap-14">

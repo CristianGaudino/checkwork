@@ -1,6 +1,6 @@
 # Checkwork
 
-Marketing site for Checkwork: websites and dealer tools for car dealerships in Ireland.
+Marketing site for Checkwork: websites and web apps for businesses in Ireland.
 
 **Stack:** Next.js 16 · Tailwind CSS v4 · Cloudflare Workers (OpenNext). Enquiries are stored in Cloudflare D1 (Drizzle), spam-checked with Turnstile.
 

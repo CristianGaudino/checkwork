@@ -4,10 +4,18 @@ export const SERVICES = [
     {
         id: 'websites',
         title: 'Websites',
-        summary: 'A fast stock website for your dealership, designed to bring in enquiries and set up so Google can find it.',
+        summary: 'A fast website that brings in enquiries and is set up so Google can find it.',
         text: 'Design and development of fast, custom websites. We build them in code, so they load quickly and do exactly what your business needs, and we set up the technical basics Google looks for.',
         points: ['Design and build, start to finish', 'Set up for search: titles, structured data, local details', 'Tested on real phones before launch'],
-        more: { href: ROUTES.dealers, label: 'Dealership websites in detail' },
+        more: { href: ROUTES.dealers, label: 'Websites for car dealerships' },
+    },
+    {
+        id: 'web-apps',
+        title: 'Custom web apps',
+        summary: 'Business software built around how you work, like our inventory, profit and finance apps for resellers.',
+        text: 'Software built around a specific way of working. We have built inventory, profit and finance tools for resellers, and the two can be linked together.',
+        points: ['Stock, inventory and profit tracking', 'Sales, expenses, mileage and reports'],
+        more: { href: `${ROUTES.work}/how-many`, label: 'See How Many' },
     },
     {
         id: 'dealer-tools',
@@ -18,12 +26,15 @@ export const SERVICES = [
         more: { href: `${ROUTES.work}/dealer-demo`, label: 'See the demo dealer site' },
     },
     {
-        id: 'web-apps',
-        title: 'Custom web apps',
-        summary: 'Business software built around how you work, like our inventory, profit and finance apps for resellers.',
-        text: 'Software built around a specific way of working. We have built inventory, profit and finance tools for resellers, and the two can be linked together.',
-        points: ['Stock, inventory and profit tracking', 'Sales, expenses, mileage and reports'],
-        more: { href: `${ROUTES.work}/how-many`, label: 'See How Many' },
+        id: 'ai',
+        title: 'AI for your business',
+        summary: 'AI features inside your website or tools, training for your team, and honest advice on where AI helps and where it does not.',
+        text: 'We put AI to work where it saves your team time, help your people use AI tools safely in their day-to-day work, and review your workflows to tell you where AI would and would not help.',
+        points: [
+            'AI features inside the tools we build, such as draft listing descriptions, reply suggestions and summaries',
+            'Training and enablement: your team learns to use AI tools safely',
+            'Advice and audits: where AI would and would not help, and the workflow around it',
+        ],
     },
     {
         id: 'support',

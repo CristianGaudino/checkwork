@@ -8,7 +8,7 @@ export const SITE = {
     name: 'Checkwork',
     tagline: 'Websites that work.',
     description:
-        'Checkwork designs and builds websites and dealer tools for car dealerships and growing businesses in Ireland.',
+        'Websites, web apps and AI enablement for businesses in Ireland. Fast on a phone, easy to find on Google and easy for your team to run.',
 } as const;
 
 export const BRAND_COLORS = { midnight: '#0B0F1F' } as const;
