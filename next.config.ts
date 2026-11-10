@@ -42,6 +42,15 @@ const nextConfig: NextConfig = {
     outputFileTracingExcludes: {
         "/*": ["node_modules/sharp/**", "node_modules/@img/**", "node_modules/next/dist/compiled/@vercel/og/**"],
     },
+    // The old address and www send people (and search engines) to the one canonical domain
+    async redirects() {
+        return ["checkwork.cgaudino.com", "www.checkwork.ie"].map((host) => ({
+            source: "/:path*",
+            has: [{ type: "host" as const, value: host }],
+            destination: "https://checkwork.ie/:path*",
+            permanent: true,
+        }));
+    },
     async headers() {
         return [{ source: "/:path*", headers: SECURITY_HEADERS }];
     },
