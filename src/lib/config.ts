@@ -2,7 +2,7 @@
  * The one place the domain lives (besides the route in wrangler.jsonc, which Cloudflare needs). Pages are built
  * static, so an environment variable read here would be fixed at build time: change the constant, not a variable.
  */
-export const SITE_URL = 'https://checkwork.cgaudino.com';
+export const SITE_URL = 'https://checkwork.ie';
 
 export const SITE = {
     name: 'Checkwork',
@@ -50,9 +50,9 @@ export const TURNSTILE_TEST_SECRET = '1x0000000000000000000000000000000AA';
 
 /**
  * Cloudflare Web Analytics token (public by design). Empty means analytics is off and no script is loaded.
- * TODO (issue #10): create the site in Cloudflare (Analytics & Logs, Web Analytics) for checkwork.cgaudino.com and paste its token here.
+ * TODO (issue #10): create the site in Cloudflare (Analytics & Logs, Web Analytics) for checkwork.ie and paste its token here.
  */
 export const ANALYTICS_TOKEN = '';
 
 /** Enquiry alert emails come from this address; the domain must be onboarded for Cloudflare Email Service (issue #28). Change it with the domain. */
-export const ENQUIRY_ALERT_FROM = 'enquiries@cgaudino.com';
+export const ENQUIRY_ALERT_FROM = 'enquiries@checkwork.ie';
