@@ -15,7 +15,7 @@ Run the ponytail audit on what changed, fix what it raises, and run `npm run lin
 ## Stack facts
 - Next 16 on Cloudflare via OpenNext. No Cache Components / partial prefetching (opennextjs-cloudflare#1450). Read `node_modules/next/dist/docs/` before using a Next API.
 - Database is Cloudflare D1 via Drizzle (owner's decision, #1), not Neon. Migrations: edit `src/lib/db/schema.ts`, `npm run db:generate`, commit `drizzle/`. Migrations only add things.
-- Domain lives in `src/lib/config.ts` (SITE_URL, set in `wrangler.jsonc`). Current: checkwork.ie.
+- Domain lives in `src/lib/config.ts` (SITE_URL, set in `wrangler.jsonc`). Current: www.checkwork.ie (canonical; the bare checkwork.ie redirects to it).
 - Components use semantic Tailwind tokens (`bg-canvas`, `text-fg-muted`), never raw colours.
 
 ## Content rules
