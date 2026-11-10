@@ -63,7 +63,7 @@ jobs:
         run: npx wrangler deploy --var APP_COMMIT_SHA:${{ github.sha }} --var "APP_VERSION:$(git describe --tags --always)"
       # A first deploy waits a few minutes for the address's certificate
       - name: Wait for the site
-        run: curl -fsS -o /dev/null --retry 40 --retry-delay 15 --retry-all-errors --max-time 20 https://checkwork.ie/robots.txt
+        run: curl -fsS -o /dev/null --retry 40 --retry-delay 15 --retry-all-errors --max-time 20 https://www.checkwork.ie/robots.txt
 
   e2e:
     needs: deploy
@@ -73,7 +73,7 @@ jobs:
       image: mcr.microsoft.com/playwright:v1.65.0-noble
       options: --ipc=host
     env:
-      E2E_BASE_URL: https://checkwork.ie
+      E2E_BASE_URL: https://www.checkwork.ie
     steps:
       - uses: actions/checkout@v7
         with:
