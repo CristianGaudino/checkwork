@@ -58,6 +58,8 @@
 .tick { stroke-dasharray: 1; animation: draw 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both; animation-delay: calc(0.4s + var(--i) * 0.2s); }
 .rise { animation: rise 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both; animation-delay: calc(var(--d, 0) * 90ms); }
 .appear { animation: appear 0.4s ease-out both; animation-delay: 1.5s; }
+/* A swapped screenshot fades in rather than snapping */
+.appear-now { animation: appear 0.2s ease-out both; }
 /* The stamp lands after the last tick */
 @keyframes stamp { from { opacity: 0; transform: rotate(-6deg) scale(1.25); } to { opacity: 1; transform: rotate(-6deg); } }
 .stamp { animation: stamp 0.28s cubic-bezier(0.2, 0.7, 0.2, 1) both; animation-delay: 1.5s; transform: rotate(-6deg); }

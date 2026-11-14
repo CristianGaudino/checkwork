@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { DemoButton } from '@/components/DemoButton';
 import { JsonLd } from '@/components/JsonLd';
 import { CtaBand } from '@/components/ui/CtaBand';
 import { Container, Section } from '@/components/ui/Container';
@@ -30,7 +31,8 @@ export default async function CaseStudy({ params }: PageProps<'/work/[slug]'>) {
         <>
             <JsonLd data={breadcrumbs([{ name: 'Home', path: ROUTES.home }, { name: 'Work', path: ROUTES.work }, { name: project.name, path: `${ROUTES.work}/${project.slug}` }])} />
             <PageHead title={project.name} lead={`${project.kind}.`}>
-                <Link href={ROUTES.work} className="text-accent-alt underline underline-offset-4">All work</Link>
+                {project.live && <DemoButton />}
+                <Link href={ROUTES.work} className="self-center text-accent-alt underline underline-offset-4">All work</Link>
             </PageHead>
 
             <Section className="pb-0 md:pb-0">

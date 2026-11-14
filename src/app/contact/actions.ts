@@ -5,11 +5,12 @@ import { headers } from 'next/headers';
 import { sendEnquiryAlert } from '@/lib/alert';
 import { getDb } from '@/lib/db';
 import { enquiries } from '@/lib/db/schema';
-import { type EnquiryErrors, parseEnquiry } from '@/lib/enquiry';
+import { type EnquiryErrors, isDealerNeed, parseEnquiry } from '@/lib/enquiry';
 import { verifyTurnstile } from '@/lib/turnstile';
 
 export type ContactState = {
     status: 'idle' | 'sent' | 'error';
+    dealer?: boolean; // sent: the thank-you points a dealer to the demo
     errors?: EnquiryErrors;
     message?: string;
     values?: Record<string, string>;
@@ -32,8 +33,10 @@ export async function sendEnquiry(_prev: ContactState, data: FormData): Promise<
     // Honeypot: a field people never see. A bot that fills it is told it worked, and nothing is stored.
     if (data.get('company_website')) return { status: 'sent' };
 
-    const values = text(data);
-    const parsed = parseEnquiry(values);
+    // Ticked boxes share a name: keep them all, and give them back joined so a failed send keeps them ticked
+    const interests = data.getAll('interests').filter((v): v is string => typeof v === 'string');
+    const values = { ...text(data), interests: interests.join('|') };
+    const parsed = parseEnquiry({ ...values, interests });
     if (!parsed.ok) return { status: 'error', errors: parsed.errors, values };
 
     const ip = (await headers()).get('cf-connecting-ip') ?? undefined;
@@ -52,5 +55,5 @@ export async function sendEnquiry(_prev: ContactState, data: FormData): Promise<
     }
     // Stored first: a failed alert never loses the enquiry or fails the form
     sendEnquiryAlert(parsed.data);
-    return { status: 'sent' };
+    return { status: 'sent', dealer: isDealerNeed(parsed.data.need) };
 }

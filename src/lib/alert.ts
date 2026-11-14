@@ -1,5 +1,5 @@
 import { getCloudflareContext } from '@opennextjs/cloudflare';
-import type { EnquiryInput } from '@/lib/enquiry';
+import { detailLines, type EnquiryInput } from '@/lib/enquiry';
 import { ENQUIRY_ALERT_FROM } from '@/lib/config';
 
 /** Plain text only, so nothing a visitor typed can inject markup. The subject uses the validated `need` only, never free text. */
@@ -10,7 +10,8 @@ export function buildEnquiryAlert(e: EnquiryInput) {
         `Email: ${e.email}`,
         e.phone && `Phone: ${e.phone}`,
         `Needs: ${e.need}`,
-        `Message:\n${e.message}`,
+        detailLines(e.details).join('\n'),
+        e.message && `Message:\n${e.message}`,
     ];
     return { subject: `New enquiry: ${e.need}`, text: lines.filter(Boolean).join('\n\n'), replyTo: e.email };
 }

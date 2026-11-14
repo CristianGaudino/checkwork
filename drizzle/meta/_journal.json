@@ -22,6 +22,13 @@
       "when": 1794086986362,
       "tag": "0002_nasty_mister_fear",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1794666669267,
+      "tag": "0003_plain_excalibur",
+      "breakpoints": true
     }
   ]
 }

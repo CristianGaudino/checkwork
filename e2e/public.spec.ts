@@ -70,3 +70,15 @@ test('dealer page has site, service and FAQ structured data', async ({ page }) =
     const types = (await page.locator('script[type="application/ld+json"]').allTextContents()).map(t => JSON.parse(t)['@type'] ?? 'graph');
     expect(types).toEqual(expect.arrayContaining(['graph', 'Service', 'FAQPage']));
 });
+
+test('the dealer page tour switches screens and sides', async ({ page }) => {
+    await page.goto(ROUTES.dealers);
+    const tour = page.locator('figure').filter({ has: page.locator('img[alt^="Demo dealer"], img[alt^="A lead"]') });
+    await expect(tour.getByRole('img')).toHaveAttribute('alt', /home page/);
+    await page.getByRole('button', { name: /Car pages that ask for the sale/ }).click();
+    await expect(tour.getByRole('img')).toHaveAttribute('alt', /MINI Clubman/);
+    await page.getByRole('button', { name: 'What your team sees' }).click();
+    await expect(page.getByRole('button', { name: 'What your team sees' })).toHaveAttribute('aria-pressed', 'true');
+    await expect(tour.getByRole('img')).toHaveAttribute('alt', /dashboard overview/);
+    await expect(page.getByRole('link', { name: /Try the live demo/ }).first()).toHaveAttribute('href', 'https://www.demo.checkwork.ie');
+});

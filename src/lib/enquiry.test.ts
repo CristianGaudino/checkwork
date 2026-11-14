@@ -1,5 +1,5 @@
 import { expect, it } from 'vitest';
-import { parseEnquiry } from './enquiry';
+import { detailLines, parseEnquiry } from './enquiry';
 
 const valid = { name: ' Aoife ', business: '', email: 'aoife@example.ie', phone: '', need: 'Something else', message: 'Hello' };
 
@@ -16,4 +16,40 @@ it('reports each bad field once, with a plain message', () => {
 
 it('treats a missing field (no form value) as an error, not a crash', () => {
     expect(parseEnquiry({ ...valid, name: null }).ok).toBe(false);
+});
+
+const dealer = { ...valid, need: 'A website for my dealership', message: '', reply: 'By email', stock: '25 to 75 cars', source: 'On DoneDeal', website: 'www.example.ie', interests: ['Leads in one place', 'Leads in one place', 'Hack'], walkthrough: 'yes' };
+
+it('keeps the dealer answers for a dealer, without needing a message', () => {
+    const r = parseEnquiry(dealer);
+    expect(r.ok && r.data.details).toEqual({ reply: 'By email', stock: '25 to 75 cars', source: 'On DoneDeal', website: 'www.example.ie', interests: ['Leads in one place'], walkthrough: true });
+});
+
+it('drops the dealer answers when the need is not a dealer one, and still asks for a message', () => {
+    expect(parseEnquiry({ ...dealer, need: 'Something else' }).ok).toBe(false);
+    const r = parseEnquiry({ ...dealer, need: 'Something else', message: 'Hi' });
+    expect(r.ok && r.data.details).toEqual({ reply: 'By email' });
+});
+
+it('needs a phone number for a call, and reports it with the other errors at once', () => {
+    const r = parseEnquiry({ ...dealer, reply: 'A phone call', name: '' });
+    expect(!r.ok && Object.keys(r.errors).sort()).toEqual(['name', 'phone']);
+    expect(parseEnquiry({ ...dealer, reply: 'A phone call', phone: '087 000 0000' }).ok).toBe(true);
+});
+
+it('treats an unknown or tampered choice as not answered', () => {
+    const r = parseEnquiry({ ...dealer, stock: 'Thousands', source: null, reply: 'Fax', walkthrough: 'no' });
+    expect(r.ok && r.data.details).toEqual({ reply: 'By email', website: 'www.example.ie', interests: ['Leads in one place'] });
+});
+
+it('reads stored details as lines, and gives none for an old or broken row', () => {
+    expect(detailLines({ reply: 'By email', website: 'x.ie' })).toEqual(['Reply: By email', 'Current site: x.ie']);
+    expect(detailLines(null)).toEqual([]);
+    expect(detailLines('nonsense' as never)).toEqual([]);
+    expect(detailLines({ interests: 'not a list' } as never)).toEqual([]);
+});
+
+it('ignores a bad website left in the hidden dealer box once the visitor picks something else', () => {
+    expect(parseEnquiry({ ...dealer, need: 'Something else', message: 'Hi', website: 'x'.repeat(300) }).ok).toBe(true);
+    expect(parseEnquiry({ ...dealer, website: 'x'.repeat(300) }).ok).toBe(false);
 });

@@ -5,7 +5,7 @@ const waitUntil = vi.fn();
 vi.mock('@opennextjs/cloudflare', () => ({ getCloudflareContext: () => ({ env: { EMAIL: { send } }, ctx: { waitUntil } }) }));
 const { buildEnquiryAlert, sendEnquiryAlert } = await import('./alert');
 
-const base = { name: 'Ann', business: '', email: 'ann@example.ie', phone: '', need: 'A custom web app' as const, message: 'Hello\nthere' };
+const base = { name: 'Ann', business: '', email: 'ann@example.ie', phone: '', need: 'A custom web app' as const, message: 'Hello\nthere', details: { reply: 'By email' as const } };
 
 beforeEach(() => { send.mockReset(); waitUntil.mockReset(); });
 afterEach(() => { vi.unstubAllEnvs(); vi.restoreAllMocks(); });
@@ -17,6 +17,12 @@ it('builds a text alert with a fixed subject, reply-to the visitor and no empty 
     expect(a.text).not.toMatch(/Business|Phone/);
     expect(a.text).toContain('Message:\nHello\nthere');
     expect(buildEnquiryAlert({ ...base, business: 'Acme', phone: '087' }).text).toMatch(/Business: Acme[\s\S]*Phone: 087/);
+});
+
+it('lists the dealer answers, and leaves out an empty message', () => {
+    const t = buildEnquiryAlert({ ...base, need: 'A website for my dealership', message: '', details: { reply: 'A phone call', stock: 'Under 25 cars', source: 'On DoneDeal', interests: ['Leads in one place'], walkthrough: true } }).text;
+    expect(t).toContain('Reply: A phone call\nStock: Under 25 cars\nStock is kept: on DoneDeal\nInterested in: Leads in one place\nWants a walkthrough of the demo');
+    expect(t).not.toContain('Message:');
 });
 
 it('sends nothing when no ENQUIRY_ALERT_TO secret is set', () => {

@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import type { CSSProperties } from 'react';
+import { DemoButton } from '@/components/DemoButton';
 import { Button } from '@/components/ui/Button';
 import { CtaBand } from '@/components/ui/CtaBand';
 import { Container, Section } from '@/components/ui/Container';
@@ -60,15 +61,15 @@ export default function Home() {
             <Section className="border-t border-line">
                 <Container className="grid gap-12">
                     <div className="grid items-center gap-12 lg:grid-cols-2">
-                        <Frame label="Dealer demo site" alt="Demo dealer website, stock listing" hint="public/work/dealer-demo/home.png" />
+                        <Frame label="Dealer demo site" alt="Demo dealer website, the used cars page with filters" src="/work/dealer-demo/site-stock.webp" />
                         <div className="grid gap-6">
                             <h2 className="font-display text-4xl font-semibold md:text-5xl">Our work</h2>
                             <p className="text-lg text-fg-muted">
-                                A demo dealer website with searchable stock, a finance calculator and enquiry forms that store every lead. Also on the list: apps for resellers and a website for a vintage clothing shop.
+                                A live demo dealer website, with searchable stock, test drives, trade-ins and finance, and a dashboard where every lead lands. Also on the list: apps for resellers and a website for a vintage clothing shop.
                             </p>
                             <div className="flex flex-wrap gap-3">
-                                <Button href={`${ROUTES.work}/dealer-demo`}>See the demo</Button>
-                                <Button href={ROUTES.work} variant="secondary">All work</Button>
+                                <DemoButton />
+                                <Button href={ROUTES.dealers} variant="secondary">For car dealers</Button>
                             </div>
                         </div>
                     </div>

@@ -1,25 +1,22 @@
-import Link from 'next/link';
+import Image from 'next/image';
+import { DealerTour } from '@/components/DealerTour';
+import { DemoButton } from '@/components/DemoButton';
 import { JsonLd } from '@/components/JsonLd';
 import { Button } from '@/components/ui/Button';
 import { CtaBand } from '@/components/ui/CtaBand';
 import { Container, Section } from '@/components/ui/Container';
-import { PageHead } from '@/components/ui/PageHead';
 import { DEALER_CHECKS } from '@/content/checks';
-import { CTA, ROUTES } from '@/lib/config';
+import { DEALER_FAQS, FEATURES, STOCK_OPTIONS } from '@/content/dealer';
+import { STEPS } from '@/content/services';
+import { DEALER_CONTACT, ROUTES } from '@/lib/config';
 import { pageMetadata } from '@/lib/metadata';
 import { dealerService } from '@/lib/schema';
 
 export const metadata = pageMetadata({
     title: 'Car dealer websites in Ireland',
-    description: 'Custom websites for car dealerships in Ireland: stock that stays current, enquiries that reach your team, and a site that Google can find. Built by Checkwork.',
+    description: 'Websites and a dealer dashboard for car dealerships in Ireland: stock that stays current, every lead in one place, test drives, trade-ins and finance. Try the live demo.',
     path: ROUTES.dealers,
 });
-
-const FAQS = [
-    { q: 'Can our team add and update cars without a developer?', a: 'Day-to-day changes should not wait on a developer. We set up how stock gets onto the site with you, around the feed or system you already use.' },
-    { q: 'Will the website rank on Google?', a: 'We set up the foundations Google looks for: speed, page titles, structured data and local details. No one can promise a ranking, and anyone who does is guessing.' },
-    { q: 'What happens to enquiries?', a: 'Every enquiry from the website is saved as a lead with the consent it was sent under, so it is kept in one place rather than lost in an inbox.' },
-] as const;
 
 export default function CarDealerWebsites() {
     return (
@@ -28,22 +25,92 @@ export default function CarDealerWebsites() {
                 data={{
                     '@context': 'https://schema.org',
                     '@type': 'FAQPage',
-                    mainEntity: FAQS.map(f => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+                    mainEntity: DEALER_FAQS.map(f => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
                 }}
             />
             <JsonLd data={dealerService()} />
-            <PageHead
-                title="Websites for car dealerships in Ireland"
-                lead="Your website is where buyers look at your stock before they ever call. We build dealer websites that keep that stock current, bring in enquiries and are easy to run."
-                        >
-                <Button href={CTA.href}>{CTA.label}</Button>
-                <Button href={`${ROUTES.work}/dealer-demo`} variant="secondary">See the demo</Button>
-            </PageHead>
+
+            <section className="overflow-hidden border-b border-line pb-16 pt-14 md:pb-24 md:pt-24">
+                <Container className="grid items-center gap-14 lg:grid-cols-[0.9fr_1.1fr]">
+                    <div className="grid gap-6">
+                        <h1 className="font-display text-5xl font-semibold md:text-6xl">Websites for car dealerships in Ireland</h1>
+                        <p className="max-w-xl text-lg text-fg-muted md:text-xl">
+                            A website that sells your stock, and a dashboard where your team handles every lead, test drive and sale. Try it yourself before you talk to us.
+                        </p>
+                        <div className="flex flex-wrap gap-3">
+                            <DemoButton />
+                            <Button href={DEALER_CONTACT} variant="secondary">Talk to us</Button>
+                        </div>
+                        <p className="text-sm text-fg-muted">The demo is a made-up dealer with sample stock. Nothing you send there reaches anyone.</p>
+                    </div>
+                    {/* The desktop site with the phone version in front: the same stock, on both */}
+                    <div className="relative pb-10 pr-10 sm:pb-14 sm:pr-16">
+                        <div className="overflow-hidden rounded-2xl border border-line bg-surface shadow-[0_40px_90px_-50px_rgb(0_0_0/0.9)]">
+                            <Image src="/work/dealer-demo/site-home.webp" alt="The demo dealer website on a laptop: a stock search over a photo of the showroom" width={1920} height={1200} priority className="h-auto w-full" />
+                        </div>
+                        <div className="absolute bottom-0 right-0 w-[30%] max-w-48 overflow-hidden rounded-[1.4rem] border-4 border-canvas bg-canvas shadow-[0_30px_60px_-20px_rgb(0_0_0/0.9)] outline outline-1 outline-line">
+                            <Image src="/work/dealer-demo/phone-stock.webp" alt="The same site on a phone: the used cars list" width={780} height={1688} priority className="h-auto w-full" />
+                        </div>
+                    </div>
+                </Container>
+            </section>
 
             <Section>
+                <Container className="grid gap-10">
+                    <div className="grid max-w-2xl gap-3">
+                        <h2 className="font-display text-4xl font-semibold md:text-5xl">See both sides of it</h2>
+                        <p className="text-lg text-fg-muted">Pick a screen. Every one is from the demo, with its made-up dealer and sample data.</p>
+                    </div>
+                    <DealerTour />
+                </Container>
+            </Section>
+
+            <Section className="border-t border-line bg-surface">
+                <Container className="grid gap-10">
+                    <div className="grid max-w-2xl gap-3">
+                        <h2 className="font-display text-4xl font-semibold md:text-5xl">Your stock, your way</h2>
+                        <p className="text-lg text-fg-muted">Keep working the way you do now, or move your stock in. Either way your team updates it, not us.</p>
+                    </div>
+                    <div className="grid gap-4 md:grid-cols-2">
+                        {STOCK_OPTIONS.map(o => (
+                            <div key={o.title} className="grid content-start gap-2 rounded-2xl border border-line bg-canvas p-6 md:p-8">
+                                <h3 className="font-display text-2xl font-semibold">{o.title}</h3>
+                                <p className="text-fg-muted">{o.text}</p>
+                            </div>
+                        ))}
+                    </div>
+                </Container>
+            </Section>
+
+            <Section>
+                <Container className="grid gap-12">
+                    <div className="grid max-w-2xl gap-3">
+                        <h2 className="font-display text-4xl font-semibold md:text-5xl">Everything in the demo</h2>
+                        <p className="text-lg text-fg-muted">All of it works in the demo today. We set it up around your dealership and leave out what you do not need.</p>
+                    </div>
+                    <div className="grid gap-x-10 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+                        {FEATURES.map(f => (
+                            <div key={f.title} className="grid content-start gap-4 border-t border-line pt-5">
+                                <h3 className="font-display text-xl font-semibold">{f.title}</h3>
+                                <ul className="grid gap-2.5 text-fg-muted">
+                                    {f.items.map(i => (
+                                        <li key={i} className="grid grid-cols-[1rem_1fr] gap-3">
+                                            <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" className="mt-1 size-4 text-accent-alt"><path d="M2.5 8.6 6.2 12 13.5 4" stroke="currentColor" strokeWidth="2" /></svg>
+                                            {i}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        ))}
+                    </div>
+                    <div><DemoButton variant="secondary" /></div>
+                </Container>
+            </Section>
+
+            <Section className="border-t border-line bg-surface">
                 <Container className="grid gap-10 md:grid-cols-[1fr_1.4fr] md:gap-16">
                     <div className="grid content-start gap-4">
-                        <h2 className="font-display text-4xl font-semibold">What a dealer website has to do</h2>
+                        <h2 className="font-display text-4xl font-semibold">Before it goes live</h2>
                         <p className="max-w-prose text-fg-muted">Most dealer sites fail in the same few places. These are the five things we check before one goes live.</p>
                     </div>
                     <dl className="border-t border-line">
@@ -57,31 +124,42 @@ export default function CarDealerWebsites() {
                 </Container>
             </Section>
 
-            <Section className="border-t border-line bg-surface">
-                <Container className="grid gap-8 md:grid-cols-[1fr_1.4fr] md:gap-16">
-                    <h2 className="font-display text-4xl font-semibold">See it working: our demo site</h2>
-                    <div className="grid max-w-prose gap-5 text-fg-muted">
-                        <p>We built a demo dealer website so you can try it yourself: stock search and filters, compare, saved cars, a finance calculator and enquiry forms that store every lead. It is a demonstration, not a live client site.</p>
-                        <p><Link href={`${ROUTES.work}/dealer-demo`} className="text-accent-alt underline underline-offset-4">Read about the demo site</Link></p>
+            <Section>
+                <Container>
+                    <div className="mb-12 grid gap-3">
+                        <h2 className="font-display text-4xl font-semibold md:text-5xl">How it runs</h2>
+                        <p className="text-lg text-fg-muted">It starts with a look at the demo together, and your questions.</p>
                     </div>
+                    <ol className="grid gap-8 md:grid-cols-4">
+                        {STEPS.map((s, i) => (
+                            <li key={s.title} className="grid content-start gap-2 border-t border-line pt-5">
+                                <span className="font-display text-sm text-accent-alt">{String(i + 1).padStart(2, '0')}</span>
+                                <h3 className="font-display text-xl font-semibold">{s.title}</h3>
+                                <p className="text-fg-muted">{s.text}</p>
+                            </li>
+                        ))}
+                    </ol>
                 </Container>
             </Section>
 
-            <Section>
+            <Section className="border-t border-line">
                 <Container className="grid gap-8 md:grid-cols-[1fr_1.4fr] md:gap-16">
                     <h2 className="font-display text-4xl font-semibold">Questions dealers ask</h2>
                     <div className="border-t border-line">
-                        {FAQS.map(f => (
-                            <div key={f.q} className="grid gap-2 border-b border-line py-6">
-                                <h3 className="font-display text-xl font-semibold">{f.q}</h3>
-                                <p className="max-w-prose text-fg-muted">{f.a}</p>
-                            </div>
+                        {DEALER_FAQS.map(f => (
+                            <details key={f.q} className="group border-b border-line">
+                                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-5 font-display text-xl font-semibold [&::-webkit-details-marker]:hidden">
+                                    {f.q}
+                                    <span aria-hidden="true" className="text-2xl font-normal text-accent-alt transition-transform group-open:rotate-45">+</span>
+                                </summary>
+                                <p className="max-w-prose pb-6 text-fg-muted">{f.a}</p>
+                            </details>
                         ))}
                     </div>
                 </Container>
             </Section>
 
-            <CtaBand title="Let's look at your dealership's website" text="Tell us what you sell and what is not working. We will reply by email." />
+            <CtaBand title="See it with your own stock in mind" text="Tell us a little about your dealership. We will reply, and walk you through the demo if you would like." href={DEALER_CONTACT} label="Talk to us" />
         </>
     );
 }

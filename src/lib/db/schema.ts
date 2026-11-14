@@ -1,4 +1,5 @@
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
+import type { EnquiryDetails } from '@/lib/enquiry';
 
 export const ENQUIRY_STATUSES = ['new', 'replied', 'won', 'not a fit'] as const;
 
@@ -14,4 +15,6 @@ export const enquiries = sqliteTable('enquiries', {
     createdAt: text('created_at').notNull(),
     status: text('status', { enum: ENQUIRY_STATUSES }).notNull().default('new'),
     notes: text('notes').notNull().default(''),
+    // How to reply and the dealer answers (EnquiryDetails in lib/enquiry). Null on enquiries sent before the form asked.
+    details: text('details', { mode: 'json' }).$type<EnquiryDetails>(),
 });
