@@ -41,7 +41,8 @@ export const isDealerNeed = (need: unknown) => (DEALER_NEEDS as readonly unknown
 
 /** Validates raw form data (`interests` is the list of ticked boxes). Every problem is reported at once, the first on each field. */
 export function parseEnquiry(raw: Record<string, FormDataEntryValue | FormDataEntryValue[] | null>): { ok: true; data: EnquiryInput } | { ok: false; errors: EnquiryErrors } {
-    const result = enquirySchema.safeParse(raw);
+    // The dealer box is hidden for anything else but still sent: a bad value left in it must not stop a form that cannot show the error
+    const result = enquirySchema.safeParse(isDealerNeed(raw.need) ? raw : { ...raw, website: undefined });
     const errors: EnquiryErrors = {};
     if (!result.success) for (const issue of result.error.issues) errors[issue.path[0] as EnquiryField] ??= issue.message;
     // Checked on the raw values, so they show alongside the errors above instead of after them

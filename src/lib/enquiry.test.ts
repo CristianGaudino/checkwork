@@ -48,3 +48,8 @@ it('reads stored details as lines, and gives none for an old or broken row', () 
     expect(detailLines('nonsense' as never)).toEqual([]);
     expect(detailLines({ interests: 'not a list' } as never)).toEqual([]);
 });
+
+it('ignores a bad website left in the hidden dealer box once the visitor picks something else', () => {
+    expect(parseEnquiry({ ...dealer, need: 'Something else', message: 'Hi', website: 'x'.repeat(300) }).ok).toBe(true);
+    expect(parseEnquiry({ ...dealer, website: 'x'.repeat(300) }).ok).toBe(false);
+});

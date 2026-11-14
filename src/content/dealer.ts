@@ -1,5 +1,5 @@
 // The car dealer page: what the product does, from the demo dealer site (the checkwork-demo repo). Everything here is built and working in
-// the demo. Two things need the dealer's own account before they work for real, and say so: DoneDeal's API and a registration lookup service.
+// the demo. Some need the dealer's own account before they work for real, and say so: DoneDeal's API, a registration lookup service and Google reviews.
 // Screenshots are of the demo with its made-up dealer and sample data.
 
 const shot = (name: string) => `/work/dealer-demo/${name}.webp`;
@@ -15,7 +15,7 @@ export const TOUR: { id: 'site' | 'team'; label: string; lead: string; stops: To
             { id: 'home', title: 'Search from the first screen', text: 'Make, model, body type and price, right on the home page, over a photo of your forecourt.', path: '/', src: shot('site-home'), alt: 'Demo dealer home page with a stock search over a photo of the showroom' },
             { id: 'stock', title: 'Stock that is easy to search', text: 'Filters with live counts, sorting, a grid or a list, and saved cars and compare with no account needed.', path: '/used-cars', src: shot('site-stock'), alt: 'Demo dealer used cars page with filters down the side and car cards' },
             { id: 'car', title: 'Car pages that ask for the sale', text: 'The photos, the key facts and a monthly estimate, with Enquire, Test drive, Call and WhatsApp in one place.', path: '/used-cars/mini-clubman-2019', src: shot('site-car'), alt: 'Demo dealer car page for a MINI Clubman with the price and buttons to enquire and book a test drive' },
-            { id: 'trade-in', title: 'Trade-ins with a registration lookup', text: 'The buyer types the reg and the make, model and year fill in. They add photos and get a price back.', path: '/trade-in', src: shot('site-trade-in'), alt: 'Demo dealer trade-in form with a registration looked up to a Kia Sorento' },
+            { id: 'trade-in', title: 'Trade-ins with a registration lookup', text: 'With a lookup service connected, the buyer types the reg and the make, model and year fill in. They add photos and get a price back.', path: '/trade-in', src: shot('site-trade-in'), alt: 'Demo dealer trade-in form with a registration looked up to a Kia Sorento' },
             { id: 'finance', title: 'Finance with your wording', text: 'A monthly payment estimate at your lender’s rate, with the representative example you are required to show.', path: '/finance', src: shot('site-finance'), alt: 'Demo dealer finance estimator showing about 296 euro a month' },
         ],
     },
@@ -40,7 +40,7 @@ export const FEATURES = [
     { title: 'Selling', items: ['Stock search, compare and saved cars', 'Car pages with photos, facts and a monthly estimate', 'Price alerts when a car drops', 'Find me a car requests', 'New cars, factory orders and commercials with VAT shown'] },
     { title: 'Leads', items: ['Every enquiry stored with the consent it was sent under', 'Status, owner and follow-up dates', 'Test drive booking from the car page', 'Trade-in and sell your car forms with photos', 'Lead emails to the addresses you choose'] },
     { title: 'Running the yard', items: ['Add, edit and hide cars, with photos', 'Deposits and sales, with the buyer and the warranty', 'Prep costs on each car, and the margin after them', 'Several cars at once: price drops, sold, delete', 'An activity history of every change'] },
-    { title: 'Customers and aftersales', items: ['A page for each customer and what they bought', 'Warranty cover and claims', 'Service requests from the website', 'Your Google reviews on the site, answered from the dashboard'] },
+    { title: 'Customers and aftersales', items: ['A page for each customer and what they bought', 'Warranty cover and claims', 'Service requests from the website', 'Your Google reviews on the site, answered from the dashboard once your Google profile is connected'] },
     { title: 'Your team', items: ['Owner, manager, sales and finance roles', 'Margins and figures only for the people you choose', 'Signed in through your company email'] },
     { title: 'Data and trust', items: ['Data requests: see, export or erase a person’s data', 'Old leads cleared after a set time', 'Spam checks and limits on every form', 'Fast on a mid-range phone'] },
 ] as const;
