@@ -22,7 +22,7 @@ export default function Work() {
                 <Container className="grid gap-14">
                     <article className="grid items-center gap-8 lg:grid-cols-[1.4fr_1fr] lg:gap-14">
                         <Link href={`${ROUTES.work}/${lead.slug}`} tabIndex={-1} aria-hidden="true">
-                            <Frame label={lead.name} alt={lead.shots[0].alt} hint={`public/work/${lead.slug}/1.png`} />
+                            <Frame label={lead.name} alt={lead.shots[0].alt} src={lead.shots[0].src} hint={`public/work/${lead.slug}/1.png`} />
                         </Link>
                         <div className="grid gap-3">
                             <h2 className="font-display text-4xl font-semibold">
@@ -36,7 +36,7 @@ export default function Work() {
                         {rest.map(p => (
                             <article key={p.slug} className="grid content-start gap-4">
                                 <Link href={`${ROUTES.work}/${p.slug}`} tabIndex={-1} aria-hidden="true">
-                                    <Frame label={p.name} alt={p.shots[0].alt} hint={`public/work/${p.slug}/1.png`} />
+                                    <Frame label={p.name} alt={p.shots[0].alt} src={p.shots[0].src} hint={`public/work/${p.slug}/1.png`} />
                                 </Link>
                                 <h3 className="font-display text-2xl font-semibold">
                                     <Link href={`${ROUTES.work}/${p.slug}`} className="hover:text-accent-alt">{p.name}</Link>

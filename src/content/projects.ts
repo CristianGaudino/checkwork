@@ -11,6 +11,7 @@ export type Project = {
   forDealers?: string; // why it matters to the motor trade
   shots: { src?: string; alt: string; caption?: string }[];
   result?: string; // TODO: real outcome, shown when set
+  live?: 'demo'; // has a live site to try (the demo)
   featured?: boolean;
 };
 
@@ -18,48 +19,50 @@ export const PROJECTS: Project[] = [
   {
     slug: 'dealer-demo',
     name: 'Dealer demo site',
-    kind: 'Demo website for a used car dealer',
+    kind: 'Demo website and dashboard for a car dealer',
     summary:
-      'Our demo dealer website: searchable stock, car pages, compare, saved cars, a finance calculator and enquiry forms that land in a database.',
+      'Our live demo dealer website and the dashboard behind it: searchable stock, car pages, test drives, trade-ins, finance, and every lead in one place.',
     intro:
-      'This is a demo we built to show what a modern used car dealer website can do. It is a full rebuild of a dealer site, with real-style stock, and every enquiry form goes somewhere it can be followed up. It is a demonstration, not a live client site.',
+      'This is a demo we built to show what a modern car dealer website can do, with a made-up dealer and sample stock. It is live, so anyone can try it. Behind it is a dashboard where the dealer’s team handles every lead, test drive, car and sale.',
     built: [
       {
-        title: 'Stock search and filters',
-        text: 'Browse by make, model, year, budget, body type, fuel and gearbox, with sorting and a grid or list view.',
+        title: 'Stock search and car pages',
+        text: 'Search by make, model, body type and price, with filters that show live counts. Each car has a gallery, its facts, a monthly estimate and buttons to enquire, book a test drive, call or WhatsApp.',
       },
       {
-        title: 'Car pages',
-        text: 'A photo gallery with full-screen view, the specs and equipment, a clear buy box and share button.',
+        title: 'Compare, saved cars and price alerts',
+        text: 'Buyers save and compare cars with no account, and can ask to hear when a car drops in price.',
       },
       {
-        title: 'Compare and saved cars',
-        text: 'Buyers can save cars and compare them side by side. Both are kept in their own browser, with no account.',
+        title: 'Trade-ins and finance',
+        text: 'A trade-in form with a registration lookup and photos, and a finance estimator with the dealer’s rate and required wording.',
       },
       {
-        title: 'Finance calculator',
-        text: 'A repayment calculator on the site. The figures in the demo are placeholders, not real terms.',
+        title: 'Every lead in one place',
+        text: 'Enquiries from the website, the phone and social media land in the dashboard with their status, who has them and when to follow up. Each is stored with the consent it was sent under.',
       },
       {
-        title: 'Enquiry forms',
-        text: 'Separate forms for a car enquiry, finance, a trade-in valuation with photos, a car search request and a general message. Each asks for consent and is spam-checked.',
+        title: 'Stock, sales and margins',
+        text: 'The team adds cars and photos, drops prices on several at once, records deposits and sales, and sees the margin on each car. Only the people the owner chooses see the figures.',
       },
       {
-        title: 'Enquiries stored, not lost',
-        text: 'Every enquiry is saved to a database with the consent text it was sent under, and cleared after a set retention period.',
+        title: 'Reports and analytics',
+        text: 'Sales and profit by month, days to sell, where visitors come from and how many become leads.',
       },
       {
-        title: 'Sold cars and search basics',
-        text: 'Sold cars stay up for a while as sold, and pages carry the structured data and share images search engines look for.',
+        title: 'Personal data handled properly',
+        text: 'Data requests to see, export or erase what is held about a person, and old leads cleared after a set time.',
       },
     ],
     forDealers:
-      'For a dealership, the website is a sales channel. The stock on it has to be easy to search and every enquiry has to reach someone. This demo is built around exactly that, and it is fast on a mid-range phone.',
+      'For a dealership, the website is a sales channel and the dashboard is where the sale is won. The stock has to be easy to search, every enquiry has to reach someone, and the team has to see what needs doing today. The demo is built around exactly that, and it is fast on a mid-range phone.',
     shots: [
-      { alt: 'Demo dealer site, stock listing page', caption: 'Stock listing' },
-      { alt: 'Demo dealer site, car page', caption: 'Car page' },
-      { alt: 'Demo dealer site, finance calculator', caption: 'Finance calculator' },
+      { src: '/work/dealer-demo/site-stock.webp', alt: 'Demo dealer site, used cars page with filters', caption: 'Stock search' },
+      { src: '/work/dealer-demo/site-car.webp', alt: 'Demo dealer site, a car page with the price and buttons to enquire', caption: 'Car page' },
+      { src: '/work/dealer-demo/dash-overview.webp', alt: 'Demo dealer dashboard overview with leads each week', caption: 'Dashboard overview' },
+      { src: '/work/dealer-demo/dash-leads.webp', alt: 'Demo dealer dashboard list of leads', caption: 'Leads' },
     ],
+    live: 'demo',
     featured: true,
   },
   {

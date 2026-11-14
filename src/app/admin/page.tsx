@@ -7,6 +7,7 @@ import { requireAdmin } from '@/lib/access';
 import { ROUTES } from '@/lib/config';
 import { getDb } from '@/lib/db';
 import { ENQUIRY_STATUSES, enquiries } from '@/lib/db/schema';
+import { detailLines } from '@/lib/enquiry';
 import { deleteEnquiry, saveNotes, setStatus } from './actions';
 
 export const metadata: Metadata = { title: 'Enquiries', robots: { index: false, follow: false } };
@@ -56,6 +57,7 @@ export default async function Admin({ searchParams }: PageProps<'/admin'>) {
                     {rows.length === 0 && <p className="text-fg-muted">{all === 0 ? 'No enquiries yet.' : 'Nothing matches.'}</p>}
                     {rows.map(r => {
                         const reply = `mailto:${r.email}?subject=${encodeURIComponent('Re: your Checkwork enquiry')}&body=${encodeURIComponent(`Hi ${r.name.split(' ')[0]},\n\n`)}`;
+                        const details = detailLines(r.details);
                         return (
                             <article key={r.id} className="grid gap-3 rounded-xl border border-line bg-surface p-5">
                                 <div className="flex flex-wrap items-baseline justify-between gap-2">
@@ -69,7 +71,8 @@ export default async function Admin({ searchParams }: PageProps<'/admin'>) {
                                     <a href={`mailto:${r.email}`} className="underline underline-offset-4">{r.email}</a>
                                     {r.phone && <> · <a href={`tel:${r.phone}`} className="underline underline-offset-4">{r.phone}</a></>} · {r.need}
                                 </p>
-                                <p className="whitespace-pre-wrap">{r.message}</p>
+                                {details.length > 0 && <ul className="grid gap-0.5 text-sm">{details.map(l => <li key={l}>{l}</li>)}</ul>}
+                                {r.message && <p className="whitespace-pre-wrap">{r.message}</p>}
                                 <form action={saveNotes.bind(null, r.id)} className="grid gap-2">
                                     <label htmlFor={`notes-${r.id}`} className="text-sm font-medium">Private notes</label>
                                     <textarea id={`notes-${r.id}`} name="notes" rows={2} maxLength={2000} defaultValue={r.notes} className={field} />
