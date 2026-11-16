@@ -2,7 +2,7 @@ import { CTA } from '@/lib/config';
 import { Button } from './Button';
 import { Container, Section } from './Container';
 
-export function CtaBand({ title = 'Tell us what you need', text = 'A short message is enough to start. We will reply by email.', href = CTA.href, label = CTA.label }: { title?: string; text?: string; href?: string; label?: string }) {
+export function CtaBand({ title = 'Tell us what you need', text = 'Your name and a number or email is enough to start. We will get back to you the way you ask.', href = CTA.href, label = CTA.label }: { title?: string; text?: string; href?: string; label?: string }) {
     return (
         <Section className="border-t border-line bg-surface">
             <Container className="grid gap-6">
