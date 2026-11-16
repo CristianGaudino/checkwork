@@ -16,10 +16,10 @@ export const enquirySchema = z.object({
     // Phone or email, whichever suits: one of them is checked for in parseEnquiry
     email: blank(z.string().trim().max(254, 'That email address is too long.')
         .refine(v => !v || z.email().safeParse(v).success, 'Enter an email address we can reply to, like name@example.ie.')),
-    phone: optional(30),
+    // Often the only way back to them, so it must look like a number we can ring
+    phone: optional(30).refine(v => !v || (v.match(/\d/g)?.length ?? 0) >= 7, 'Enter a phone number we can call.'),
     need: z.enum(NEEDS).catch(NO_NEED),
     message: optional(5000),
-    reply: pick(REPLIES),
     // The dealer questions. Kept only when the need is a dealer one (see parseEnquiry).
     stock: pick(STOCK_SIZES),
     source: pick(STOCK_SOURCES),
@@ -40,7 +40,7 @@ export type EnquiryDetails = {
     stock?: (typeof STOCK_SIZES)[number];
     source?: (typeof STOCK_SOURCES)[number];
     website?: string;
-    // Old rows only: the form asked these before the walkthrough became a reply choice
+    // Old rows only: asked by the form before the concerns questions
     interests?: string[];
     walkthrough?: boolean;
 };

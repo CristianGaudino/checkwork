@@ -26,7 +26,7 @@ export default async function Admin({ searchParams }: PageProps<'/admin'>) {
 
     // Escape LIKE wildcards so a search for "%" or "_" matches the character itself
     const term = `%${q.replace(/[\\%_]/g, '\\$&')}%`;
-    const search = q ? or(...[enquiries.name, enquiries.email, enquiries.business, enquiries.message, enquiries.notes].map(c => sql`${c} like ${term} escape '\\'`)) : undefined;
+    const search = q ? or(...[enquiries.name, enquiries.email, enquiries.phone, enquiries.business, enquiries.message, enquiries.notes].map(c => sql`${c} like ${term} escape '\\'`)) : undefined;
     // shortcut: newest 200 only, no paging. Upgrade when there are more than that to read.
     const rows = await db.select().from(enquiries).where(and(status && eq(enquiries.status, status), search)).orderBy(desc(enquiries.id)).limit(200);
     const totals = new Map((await db.select({ status: enquiries.status, n: count() }).from(enquiries).groupBy(enquiries.status)).map(t => [t.status, t.n]));
@@ -70,7 +70,7 @@ export default async function Admin({ searchParams }: PageProps<'/admin'>) {
                                 </div>
                                 <p className="text-sm text-fg-muted">
                                     {r.email && <><a href={`mailto:${r.email}`} className="underline underline-offset-4">{r.email}</a> · </>}
-                                    {r.phone && <><a href={`tel:${r.phone}`} className="underline underline-offset-4">{r.phone}</a></>} · {r.need}
+                                    {r.phone && <><a href={`tel:${r.phone}`} className="underline underline-offset-4">{r.phone}</a> · </>}{r.need}
                                 </p>
                                 {details.length > 0 && <ul className="grid gap-0.5 text-sm">{details.map(l => <li key={l}>{l}</li>)}</ul>}
                                 {r.message && <p className="whitespace-pre-wrap">{r.message}</p>}

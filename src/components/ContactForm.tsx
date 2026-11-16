@@ -12,8 +12,8 @@ const field = 'w-full rounded-xl border border-line bg-surface px-4 py-3 text-ba
 // A choice drawn as a chip or card: the input is visually hidden, the label shows its state and its keyboard focus
 const chip = 'cursor-pointer rounded-xl border border-line px-4 py-2.5 transition-colors hover:border-fg/40 has-[:checked]:border-accent-alt has-[:checked]:bg-accent/15 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-accent-alt';
 const legend = 'mb-3 font-medium';
-// The form's steps are numbered by a CSS counter: the dealer step is display:none for anyone else, so it isn't counted and About you is 2
 const button = 'inline-flex items-center justify-center rounded-xl bg-action px-5 py-3.5 text-base font-semibold text-white transition-[background-color,transform] duration-150 hover:bg-action-hover active:scale-[0.97] disabled:opacity-60';
+// The form's steps are numbered by a CSS counter: the dealer step is display:none for anyone else, so it isn't counted
 const step = `font-display text-2xl font-semibold [counter-increment:step] before:mr-3 before:inline-grid before:size-8 before:place-content-center before:rounded-full before:border before:border-line before:align-[0.2em] before:text-sm before:text-accent-alt before:content-[counter(step)_/_'']`;
 const hidden = 'sr-only';
 

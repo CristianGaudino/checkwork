@@ -22,8 +22,11 @@ it('needs only a name and a phone number or email; no need picked reads as not s
     const call = parseEnquiry({ ...bare, phone: '087 000 0000' }), mail = parseEnquiry({ ...bare, email: 'a@example.ie', need: 'Hack' });
     expect(call.ok && [call.data.need, call.data.details.reply]).toEqual(['Not sure yet', 'A phone call']);
     expect(mail.ok && [mail.data.need, mail.data.details.reply]).toEqual(['Not sure yet', 'By email']);
+    // The only way back must be a number we can ring
+    const typo = parseEnquiry({ ...bare, phone: '087' });
+    expect(!typo.ok && typo.errors).toEqual({ phone: 'Enter a phone number we can call.' });
     // Asked for email with only a number
-    const r = parseEnquiry({ ...bare, phone: '087', reply: 'By email' });
+    const r = parseEnquiry({ ...bare, phone: '087 000 0000', reply: 'By email' });
     expect(!r.ok && Object.keys(r.errors)).toEqual(['email']);
 });
 
