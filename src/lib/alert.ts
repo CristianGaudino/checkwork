@@ -7,13 +7,13 @@ export function buildEnquiryAlert(e: EnquiryInput) {
     const lines = [
         `Name: ${e.name}`,
         e.business && `Business: ${e.business}`,
-        `Email: ${e.email}`,
+        e.email && `Email: ${e.email}`,
         e.phone && `Phone: ${e.phone}`,
         `Needs: ${e.need}`,
         detailLines(e.details).join('\n'),
         e.message && `Message:\n${e.message}`,
     ];
-    return { subject: `New enquiry: ${e.need}`, text: lines.filter(Boolean).join('\n\n'), replyTo: e.email };
+    return { subject: `New enquiry: ${e.need}`, text: lines.filter(Boolean).join('\n\n'), ...(e.email && { replyTo: e.email }) };
 }
 
 /**

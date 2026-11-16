@@ -125,7 +125,7 @@ export default function Home() {
                 </Container>
             </Section>
 
-            <CtaBand title="Tell us about your business" text="Tell us what is not working today and what you want the site to do. We will reply by email." />
+            <CtaBand title="Tell us about your business" text="Tell us what is not working today and what you want the site to do. We will get back to you by email or a call, as you ask." />
         </>
     );
 }
