@@ -3,7 +3,7 @@ import { PROJECTS } from '@/content/projects';
 import { ROUTES, SITE_URL } from '@/lib/config';
 
 const PAGES: string[] = [
-    ROUTES.home, ROUTES.work, ROUTES.services, ROUTES.dealers, ROUTES.about, ROUTES.contact, ROUTES.privacy,
+    ROUTES.home, ROUTES.work, ROUTES.services, ROUTES.dealers, ROUTES.dealerAI, ROUTES.about, ROUTES.contact, ROUTES.privacy,
     ...PROJECTS.map(p => `${ROUTES.work}/${p.slug}`),
 ];
 

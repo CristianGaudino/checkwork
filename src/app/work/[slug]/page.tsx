@@ -32,13 +32,14 @@ export default async function CaseStudy({ params }: PageProps<'/work/[slug]'>) {
             <JsonLd data={breadcrumbs([{ name: 'Home', path: ROUTES.home }, { name: 'Work', path: ROUTES.work }, { name: project.name, path: `${ROUTES.work}/${project.slug}` }])} />
             <PageHead title={project.name} lead={`${project.kind}.`}>
                 {project.live && <DemoButton />}
+                {project.site && <a href={project.site} target="_blank" rel="noopener" className="self-center text-accent-alt underline underline-offset-4">Visit the site<span aria-hidden="true"> ↗</span><span className="sr-only"> (opens in a new tab)</span></a>}
                 <Link href={ROUTES.work} className="self-center text-accent-alt underline underline-offset-4">All work</Link>
             </PageHead>
 
             <Section className="pb-0 md:pb-0">
                 <Container className={`grid gap-6 ${project.shots.length > 1 ? 'md:grid-cols-2' : ''}`}>
-                    {project.shots.map((s, i) => (
-                        <Frame key={s.alt} label={project.name} alt={s.alt} caption={s.caption} src={s.src} hint={`public/work/${project.slug}/${i + 1}.png`} />
+                    {project.shots.map(s => (
+                        <Frame key={s.alt} alt={s.alt} caption={s.caption} src={s.src} />
                     ))}
                 </Container>
             </Section>
@@ -70,7 +71,7 @@ export default async function CaseStudy({ params }: PageProps<'/work/[slug]'>) {
                     <h2 className="mb-10 font-display text-4xl font-semibold">More work</h2>
                     <ul className="border-t border-line">
                         {others.map(p => (
-                            <li key={p.slug} className="group relative grid gap-3 border-b border-line py-6 transition-colors hover:bg-surface has-[:focus-visible]:bg-surface md:grid-cols-[1fr_1.5fr_auto] md:items-baseline md:gap-10 md:px-4">
+                            <li key={p.slug} className="group relative grid gap-3 border-b border-line py-6 transition-colors hover:bg-canvas has-[:focus-visible]:bg-canvas md:grid-cols-[1fr_1.5fr_auto] md:items-baseline md:gap-10 md:px-4">
                                 <h3 className="font-display text-2xl font-semibold">
                                     <Link href={`${ROUTES.work}/${p.slug}`} className="after:absolute after:inset-0">{p.name}</Link>
                                 </h3>

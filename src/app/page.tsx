@@ -61,11 +61,11 @@ export default function Home() {
             <Section className="border-t border-line">
                 <Container className="grid gap-12">
                     <div className="grid items-center gap-12 lg:grid-cols-2">
-                        <Frame label="Dealer demo site" alt="Demo dealer website, the used cars page with filters" src="/work/dealer-demo/site-stock.webp" />
+                        <Frame alt="Demo dealer website, the used cars page with filters" src="/work/dealer-demo/site-stock.webp" />
                         <div className="grid gap-6">
                             <h2 className="font-display text-4xl font-semibold md:text-5xl">Our work</h2>
                             <p className="text-lg text-fg-muted">
-                                A live demo dealer website, with searchable stock, test drives, trade-ins and finance, and a dashboard where every lead lands. Also on the list: apps for resellers and a website for a vintage clothing shop.
+                                A live demo dealer website, with searchable stock, test drives, trade-ins and finance, and a dashboard where every lead lands. Also on the list: stock and profit apps for resellers, and a finance app for sole traders.
                             </p>
                             <div className="flex flex-wrap gap-3">
                                 <DemoButton />

@@ -53,11 +53,11 @@ export function Header() {
                 <nav
                     id="site-nav"
                     aria-label="Main"
-                    className={`absolute inset-x-0 top-full flex origin-top flex-col border-b border-line bg-canvas px-5 pb-6 pt-2 transition-[opacity,transform,visibility] duration-200 ease-out md:visible md:static md:translate-y-0 md:flex-row md:items-center md:gap-8 md:border-0 md:bg-transparent md:p-0 md:opacity-100 ${
+                    className={`absolute inset-x-0 top-full flex origin-top flex-col border-b border-line bg-canvas px-5 pb-6 pt-2 transition-[opacity,transform,visibility] duration-200 ease-out md:visible md:static md:translate-y-0 md:flex-row md:items-center md:gap-6 md:border-0 lg:gap-8 md:bg-transparent md:p-0 md:opacity-100 ${
                         open ? 'visible translate-y-0 opacity-100' : 'invisible -translate-y-2 opacity-0'
                     }`}
                 >
-                    <ul className="flex flex-col md:flex-row md:gap-8">
+                    <ul className="flex flex-col md:flex-row md:gap-5 lg:gap-8">
                         {NAV.map(item => (
                             <li key={item.href}>
                                 <Link

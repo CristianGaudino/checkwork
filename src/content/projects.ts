@@ -1,5 +1,5 @@
 // Case studies. Everything here comes from what the owner said about each build; nothing is invented.
-// TODO (issue #2): real screenshots in /public/work/<slug>/ (set `src` on each shot) and measured results (`result`).
+// TODO (issue #2): measured results (`result`). Screenshots of the live sites are of their public front pages.
 
 export type Project = {
   slug: string;
@@ -9,9 +9,10 @@ export type Project = {
   intro: string; // opening paragraph on the case study
   built: { title: string; text: string }[];
   forDealers?: string; // why it matters to the motor trade
-  shots: { src?: string; alt: string; caption?: string }[];
+  shots: { src?: string; alt: string; caption?: string }[]; // no src: a placeholder with the alt text until there is a screenshot
   result?: string; // TODO: real outcome, shown when set
   live?: 'demo'; // has a live site to try (the demo)
+  site?: string; // the live public site, linked from the case study
   featured?: boolean;
 };
 
@@ -50,6 +51,14 @@ export const PROJECTS: Project[] = [
         text: 'Sales and profit by month, days to sell, where visitors come from and how many become leads.',
       },
       {
+        title: 'AI writing help',
+        text: 'A first draft of car descriptions, social posts, newsletters and replies to leads and reviews, for the team to check and send. A draft sees the car and the message, never a phone number or email. In the demo the drafts are sample text.',
+      },
+      {
+        title: 'Leads on WhatsApp',
+        text: 'New enquiries, trade-ins, test drives and reviews reach the team’s phones with buttons to answer from the yard, and every tap updates the lead in the dashboard. In the demo the messages stay inside it.',
+      },
+      {
         title: 'Personal data handled properly',
         text: 'Data requests to see, export or erase what is held about a person, and old leads cleared after a set time.',
       },
@@ -67,51 +76,53 @@ export const PROJECTS: Project[] = [
   },
   {
     slug: 'how-many',
-    name: 'How Many',
-    kind: 'Stock, inventory and profit tracker for resellers',
-    summary: 'Track what you have, what it cost and what it made, in one place built for resellers.',
+    name: 'How Many?',
+    kind: 'Stock and profit tracker for second-hand resellers',
+    summary: 'A free stock and profit tracker for resellers who buy by the bag and sell in bundles, across every platform.',
     intro:
-      'How Many is a web app for resellers who need to know what stock they hold and whether it is making money. It tracks inventory and works out profit, so those answers are not buried in a spreadsheet.',
+      'How Many? is a phone-first web app for second-hand resellers. A spreadsheet stops working on the first bag: it cannot say what each item in a bag of 12 cost, what each item in a bundle made, or keep last month right after a return. How Many? does all three. It is live and free, with no limit on items.',
     built: [
-      { title: 'Stock and inventory', text: 'Every item you hold, with what you paid for it.' },
-      { title: 'Profit tracking', text: 'See profit alongside stock, so you know what is actually making money.' },
       {
-        title: 'Links to How Much',
-        text: 'Connects to our finance app, How Much, so stock and accounts agree with each other.',
+        title: 'Add stock in seconds',
+        text: 'Photos, automatic item codes and QR labels to print. A whole bag is added at once with its cost split across the items, evenly or weighted. A spreadsheet can be imported, and a half-finished item saved as a draft.',
       },
+      { title: 'Every platform', text: 'Vinted, eBay, Poshmark, Mercari, Depop, Facebook and in person, or the seller’s own. The listing text and photos are ready to copy into each one.' },
+      {
+        title: 'Profit on every item',
+        text: 'Sale price less cost and postage, per item, per month and per bag. Bundles are split back by list price, and a refund counts in the month it happens, so past months stay right.',
+      },
+      { title: 'Expenses and reports', text: 'Expenses with receipt photos, a printable summary for any run of months, and a download of every sale, refund, expense and receipt.' },
+      { title: 'Insights', text: 'What sells fastest and for the most, by brand, type, size and era, and which bags and suppliers pay off.' },
+      { title: 'Work as a team', text: 'Invite a partner with full access, or a helper who adds, lists and posts but never sees costs or profit.' },
+      { title: 'Try it before signing up', text: 'A visitor can add a first item with no account. It is kept on their phone, then saved and opened once they sign up.' },
     ],
-    shots: [{ alt: 'How Many inventory and profit view', caption: 'Inventory and profit' }],
+    shots: [{ src: '/work/how-many/home.webp', alt: 'How Many? home page: profit this month, items sold and in stock, and a price tag showing the profit on one jacket', caption: 'The How Many? home page' }],
+    site: 'https://www.checkhowmany.com',
+  },
+  {
+    slug: 'cache-register',
+    name: 'Cache Register',
+    kind: 'Stock and profit tracker for tech resellers',
+    summary: 'A resale app like How Many?, specialised for people who buy and sell tech.',
+    intro:
+      'Cache Register is a resale app for people who buy and sell tech. It works much like How Many?, tracking stock and what each item made, but is built around selling tech rather than clothes.',
+    built: [{ title: 'Built for tech', text: 'Stock and profit tracking in the style of How Many?, specialised for tech.' }],
+    shots: [{ alt: 'Cache Register' }],
   },
   {
     slug: 'how-much',
-    name: 'How Much',
-    kind: 'Sales, expenses, mileage and reporting for small sellers',
-    summary: 'Sales, expenses, mileage and reports in one finance system that links to How Many.',
+    name: 'How Much?',
+    kind: 'Expenses, sales and year-end records for sole traders',
+    summary: 'The sister app to How Many?: expenses with receipt photos, sales and mileage, and a year-end report to hand the accountant.',
     intro:
-      'How Much is a finance system for small sellers. It records sales, expenses and mileage, and produces reports, and it can be linked with How Many so inventory and finances work together.',
+      'How Much? is a phone-first app for sole traders and small businesses. It keeps expenses with their receipt photos, sales and mileage in one place, and turns them into a year-end report for the accountant.',
     built: [
-      { title: 'Sales and expenses', text: 'Record money in and money out as it happens.' },
-      { title: 'Mileage', text: 'Log business mileage alongside everything else.' },
-      { title: 'Reports', text: 'Reports on how the business is performing.' },
-      {
-        title: 'Works with How Many',
-        text: 'Link it to How Many to run stock and finances as one system.',
-      },
+      { title: 'Expenses with receipts', text: 'Snap the receipt when you pay. It is saved as an expense to finish later.' },
+      { title: 'Sales and mileage', text: 'Money in and business miles, alongside the expenses.' },
+      { title: 'Year-end report', text: 'A report ready to hand to the accountant.' },
     ],
-    shots: [{ alt: 'How Much sales and reports view', caption: 'Sales and reports' }],
-  },
-  {
-    slug: 'blacktail-archive',
-    name: 'Blacktail Archive',
-    kind: 'Public website for a vintage clothing reseller',
-    summary: 'A focused, public-facing website that shows a vintage reseller’s pieces properly.',
-    intro:
-      'Blacktail Archive is a vintage clothing reseller. Their site is purely public-facing: it exists to show the pieces well and to be found, without anything getting in the way.',
-    built: [
-      { title: 'Public storefront', text: 'A clean website built around showing each piece clearly.' },
-      { title: 'Public only', text: 'No logins and no back-office. Just the website, doing one job well.' },
-    ],
-    shots: [{ alt: 'Blacktail Archive website', caption: 'Public website' }],
+    shots: [{ alt: 'How Much?' }],
+    site: 'https://www.checkhowmuch.com',
   },
 ];
 

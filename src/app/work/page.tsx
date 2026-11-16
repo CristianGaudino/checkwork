@@ -9,7 +9,7 @@ import { pageMetadata } from '@/lib/metadata';
 
 export const metadata = pageMetadata({
     title: 'Our work: websites and web apps',
-    description: 'Websites and web apps built by Checkwork: our demo dealer website, plus tools for resellers and a vintage clothing website.',
+    description: 'Websites and web apps built by Checkwork: our demo dealer website, plus stock and profit apps for resellers, and a finance app for sole traders.',
     path: ROUTES.work,
 });
 
@@ -17,12 +17,12 @@ export default function Work() {
     const [lead, ...rest] = PROJECTS;
     return (
         <>
-            <PageHead title="Our work" lead="A demo dealer website, two apps for resellers and a public website for a vintage clothing shop." />
+            <PageHead title="Our work" lead="A demo dealer website and dashboard, and three apps for resellers and sole traders." />
             <Section>
                 <Container className="grid gap-14">
                     <article className="grid items-center gap-8 lg:grid-cols-[1.4fr_1fr] lg:gap-14">
                         <Link href={`${ROUTES.work}/${lead.slug}`} tabIndex={-1} aria-hidden="true">
-                            <Frame label={lead.name} alt={lead.shots[0].alt} src={lead.shots[0].src} hint={`public/work/${lead.slug}/1.png`} />
+                            <Frame alt={lead.shots[0].alt} src={lead.shots[0].src} />
                         </Link>
                         <div className="grid gap-3">
                             <h2 className="font-display text-4xl font-semibold">
@@ -36,7 +36,7 @@ export default function Work() {
                         {rest.map(p => (
                             <article key={p.slug} className="grid content-start gap-4">
                                 <Link href={`${ROUTES.work}/${p.slug}`} tabIndex={-1} aria-hidden="true">
-                                    <Frame label={p.name} alt={p.shots[0].alt} src={p.shots[0].src} hint={`public/work/${p.slug}/1.png`} />
+                                    <Frame alt={p.shots[0].alt} src={p.shots[0].src} />
                                 </Link>
                                 <h3 className="font-display text-2xl font-semibold">
                                     <Link href={`${ROUTES.work}/${p.slug}`} className="hover:text-accent-alt">{p.name}</Link>

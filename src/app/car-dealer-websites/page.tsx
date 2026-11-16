@@ -1,16 +1,16 @@
 import Image from 'next/image';
 import { DealerTour } from '@/components/DealerTour';
 import { DemoButton } from '@/components/DemoButton';
+import { Faqs } from '@/components/Faqs';
 import { JsonLd } from '@/components/JsonLd';
+import { WhatsAppChat } from '@/components/WhatsAppChat';
 import { Button } from '@/components/ui/Button';
 import { CtaBand } from '@/components/ui/CtaBand';
 import { Container, Section } from '@/components/ui/Container';
-import { DEALER_CHECKS } from '@/content/checks';
-import { DEALER_FAQS, FEATURES, STOCK_OPTIONS } from '@/content/dealer';
-import { STEPS } from '@/content/services';
+import { DEALER_FAQS, FEATURES, TRADE_IN_CHAT, WHATSAPP_ALERTS } from '@/content/dealer';
 import { DEALER_CONTACT, ROUTES } from '@/lib/config';
 import { pageMetadata } from '@/lib/metadata';
-import { dealerService } from '@/lib/schema';
+import { service } from '@/lib/schema';
 
 export const metadata = pageMetadata({
     title: 'Car dealer websites in Ireland',
@@ -21,14 +21,7 @@ export const metadata = pageMetadata({
 export default function CarDealerWebsites() {
     return (
         <>
-            <JsonLd
-                data={{
-                    '@context': 'https://schema.org',
-                    '@type': 'FAQPage',
-                    mainEntity: DEALER_FAQS.map(f => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
-                }}
-            />
-            <JsonLd data={dealerService()} />
+            <JsonLd data={service('Car dealer websites', 'Website design and development for car dealerships', ROUTES.dealers)} />
 
             <section className="overflow-hidden border-b border-line pb-16 pt-14 md:pb-24 md:pt-24">
                 <Container className="grid items-center gap-14 lg:grid-cols-[0.9fr_1.1fr]">
@@ -65,34 +58,47 @@ export default function CarDealerWebsites() {
                 </Container>
             </Section>
 
-            <Section className="border-t border-line bg-surface">
-                <Container className="grid gap-10">
+            <Section className="border-t border-line">
+                <Container className="grid gap-12">
                     <div className="grid max-w-2xl gap-3">
-                        <h2 className="font-display text-4xl font-semibold md:text-5xl">Your stock, your way</h2>
-                        <p className="text-lg text-fg-muted">Keep working the way you do now, or move your stock in. Either way your team updates it, not us.</p>
+                        <h2 className="font-display text-4xl font-semibold md:text-5xl">Answer leads from the yard</h2>
+                        <p className="text-lg text-fg-muted">Every new lead reaches your team’s phones on WhatsApp. A trade-in comes with the reg and the photos. Tap Reply with a price, type the number, and the buyer gets a proper offer from your dealership.</p>
                     </div>
-                    <div className="grid gap-4 md:grid-cols-2">
-                        {STOCK_OPTIONS.map(o => (
-                            <div key={o.title} className="grid content-start gap-2 rounded-2xl border border-line bg-canvas p-6 md:p-8">
-                                <h3 className="font-display text-2xl font-semibold">{o.title}</h3>
-                                <p className="text-fg-muted">{o.text}</p>
-                            </div>
-                        ))}
+                    <div className="grid gap-10 md:grid-cols-2">
+                        <WhatsAppChat title="Checkwork Motors" caption="Your salesperson’s phone" lines={TRADE_IN_CHAT.dealer} who={{ in: 'Your site', out: 'Salesperson' }} />
+                        <WhatsAppChat title="Checkwork Motors" caption="Ciarán’s phone" lines={TRADE_IN_CHAT.buyer} who={{ in: 'Your dealership', out: 'Ciarán' }} />
+                    </div>
+                    <p className="text-sm text-fg-muted">From the demo, with a made-up buyer. In the demo, messages stay inside it.</p>
+                    <div className="grid gap-4">
+                        <h3 className="font-display text-2xl font-semibold">Other alerts on WhatsApp</h3>
+                        <ul className="grid gap-x-10 gap-y-3 text-fg-muted md:grid-cols-2">
+                            {WHATSAPP_ALERTS.map(a => (
+                                <li key={a.title}><span className="font-semibold text-fg">{a.title}.</span> {a.text}</li>
+                            ))}
+                        </ul>
                     </div>
                 </Container>
             </Section>
 
-            <Section>
-                <Container className="grid gap-12">
-                    <div className="grid max-w-2xl gap-3">
+            <Section className="border-t border-line">
+                <Container className="grid gap-10 md:grid-cols-[1fr_1.4fr] md:gap-16">
+                    <div className="grid content-start gap-3">
                         <h2 className="font-display text-4xl font-semibold md:text-5xl">Everything in the demo</h2>
                         <p className="text-lg text-fg-muted">All of it works in the demo today. We set it up around your dealership and leave out what you do not need.</p>
+                        <div className="mt-3 flex flex-wrap gap-3">
+                            <DemoButton variant="secondary" />
+                            <Button href={ROUTES.dealerAI} variant="secondary">AI for dealers</Button>
+                        </div>
                     </div>
-                    <div className="grid gap-x-10 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+                    {/* Folded, one group open at a time (`name`): the full lists made the page too long on a phone */}
+                    <div className="border-t border-line">
                         {FEATURES.map(f => (
-                            <div key={f.title} className="grid content-start gap-4 border-t border-line pt-5">
-                                <h3 className="font-display text-xl font-semibold">{f.title}</h3>
-                                <ul className="grid gap-2.5 text-fg-muted">
+                            <details key={f.title} name="features" className="group border-b border-line">
+                                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-5 font-display text-xl font-semibold [&::-webkit-details-marker]:hidden">
+                                    {f.title}
+                                    <span aria-hidden="true" className="text-2xl font-normal text-accent-alt transition-transform group-open:rotate-45">+</span>
+                                </summary>
+                                <ul className="grid gap-2.5 pb-6 text-fg-muted">
                                     {f.items.map(i => (
                                         <li key={i} className="grid grid-cols-[1rem_1fr] gap-3">
                                             <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" className="mt-1 size-4 text-accent-alt"><path d="M2.5 8.6 6.2 12 13.5 4" stroke="currentColor" strokeWidth="2" /></svg>
@@ -100,64 +106,13 @@ export default function CarDealerWebsites() {
                                         </li>
                                     ))}
                                 </ul>
-                            </div>
-                        ))}
-                    </div>
-                    <div><DemoButton variant="secondary" /></div>
-                </Container>
-            </Section>
-
-            <Section className="border-t border-line bg-surface">
-                <Container className="grid gap-10 md:grid-cols-[1fr_1.4fr] md:gap-16">
-                    <div className="grid content-start gap-4">
-                        <h2 className="font-display text-4xl font-semibold">Before it goes live</h2>
-                        <p className="max-w-prose text-fg-muted">Most dealer sites fail in the same few places. These are the five things we check before one goes live.</p>
-                    </div>
-                    <dl className="border-t border-line">
-                        {DEALER_CHECKS.map(c => (
-                            <div key={c.title} className="grid gap-1 border-b border-line py-5">
-                                <dt className="font-display text-xl font-semibold">{c.title}</dt>
-                                <dd className="text-fg-muted">{c.text}</dd>
-                            </div>
-                        ))}
-                    </dl>
-                </Container>
-            </Section>
-
-            <Section>
-                <Container>
-                    <div className="mb-12 grid gap-3">
-                        <h2 className="font-display text-4xl font-semibold md:text-5xl">How it runs</h2>
-                        <p className="text-lg text-fg-muted">It starts with a look at the demo together, and your questions.</p>
-                    </div>
-                    <ol className="grid gap-8 md:grid-cols-4">
-                        {STEPS.map((s, i) => (
-                            <li key={s.title} className="grid content-start gap-2 border-t border-line pt-5">
-                                <span className="font-display text-sm text-accent-alt">{String(i + 1).padStart(2, '0')}</span>
-                                <h3 className="font-display text-xl font-semibold">{s.title}</h3>
-                                <p className="text-fg-muted">{s.text}</p>
-                            </li>
-                        ))}
-                    </ol>
-                </Container>
-            </Section>
-
-            <Section className="border-t border-line">
-                <Container className="grid gap-8 md:grid-cols-[1fr_1.4fr] md:gap-16">
-                    <h2 className="font-display text-4xl font-semibold">Questions dealers ask</h2>
-                    <div className="border-t border-line">
-                        {DEALER_FAQS.map(f => (
-                            <details key={f.q} className="group border-b border-line">
-                                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-5 font-display text-xl font-semibold [&::-webkit-details-marker]:hidden">
-                                    {f.q}
-                                    <span aria-hidden="true" className="text-2xl font-normal text-accent-alt transition-transform group-open:rotate-45">+</span>
-                                </summary>
-                                <p className="max-w-prose pb-6 text-fg-muted">{f.a}</p>
                             </details>
                         ))}
                     </div>
                 </Container>
             </Section>
+
+            <Faqs faqs={DEALER_FAQS} />
 
             <CtaBand title="See it with your own stock in mind" text="Tell us a little about your dealership. We will reply, and walk you through the demo if you would like." href={DEALER_CONTACT} label="Talk to us" />
         </>
