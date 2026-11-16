@@ -29,7 +29,7 @@ export const TOUR: { id: 'site' | 'team'; label: string; lead: string; stops: To
             { id: 'lead', title: 'One press to reply', text: 'Call, email or WhatsApp from the lead, add notes, set a follow-up and look up the car they are selling.', path: '/dashboard/leads/1001', src: shot('dash-lead'), alt: 'A lead in the demo dealer dashboard with buttons to call, email or WhatsApp' },
             { id: 'stock', title: 'Stock, prices and margins', text: 'Add cars and photos, drop the price on several at once, and see days in stock and the margin on each.', path: '/dashboard/stock', src: shot('dash-stock'), alt: 'Demo dealer dashboard stock list with prices, margins and days in stock' },
             { id: 'drives', title: 'Test drives booked from the site', text: 'Requests land here to confirm, move, mark done or mark as a no-show.', path: '/dashboard/test-drives', src: shot('dash-drives'), alt: 'Demo dealer dashboard test drives for today and those waiting to be confirmed' },
-            { id: 'reports', title: 'Sales and profit by month', text: 'Cars sold, sales, profit and days to sell. Only the people you choose see the margins.', path: '/dashboard/reports', src: shot('dash-reports'), alt: 'Demo dealer dashboard reports with sales by month' },
+            { id: 'reports', title: 'Sales and profit by month', text: 'Cars sold, sales, profit and days to sell, and a report by email on the 1st of each month. Only the people you choose see the margins.', path: '/dashboard/reports', src: shot('dash-reports'), alt: 'Demo dealer dashboard reports with sales by month' },
             { id: 'analytics', title: 'Where buyers come from', text: 'Visitors, the sources that send leads, and how many visitors become one.', path: '/dashboard/analytics', src: shot('dash-analytics'), alt: 'Demo dealer dashboard analytics with visitors each day and where they come from' },
         ],
     },
@@ -37,11 +37,11 @@ export const TOUR: { id: 'site' | 'team'; label: string; lead: string; stops: To
 
 // The rest of what is in the demo, grouped the way a dealer thinks about it
 export const FEATURES = [
-    { title: 'Selling', items: ['Stock search, compare and saved cars', 'Car pages with photos, facts and a monthly estimate', 'Price alerts when a car drops', 'Find me a car requests', 'New cars, factory orders and commercials with VAT shown'] },
-    { title: 'Leads', items: ['Every enquiry stored with the consent it was sent under', 'Status, owner and follow-up dates', 'Test drive booking from the car page', 'Trade-in and sell your car forms with photos', 'Lead emails to the addresses you choose'] },
+    { title: 'Selling', items: ['Stock search, compare and saved cars', 'Car pages with photos, facts and a monthly estimate', 'Price alerts when a car drops', 'Find me a car requests', 'New cars, factory orders and commercials with VAT shown', 'Price on request for any car'] },
+    { title: 'Leads', items: ['Every enquiry stored with the consent it was sent under', 'Status, owner and follow-up dates', 'Test drive booking from the car page', 'Trade-in and sell your car forms with photos', 'Lead emails to the addresses you choose', 'A guided contact form that flags urgent requests'] },
     { title: 'Running the yard', items: ['Add, edit and hide cars, with photos', 'Or keep your stock on DoneDeal or CarsIreland: the site follows it every 15 minutes', 'Deposits and sales, with the buyer and the warranty', 'Prep costs on each car, and the margin after them', 'Several cars at once: price drops, sold, delete', 'An activity history of every change'] },
     { title: 'Customers and aftersales', items: ['A page for each customer and what they bought', 'Warranty cover and claims', 'Service requests from the website', 'Your Google reviews on the site, answered from the dashboard once your Google profile is connected'] },
-    { title: 'Your team', items: ['Owner, manager, sales and finance roles', 'Margins and figures only for the people you choose', 'Signed in through your company email'] },
+    { title: 'Your team', items: ['Owner, manager, sales and finance roles', 'Margins and figures only for the people you choose', 'Signed in through your company email', 'Help from us inside the dashboard, with our replies kept there'] },
     { title: 'Data and trust', items: ['Data requests: see, export or erase a person’s data', 'Old leads cleared after a set time', 'Spam checks and limits on every form', 'Fast on a mid-range phone'] },
 ] as const;
 
@@ -51,9 +51,9 @@ export const DEALER_FAQS = [
     { q: 'Where do enquiries go?', a: 'Into the dashboard as leads, by email to the addresses you choose, and on WhatsApp to the phones you link. Each one is stored with the consent it was sent under.' },
     { q: 'Can we show finance on the site?', a: 'Yes. The estimator uses your lender’s rate and the representative example and warnings you are required to show. We never make up rates.' },
     { q: 'Who sees our margins?', a: 'Only the people you choose. Each person has a role, and figures like cost and margin are checked on the server, not just hidden on screen.' },
-    { q: 'Does my team need a new app for WhatsApp?', a: 'No. Alerts come to the WhatsApp they already use, from your dealership’s WhatsApp Business number. Each message has a small running cost, and you set the monthly cap.' },
+    { q: 'Does my team need a new app for WhatsApp?', a: 'No. Alerts come to the WhatsApp they already use, from your dealership’s WhatsApp Business number. Each person picks the alerts they get and can set quiet hours.' },
     { q: 'Will buyers get WhatsApp messages they did not ask for?', a: 'No. A buyer gets WhatsApp messages only if they ticked the box on the form; otherwise they get an email, or your team is told to call. Every car page also has a WhatsApp button for buyers who want to message you.' },
-    { q: 'Who can act on a WhatsApp alert?', a: 'Only the phones you link to your WhatsApp Business number, and every tap is in the activity log. Past your monthly cap, alerts come by email instead.' },
+    { q: 'Who can act on a WhatsApp alert?', a: 'Only the phones you link to your WhatsApp Business number, and every change made from WhatsApp is in the activity log. If WhatsApp can’t send, alerts go by email instead.' },
     { q: 'Will the website rank on Google?', a: 'We set up what Google looks for: speed, page titles, structured data for each car and your local details. No one can promise a ranking, and anyone who does is guessing.' },
 ] as const;
 
@@ -73,7 +73,7 @@ export const TRADE_IN_CHAT: { dealer: readonly ChatLine[]; buyer: readonly ChatL
         { dir: 'in', text: 'Ciarán replied: “That sounds good. Could I bring it in on Saturday morning?”', buttons: ['Call back', 'Mark handled'] },
     ],
     buyer: [
-        { dir: 'in', text: 'Hi Ciarán, thanks for sending us your car. We have your details and photos, and we will come back to you shortly.' },
+        { dir: 'in', text: 'Hi Ciarán, thanks for your message to Checkwork Motors. We have it and will be in touch soon.' },
         { dir: 'in', text: 'Hi Ciarán, thank you for sending us your car. We can offer you €6,500 for it, subject to seeing it. Reply here and we will book a time for you to bring it in. Checkwork Motors' },
         { dir: 'out', text: 'That sounds good. Could I bring it in on Saturday morning?' },
     ],
@@ -83,8 +83,8 @@ export const TRADE_IN_CHAT: { dealer: readonly ChatLine[]; buyer: readonly ChatL
 export const WHATSAPP_ALERTS = [
     { title: 'New enquiry', text: 'The car and the question. Tap “Yes, it’s available” or “Can you come in Saturday?” and the buyer is answered.' },
     { title: 'Test drive booking', text: 'Confirm it, or suggest another time.' },
-    { title: 'A car 60 days in stock', text: 'With a suggested price drop to apply in one tap.' },
+    { title: 'A car on sale too long', text: 'After the number of days you agree with us, with a suggested price drop to apply in one tap.' },
     { title: 'New Google review', text: 'Type a reply and it is posted on Google.' },
-    { title: 'Finance, service and deposits', text: 'Acknowledge an application, confirm a service slot or a deposit, so nobody waits.' },
+    { title: 'Finance, service and deposits', text: 'Acknowledge an application, tell a service customer you can fit them in, or confirm a deposit, so nobody waits.' },
     { title: 'The Monday summary', text: 'Last week in a few lines, with a link to the full report.' },
 ] as const;

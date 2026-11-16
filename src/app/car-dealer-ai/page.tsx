@@ -29,7 +29,7 @@ function Draft() {
                 </div>
                 <ul className="flex flex-wrap gap-2" aria-label="Change the draft">{DRAFT.adjusts.map(a => <li key={a} className={chip}>{a}</li>)}</ul>
             </div>
-            <figcaption className="text-center text-sm text-fg-muted">From the demo dashboard, with its sample stock.</figcaption>
+            <figcaption className="text-center text-sm text-fg-muted">A draft like the demo writes, for one of its sample cars.</figcaption>
         </figure>
     );
 }
