@@ -9,7 +9,7 @@ import { pageMetadata } from '@/lib/metadata';
 
 export const metadata = pageMetadata({
     title: 'Our work: websites and web apps',
-    description: 'Websites and web apps built by Checkwork: our demo dealer website, plus tools for resellers and a vintage clothing website.',
+    description: 'Websites and web apps built by Checkwork: our demo dealer website, plus stock and profit apps for resellers, and a finance app for sole traders.',
     path: ROUTES.work,
 });
 
@@ -17,7 +17,7 @@ export default function Work() {
     const [lead, ...rest] = PROJECTS;
     return (
         <>
-            <PageHead title="Our work" lead="A demo dealer website, two apps for resellers and a public website for a vintage clothing shop." />
+            <PageHead title="Our work" lead="A demo dealer website and dashboard, and three apps for resellers and sole traders." />
             <Section>
                 <Container className="grid gap-14">
                     <article className="grid items-center gap-8 lg:grid-cols-[1.4fr_1fr] lg:gap-14">

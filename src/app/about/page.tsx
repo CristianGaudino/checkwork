@@ -26,7 +26,7 @@ export default function About() {
                 <Container className="grid gap-8 md:grid-cols-[1fr_1.6fr] md:gap-12">
                     <h2 className="font-display text-3xl font-semibold">What we have built</h2>
                     <div className="grid max-w-prose gap-4 text-fg-muted">
-                        <p>We build in code, end to end. That is how we made our demo dealer website and the dashboard behind it, where every lead lands, alerts reach the team on WhatsApp and AI drafts the listings and replies. We also built two apps for resellers that track stock, profit and finances, and a website for a vintage clothing shop.</p>
+                        <p>We build in code, end to end. That is how we made our demo dealer website and the dashboard behind it, where every lead lands, alerts reach the team on WhatsApp and AI drafts the listings and replies. We also built stock and profit apps for resellers, and a finance app for sole traders.</p>
                     </div>
                 </Container>
             </Section>

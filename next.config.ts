@@ -44,7 +44,11 @@ const nextConfig: NextConfig = {
     },
     // The bare domain sends people (and search engines) to the one canonical address, www
     async redirects() {
-        return [{ source: "/:path*", has: [{ type: "host" as const, value: "checkwork.ie" }], destination: "https://www.checkwork.ie/:path*", permanent: true }];
+        return [
+            { source: "/:path*", has: [{ type: "host" as const, value: "checkwork.ie" }], destination: "https://www.checkwork.ie/:path*", permanent: true },
+            // A case study taken down: its old address goes to the work page rather than a 404
+            { source: "/work/blacktail-archive", destination: "/work", permanent: true },
+        ];
     },
     async headers() {
         return [{ source: "/:path*", headers: SECURITY_HEADERS }];

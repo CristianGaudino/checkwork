@@ -16,7 +16,7 @@ export function Faqs({ faqs }: { faqs: readonly { q: string; a: string }[] }) {
                 <h2 className="font-display text-4xl font-semibold">Questions dealers ask</h2>
                 <div className="border-t border-line">
                     {faqs.map(f => (
-                        <details key={f.q} className="group border-b border-line">
+                        <details key={f.q} name="faqs" className="group border-b border-line">
                             <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-5 font-display text-xl font-semibold [&::-webkit-details-marker]:hidden">
                                 {f.q}
                                 <span aria-hidden="true" className="text-2xl font-normal text-accent-alt transition-transform group-open:rotate-45">+</span>

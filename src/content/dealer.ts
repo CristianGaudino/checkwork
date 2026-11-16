@@ -39,25 +39,21 @@ export const TOUR: { id: 'site' | 'team'; label: string; lead: string; stops: To
 export const FEATURES = [
     { title: 'Selling', items: ['Stock search, compare and saved cars', 'Car pages with photos, facts and a monthly estimate', 'Price alerts when a car drops', 'Find me a car requests', 'New cars, factory orders and commercials with VAT shown'] },
     { title: 'Leads', items: ['Every enquiry stored with the consent it was sent under', 'Status, owner and follow-up dates', 'Test drive booking from the car page', 'Trade-in and sell your car forms with photos', 'Lead emails to the addresses you choose'] },
-    { title: 'Running the yard', items: ['Add, edit and hide cars, with photos', 'Deposits and sales, with the buyer and the warranty', 'Prep costs on each car, and the margin after them', 'Several cars at once: price drops, sold, delete', 'An activity history of every change'] },
+    { title: 'Running the yard', items: ['Add, edit and hide cars, with photos', 'Or keep your stock on DoneDeal: the site follows it every 15 minutes', 'Deposits and sales, with the buyer and the warranty', 'Prep costs on each car, and the margin after them', 'Several cars at once: price drops, sold, delete', 'An activity history of every change'] },
     { title: 'Customers and aftersales', items: ['A page for each customer and what they bought', 'Warranty cover and claims', 'Service requests from the website', 'Your Google reviews on the site, answered from the dashboard once your Google profile is connected'] },
     { title: 'Your team', items: ['Owner, manager, sales and finance roles', 'Margins and figures only for the people you choose', 'Signed in through your company email'] },
     { title: 'Data and trust', items: ['Data requests: see, export or erase a person’s data', 'Old leads cleared after a set time', 'Spam checks and limits on every form', 'Fast on a mid-range phone'] },
 ] as const;
 
-export const STOCK_OPTIONS = [
-    { title: 'Your stock stays on DoneDeal', text: 'Keep adding cars on DoneDeal as you do now. The site follows it every 15 minutes, and holds back if DoneDeal ever sends back an empty list. This needs API access from DoneDeal for your account.' },
-    { title: 'Or keep your stock in the dashboard', text: 'Add cars, photos and prices in the dashboard and the website changes at once. Sales, deposits and margins sit with each car.' },
-] as const;
-
 export const DEALER_FAQS = [
     { q: 'Can we try it before we talk to you?', a: 'Yes. The demo site is live for anyone to use, with a made-up dealer and sample stock. The dealer dashboard is shown in the screenshots on this page, and we walk you through it on a call.' },
-    { q: 'Can our team add and update cars without a developer?', a: 'Yes. Either your stock stays on DoneDeal and the site follows it, or your team adds and edits cars in the dashboard. Neither waits on us.' },
+    { q: 'Can our team add and update cars without a developer?', a: 'Yes. Keep adding cars on DoneDeal and the site follows it every 15 minutes, or add them in the dashboard and the site changes at once. Following DoneDeal needs API access from DoneDeal for your account.' },
     { q: 'Where do enquiries go?', a: 'Into the dashboard as leads, by email to the addresses you choose, and on WhatsApp to the phones you link. Each one is stored with the consent it was sent under.' },
     { q: 'Can we show finance on the site?', a: 'Yes. The estimator uses your lender’s rate and the representative example and warnings you are required to show. We never make up rates.' },
     { q: 'Who sees our margins?', a: 'Only the people you choose. Each person has a role, and figures like cost and margin are checked on the server, not just hidden on screen.' },
     { q: 'Does my team need a new app for WhatsApp?', a: 'No. Alerts come to the WhatsApp they already use, from your dealership’s WhatsApp Business number. Each message has a small running cost, and you set the monthly cap.' },
-    { q: 'Can buyers message us on WhatsApp from the site?', a: 'Yes. Every car page has a WhatsApp button, and buyers can ask for updates on WhatsApp when they enquire.' },
+    { q: 'Will buyers get WhatsApp messages they did not ask for?', a: 'No. A buyer gets WhatsApp messages only if they ticked the box on the form; otherwise they get an email, or your team is told to call. Every car page also has a WhatsApp button for buyers who want to message you.' },
+    { q: 'Who can act on a WhatsApp alert?', a: 'Only the phones you link to your WhatsApp Business number, and every tap is in the activity log. Past your monthly cap, alerts come by email instead.' },
     { q: 'Will the website rank on Google?', a: 'We set up what Google looks for: speed, page titles, structured data for each car and your local details. No one can promise a ranking, and anyone who does is guessing.' },
 ] as const;
 
@@ -91,10 +87,4 @@ export const WHATSAPP_ALERTS = [
     { title: 'New Google review', text: 'Type a reply and it is posted on Google.' },
     { title: 'Finance, service and deposits', text: 'Acknowledge an application, confirm a service slot or a deposit, so nobody waits.' },
     { title: 'The Monday summary', text: 'Last week in a few lines, with a link to the full report.' },
-] as const;
-
-export const WHATSAPP_CARE = [
-    'A buyer gets WhatsApp messages only if they ticked the box on the form. Otherwise they get an email, or your team is told to call.',
-    'Alerts go from your WhatsApp Business number to the phones you link. Only a linked phone can act, and every tap is in the activity log.',
-    'You set a monthly cap. Past it, alerts come by email instead.',
 ] as const;

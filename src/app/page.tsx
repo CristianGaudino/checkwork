@@ -65,7 +65,7 @@ export default function Home() {
                         <div className="grid gap-6">
                             <h2 className="font-display text-4xl font-semibold md:text-5xl">Our work</h2>
                             <p className="text-lg text-fg-muted">
-                                A live demo dealer website, with searchable stock, test drives, trade-ins and finance, and a dashboard where every lead lands. Also on the list: apps for resellers and a website for a vintage clothing shop.
+                                A live demo dealer website, with searchable stock, test drives, trade-ins and finance, and a dashboard where every lead lands. Also on the list: stock and profit apps for resellers, and a finance app for sole traders.
                             </p>
                             <div className="flex flex-wrap gap-3">
                                 <DemoButton />
