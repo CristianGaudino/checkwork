@@ -1,15 +1,19 @@
 'use client';
 
+import Image from 'next/image';
 import { useActionState, useEffect, useRef } from 'react';
 import { sendEnquiry, type ContactState } from '@/app/contact/actions';
 import { DemoButton } from '@/components/DemoButton';
 import { Turnstile } from '@/components/Turnstile';
-import { DEALER_NEEDS, INTERESTS, NEED_HINTS, NEEDS, REPLIES, STOCK_SIZES, STOCK_SOURCES } from '@/content/contact';
+import { CONCERNS, DEALER_NEEDS, INTERESTS, NEED_HINTS, NEEDS, REPLIES, STOCK_SIZES, STOCK_SOURCES, TIMINGS } from '@/content/contact';
+import { DEMO_URL } from '@/lib/config';
 
 const field = 'w-full rounded-xl border border-line bg-surface px-4 py-3 text-base text-fg placeholder:text-fg-muted aria-[invalid=true]:border-red-400';
 // A choice drawn as a chip or card: the input is visually hidden, the label shows its state and its keyboard focus
 const chip = 'cursor-pointer rounded-xl border border-line px-4 py-2.5 transition-colors hover:border-fg/40 has-[:checked]:border-accent-alt has-[:checked]:bg-accent/15 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-accent-alt';
 const legend = 'mb-3 font-medium';
+// The form's steps are numbered by a CSS counter: the dealer step is display:none for anyone else, so it isn't counted and About you is 2
+const step = `font-display text-2xl font-semibold [counter-increment:step] before:mr-3 before:inline-grid before:size-8 before:place-content-center before:rounded-full before:border before:border-line before:align-[0.2em] before:text-sm before:text-accent-alt before:content-[counter(step)_/_'']`;
 const hidden = 'sr-only';
 
 function Field({ id, label, hint, error, children }: { id: string; label: React.ReactNode; hint?: React.ReactNode; error?: string; children: React.ReactNode }) {
@@ -71,16 +75,17 @@ export function ContactForm({ need }: { need?: (typeof NEEDS)[number] }) {
     const props = (name: keyof typeof e) => ({ name, id: name, defaultValue: v[name] ?? '', className: field, 'aria-invalid': e[name] ? true : undefined, 'aria-describedby': e[name] ? `${name}-error` : undefined });
     const chosen = v.need ?? need;
     const ticked = new Set((v.interests ?? '').split('|'));
+    const worries = new Set((v.concerns ?? '').split('|'));
 
     return (
         // `group`: the dealer questions and the "optional" on the message follow whichever choice is ticked, with no script
-        <form ref={form} action={action} noValidate className="group grid gap-10">
+        <form ref={form} action={action} noValidate className="group grid gap-10 [counter-reset:step]">
             <p aria-hidden="true" className="absolute -left-[9999px]">
                 <label>Leave this empty <input type="text" name="company_website" tabIndex={-1} autoComplete="off" /></label>
             </p>
 
             <fieldset aria-describedby={e.need ? 'need-error' : undefined}>
-                <legend className="mb-4 font-display text-2xl font-semibold">What do you need?</legend>
+                <legend className={`mb-4 ${step}`}>What do you need?</legend>
                 <div className="grid gap-3 sm:grid-cols-2">
                     {NEEDS.map(n => (
                         <label key={n} className={`${chip} grid gap-1 p-4`}>
@@ -95,9 +100,36 @@ export function ContactForm({ need }: { need?: (typeof NEEDS)[number] }) {
 
             <div className="hidden gap-8 rounded-2xl border border-line bg-surface p-5 group-has-[[data-dealer]:checked]:grid sm:p-7">
                 <div className="grid gap-1">
-                    <h2 className="font-display text-2xl font-semibold">About your dealership</h2>
+                    <h2 className={step}>About your dealership</h2>
                     <p className="text-sm text-fg-muted">Tap what fits. It all helps, none of it is required.</p>
                 </div>
+                <fieldset>
+                    <legend className={legend}>What is not working today? <span className="font-normal text-fg-muted">(pick any)</span></legend>
+                    <div className="flex flex-wrap gap-2">
+                        {CONCERNS.map(c => (
+                            <label key={c.id} className={chip}>
+                                <input type="checkbox" name="concerns" value={c.label} data-concern={c.id} defaultChecked={worries.has(c.label)} className={hidden} />
+                                {c.label}
+                            </label>
+                        ))}
+                    </div>
+                    {/* Each problem ticked shows how the demo answers it, with no script: `show` reveals it while its box is ticked */}
+                    <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                        {CONCERNS.map(c => c.demo && (
+                            <figure key={c.id} className={`rise hidden content-start overflow-hidden rounded-xl border border-line bg-canvas ${c.show}`}>
+                                <Image src={c.demo.src} alt={c.demo.alt} width={1920} height={1200} sizes="(min-width: 640px) 320px, 100vw" className="aspect-[16/10] w-full border-b border-line object-contain" />
+                                <figcaption className="grid gap-2 p-4 text-sm">
+                                    <span className="font-medium text-accent-alt">{c.demo.path ? 'In the demo site' : 'In the demo dashboard'}</span>
+                                    <span className="text-fg-muted">{c.demo.text}</span>
+                                    {c.demo.path
+                                        ? <a href={`${DEMO_URL}${c.demo.path}`} target="_blank" rel="noopener" className="justify-self-start text-accent-alt underline underline-offset-4">Try it<span aria-hidden="true"> ↗</span><span className="sr-only"> (opens in a new tab)</span></a>
+                                        : <span className="text-fg-muted">We walk you through it on a call.</span>}
+                                </figcaption>
+                            </figure>
+                        ))}
+                    </div>
+                </fieldset>
+                <Choices name="timing" label="When would you like it live?" options={TIMINGS} checked={o => v.timing === o} />
                 <Choices name="stock" label="How many cars do you usually have in stock?" options={STOCK_SIZES} checked={o => v.stock === o} />
                 <Choices name="source" label="Where is your stock kept now?" options={STOCK_SOURCES} checked={o => v.source === o} />
                 <Field id="website" label="Your website now" hint="(if you have one)" error={e.website}>
@@ -111,7 +143,7 @@ export function ContactForm({ need }: { need?: (typeof NEEDS)[number] }) {
             </div>
 
             <div className="grid gap-6">
-                <h2 className="font-display text-2xl font-semibold">About you</h2>
+                <h2 className={step}>About you</h2>
                 <Field id="name" label="Your name" error={e.name}><input {...props('name')} type="text" autoComplete="name" required /></Field>
                 <Field id="business" label="Business name" hint="(optional)" error={e.business}><input {...props('business')} type="text" autoComplete="organization" /></Field>
                 <Field id="email" label="Email" error={e.email}><input {...props('email')} type="email" autoComplete="email" required /></Field>

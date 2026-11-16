@@ -18,11 +18,11 @@ it('treats a missing field (no form value) as an error, not a crash', () => {
     expect(parseEnquiry({ ...valid, name: null }).ok).toBe(false);
 });
 
-const dealer = { ...valid, need: 'A website for my dealership', message: '', reply: 'By email', stock: '25 to 75 cars', source: 'On DoneDeal', website: 'www.example.ie', interests: ['Leads in one place', 'Leads in one place', 'Hack'], walkthrough: 'yes' };
+const dealer = { ...valid, need: 'A website for my dealership', message: '', reply: 'By email', stock: '25 to 75 cars', source: 'On DoneDeal', website: 'www.example.ie', interests: ['Leads in one place', 'Leads in one place', 'Hack'], walkthrough: 'yes', concerns: ['Our site is poor on phones', 'Hack'], timing: 'In the next few months' };
 
 it('keeps the dealer answers for a dealer, without needing a message', () => {
     const r = parseEnquiry(dealer);
-    expect(r.ok && r.data.details).toEqual({ reply: 'By email', stock: '25 to 75 cars', source: 'On DoneDeal', website: 'www.example.ie', interests: ['Leads in one place'], walkthrough: true });
+    expect(r.ok && r.data.details).toEqual({ reply: 'By email', concerns: ['Our site is poor on phones'], timing: 'In the next few months', stock: '25 to 75 cars', source: 'On DoneDeal', website: 'www.example.ie', interests: ['Leads in one place'], walkthrough: true });
 });
 
 it('drops the dealer answers when the need is not a dealer one, and still asks for a message', () => {
@@ -38,12 +38,15 @@ it('needs a phone number for a call, and reports it with the other errors at onc
 });
 
 it('treats an unknown or tampered choice as not answered', () => {
-    const r = parseEnquiry({ ...dealer, stock: 'Thousands', source: null, reply: 'Fax', walkthrough: 'no' });
+    const r = parseEnquiry({ ...dealer, stock: 'Thousands', source: null, reply: 'Fax', walkthrough: 'no', timing: 'Yesterday', concerns: 'not a list' });
     expect(r.ok && r.data.details).toEqual({ reply: 'By email', website: 'www.example.ie', interests: ['Leads in one place'] });
 });
 
 it('reads stored details as lines, and gives none for an old or broken row', () => {
     expect(detailLines({ reply: 'By email', website: 'x.ie' })).toEqual(['Reply: By email', 'Current site: x.ie']);
+    // What they want fixed and how soon come first
+    expect(detailLines({ reply: 'By email', concerns: ['Our site is poor on phones', 'We pay too much for what we have'], timing: 'As soon as possible' }))
+        .toEqual(['Wants to fix: Our site is poor on phones, We pay too much for what we have', 'Timing: As soon as possible', 'Reply: By email']);
     expect(detailLines(null)).toEqual([]);
     expect(detailLines('nonsense' as never)).toEqual([]);
     expect(detailLines({ interests: 'not a list' } as never)).toEqual([]);

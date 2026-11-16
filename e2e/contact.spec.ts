@@ -48,13 +48,21 @@ test('a filled honeypot looks like success but stores nothing', async ({ page })
     expect(rowsFor(email)).not.toContain('Bot');
 });
 
-test('a dealer arriving from the dealer page gets the dealer questions, and can send without a message', async ({ page }) => {
+test('a dealer arriving from the dealer page gets the dealer questions, and can send without a message', async ({ page }, info) => {
     const email = `dealer-${Date.now()}@example.ie`;
     await page.goto(`${ROUTES.contact}?need=dealer`);
     await expect(page.getByRole('radio', { name: /A website for my dealership/ })).toBeChecked();
     await expect(page.getByRole('heading', { name: 'About your dealership' })).toBeVisible();
+    // A problem ticked shows how the demo answers it; one not ticked shows nothing
+    const answer = page.getByRole('figure').filter({ hasText: 'Every lead lands in one list' });
+    await expect(answer).toBeHidden();
+    await page.getByText('Enquiries get lost or answered late').click();
+    await expect(answer).toBeVisible();
+    await expect(page.getByRole('figure').filter({ hasText: 'Fast on a mid-range phone' })).toBeHidden();
+    await page.getByText('In the next few months').click();
+    await page.screenshot({ path: `test-results/screenshots/${info.project.name}-contact-dealer.png`, fullPage: true });
     await page.getByText('25 to 75 cars').click();
-    await page.getByText('On DoneDeal').click();
+    await page.getByText('On DoneDeal', { exact: true }).click();
     await page.getByText('Leads in one place').click();
     await page.getByText('Walk me through the demo on a call').click();
     await page.getByLabel('Your name').fill('Dealer Tester');
@@ -65,6 +73,8 @@ test('a dealer arriving from the dealer page gets the dealer questions, and can 
     await expect(page.getByText('Add a number so we can call you.')).toBeVisible();
     await expect(page.getByRole('radio', { name: '25 to 75 cars' })).toBeChecked(); // answers survive a failed send
     await expect(page.getByRole('checkbox', { name: 'Leads in one place' })).toBeChecked();
+    await expect(page.getByRole('checkbox', { name: 'Enquiries get lost or answered late' })).toBeChecked();
+    await expect(answer).toBeVisible();
     await page.getByRole('textbox', { name: /^Phone/ }).fill('087 000 0000');
     await expect(page.locator('input[name="cf-turnstile-response"]')).not.toHaveValue('', { timeout: 20_000 });
     await page.getByRole('button', { name: 'Send message' }).click();
@@ -73,4 +83,6 @@ test('a dealer arriving from the dealer page gets the dealer questions, and can 
     expect(row).toContain('A website for my dealership');
     expect(row).toContain('25 to 75 cars');
     expect(row).toContain('walkthrough');
+    expect(row).toContain('Enquiries get lost or answered late');
+    expect(row).toContain('In the next few months');
 });
