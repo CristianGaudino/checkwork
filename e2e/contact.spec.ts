@@ -25,6 +25,14 @@ test('a valid enquiry is stored in D1 and the visitor is told', async ({ page })
     await page.goto(ROUTES.contact);
     await page.getByText('Something else', { exact: true }).click();
     await expect(page.getByRole('heading', { name: 'About your dealership' })).toBeHidden();
+    await expect(page.getByText('A call with a demo walkthrough')).toBeHidden(); // the demo is a dealer site
+    // Picked as a dealer, then switched away: still shown, so the visitor can see and change it
+    await page.getByText('A website for my dealership').click();
+    await page.getByText('A call with a demo walkthrough').click();
+    await page.getByText('Something else', { exact: true }).click();
+    await expect(page.getByText('A call with a demo walkthrough')).toBeVisible();
+    await page.getByRole('radio', { name: 'By email' }).check({ force: true });
+    await expect(page.getByText('A call with a demo walkthrough')).toBeHidden();
     await page.getByLabel('Your name').fill('E2E Tester');
     await page.getByLabel('Email', { exact: true }).fill(email);
     await page.getByLabel('Tell us about it').fill('Testing the form.');
@@ -62,17 +70,16 @@ test('a dealer arriving from the dealer page gets the dealer questions, and can 
     await page.getByText('In the next few months').click();
     await page.screenshot({ path: `test-results/screenshots/${info.project.name}-contact-dealer.png`, fullPage: true });
     await page.getByText('25 to 75 cars').click();
+    await page.getByText('Tell us more').click();
     await page.getByText('On DoneDeal', { exact: true }).click();
-    await page.getByText('Leads in one place').click();
-    await page.getByText('Walk me through the demo on a call').click();
     await page.getByLabel('Your name').fill('Dealer Tester');
     await page.getByLabel('Email', { exact: true }).fill(email);
     // A call needs a number: asked for, then sent once it is there
-    await page.getByText('A phone call').click();
+    await page.getByText('A call with a demo walkthrough').click();
     await page.getByRole('button', { name: 'Send message' }).click();
     await expect(page.getByText('Add a number so we can call you.')).toBeVisible();
     await expect(page.getByRole('radio', { name: '25 to 75 cars' })).toBeChecked(); // answers survive a failed send
-    await expect(page.getByRole('checkbox', { name: 'Leads in one place' })).toBeChecked();
+    await expect(page.getByRole('radio', { name: 'On DoneDeal' })).toBeChecked(); // the folded questions too
     await expect(page.getByRole('checkbox', { name: 'Enquiries get lost or answered late' })).toBeChecked();
     await expect(answer).toBeVisible();
     await page.getByRole('textbox', { name: /^Phone/ }).fill('087 000 0000');
@@ -82,7 +89,7 @@ test('a dealer arriving from the dealer page gets the dealer questions, and can 
     const row = rowsFor(email);
     expect(row).toContain('A website for my dealership');
     expect(row).toContain('25 to 75 cars');
-    expect(row).toContain('walkthrough');
+    expect(row).toContain('A call with a demo walkthrough');
     expect(row).toContain('Enquiries get lost or answered late');
     expect(row).toContain('In the next few months');
 });

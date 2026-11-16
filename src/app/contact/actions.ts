@@ -34,10 +34,9 @@ export async function sendEnquiry(_prev: ContactState, data: FormData): Promise<
     if (data.get('company_website')) return { status: 'sent' };
 
     // Ticked boxes share a name: keep them all, and give them back joined so a failed send keeps them ticked
-    const all = (name: string) => data.getAll(name).filter((v): v is string => typeof v === 'string');
-    const interests = all('interests'), concerns = all('concerns');
-    const values = { ...text(data), interests: interests.join('|'), concerns: concerns.join('|') };
-    const parsed = parseEnquiry({ ...values, interests, concerns });
+    const concerns = data.getAll('concerns').filter((v): v is string => typeof v === 'string');
+    const values = { ...text(data), concerns: concerns.join('|') };
+    const parsed = parseEnquiry({ ...values, concerns });
     if (!parsed.ok) return { status: 'error', errors: parsed.errors, values };
 
     const ip = (await headers()).get('cf-connecting-ip') ?? undefined;

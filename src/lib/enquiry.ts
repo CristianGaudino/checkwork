@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { CONCERN_LABELS, DEALER_NEEDS, INTERESTS, NEEDS, REPLIES, STOCK_SIZES, STOCK_SOURCES, TIMINGS } from '@/content/contact';
+import { CONCERN_LABELS, DEALER_NEEDS, DEALER_REPLY, NEEDS, REPLIES, STOCK_SIZES, STOCK_SOURCES, TIMINGS } from '@/content/contact';
 
 const optional = (max: number) => z.string().trim().max(max, `Keep this under ${max.toLocaleString('en-IE')} characters.`);
 // A choice left unpicked sends nothing, and a tampered one is dropped: either way it reads as "not answered", never an error
@@ -21,10 +21,8 @@ export const enquirySchema = z.object({
     source: pick(STOCK_SOURCES),
     website: optional(200).optional(), // only on the form while a dealer choice is ticked
     // Unknown boxes are dropped one by one, so a tampered one never costs the real ones
-    interests: ticked(INTERESTS),
     concerns: ticked(CONCERN_LABELS),
     timing: pick(TIMINGS),
-    walkthrough: z.literal('yes').optional().catch(undefined),
 });
 
 export type EnquiryField = keyof z.infer<typeof enquirySchema>;
@@ -38,7 +36,8 @@ export type EnquiryDetails = {
     stock?: (typeof STOCK_SIZES)[number];
     source?: (typeof STOCK_SOURCES)[number];
     website?: string;
-    interests?: (typeof INTERESTS)[number][];
+    // Old rows only: the form asked these before the walkthrough became a reply choice
+    interests?: string[];
     walkthrough?: boolean;
 };
 
@@ -46,7 +45,7 @@ export type EnquiryInput = { name: string; business: string; email: string; phon
 
 export const isDealerNeed = (need: unknown) => (DEALER_NEEDS as readonly unknown[]).includes(need);
 
-/** Validates raw form data (`interests` is the list of ticked boxes). Every problem is reported at once, the first on each field. */
+/** Validates raw form data (`concerns` is the list of ticked boxes). Every problem is reported at once, the first on each field. */
 export function parseEnquiry(raw: Record<string, FormDataEntryValue | FormDataEntryValue[] | null>): { ok: true; data: EnquiryInput } | { ok: false; errors: EnquiryErrors } {
     // The dealer box is hidden for anything else but still sent: a bad value left in it must not stop a form that cannot show the error
     const result = enquirySchema.safeParse(isDealerNeed(raw.need) ? raw : { ...raw, website: undefined });
@@ -56,20 +55,19 @@ export function parseEnquiry(raw: Record<string, FormDataEntryValue | FormDataEn
     const text = (k: string) => (typeof raw[k] === 'string' ? raw[k].trim() : '');
     // The dealer questions can stand in for a message; anything else needs a few lines
     if (!text('message') && !isDealerNeed(raw.need)) errors.message ??= 'Write a few lines about what you need.';
-    if (raw.reply === 'A phone call' && !text('phone')) errors.phone ??= 'Add a number so we can call you.';
+    if ((REPLIES as readonly unknown[]).slice(1).includes(raw.reply) && !text('phone')) errors.phone ??= 'Add a number so we can call you.';
     if (!result.success || Object.keys(errors).length) return { ok: false, errors };
 
     const d = result.data;
     const details: EnquiryDetails = {
-        reply: d.reply,
+        // The walkthrough is offered to dealers only: anyone else who sends it still gets the call
+        reply: d.reply === DEALER_REPLY && !isDealerNeed(d.need) ? 'A phone call' : d.reply,
         ...(isDealerNeed(d.need) && {
             ...(d.concerns.length && { concerns: d.concerns }),
             ...(d.timing && { timing: d.timing }),
             ...(d.stock && { stock: d.stock }),
             ...(d.source && { source: d.source }),
             ...(d.website && { website: d.website }),
-            ...(d.interests.length && { interests: d.interests }),
-            ...(d.walkthrough && { walkthrough: true }),
         }),
     };
     return { ok: true, data: { name: d.name, business: d.business, email: d.email, phone: d.phone, need: d.need, message: d.message, details } };

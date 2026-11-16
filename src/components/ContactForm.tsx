@@ -5,7 +5,7 @@ import { useActionState, useEffect, useRef } from 'react';
 import { sendEnquiry, type ContactState } from '@/app/contact/actions';
 import { DemoButton } from '@/components/DemoButton';
 import { Turnstile } from '@/components/Turnstile';
-import { CONCERNS, DEALER_NEEDS, INTERESTS, NEED_HINTS, NEEDS, REPLIES, STOCK_SIZES, STOCK_SOURCES, TIMINGS } from '@/content/contact';
+import { CONCERNS, DEALER_NEEDS, DEALER_REPLY, NEED_HINTS, NEEDS, REPLIES, STOCK_SIZES, STOCK_SOURCES, TIMINGS } from '@/content/contact';
 import { DEMO_URL } from '@/lib/config';
 
 const field = 'w-full rounded-xl border border-line bg-surface px-4 py-3 text-base text-fg placeholder:text-fg-muted aria-[invalid=true]:border-red-400';
@@ -26,14 +26,14 @@ function Field({ id, label, hint, error, children }: { id: string; label: React.
     );
 }
 
-function Choices({ name, label, options, checked, type = 'radio', error }: { name: string; label: React.ReactNode; options: readonly string[]; checked: (o: string) => boolean; type?: 'radio' | 'checkbox'; error?: string }) {
+function Choices({ name, label, options, checked, only, error }: { name: string; label: React.ReactNode; options: readonly string[]; checked: (o: string) => boolean; only?: Record<string, string>; error?: string }) {
     return (
         <fieldset aria-describedby={error ? `${name}-error` : undefined}>
             <legend className={legend}>{label}</legend>
             <div className="flex flex-wrap gap-2">
                 {options.map(o => (
-                    <label key={o} className={chip}>
-                        <input type={type} name={name} value={o} defaultChecked={checked(o)} className={hidden} />
+                    <label key={o} className={`${chip} ${only?.[o] ?? ''}`}>
+                        <input type="radio" name={name} value={o} defaultChecked={checked(o)} className={hidden} />
                         {o}
                     </label>
                 ))}
@@ -74,7 +74,6 @@ export function ContactForm({ need }: { need?: (typeof NEEDS)[number] }) {
     const e = state.errors ?? {};
     const props = (name: keyof typeof e) => ({ name, id: name, defaultValue: v[name] ?? '', className: field, 'aria-invalid': e[name] ? true : undefined, 'aria-describedby': e[name] ? `${name}-error` : undefined });
     const chosen = v.need ?? need;
-    const ticked = new Set((v.interests ?? '').split('|'));
     const worries = new Set((v.concerns ?? '').split('|'));
 
     return (
@@ -131,15 +130,16 @@ export function ContactForm({ need }: { need?: (typeof NEEDS)[number] }) {
                 </fieldset>
                 <Choices name="timing" label="When would you like it live?" options={TIMINGS} checked={o => v.timing === o} />
                 <Choices name="stock" label="How many cars do you usually have in stock?" options={STOCK_SIZES} checked={o => v.stock === o} />
-                <Choices name="source" label="Where is your stock kept now?" options={STOCK_SOURCES} checked={o => v.source === o} />
-                <Field id="website" label="Your website now" hint="(if you have one)" error={e.website}>
-                    <input {...props('website')} type="text" inputMode="url" autoComplete="url" placeholder="www.yourdealership.ie" />
-                </Field>
-                <Choices name="interests" type="checkbox" label={<>What would you like to see? <span className="font-normal text-fg-muted">(pick any)</span></>} options={INTERESTS} checked={o => ticked.has(o)} />
-                <label className={`${chip} flex items-center gap-3 justify-self-start`}>
-                    <input type="checkbox" name="walkthrough" value="yes" defaultChecked={v.walkthrough === 'yes'} className="size-4 accent-[var(--accent-alt)]" />
-                    Walk me through the demo on a call
-                </label>
+                {/* Folded away so the dealer step stays three taps; open again after a send that failed with something in it */}
+                <details open={Boolean(v.source || v.website) || undefined}>
+                    <summary className="cursor-pointer select-none font-medium text-fg-muted hover:text-fg">Tell us more <span className="font-normal">(optional)</span></summary>
+                    <div className="mt-6 grid gap-8">
+                        <Choices name="source" label="Where is your stock kept now?" options={STOCK_SOURCES} checked={o => v.source === o} />
+                        <Field id="website" label="Your website now" hint="(if you have one)" error={e.website}>
+                            <input {...props('website')} type="text" inputMode="url" autoComplete="url" placeholder="www.yourdealership.ie" />
+                        </Field>
+                    </div>
+                </details>
             </div>
 
             <div className="grid gap-6">
@@ -148,7 +148,7 @@ export function ContactForm({ need }: { need?: (typeof NEEDS)[number] }) {
                 <Field id="business" label="Business name" hint="(optional)" error={e.business}><input {...props('business')} type="text" autoComplete="organization" /></Field>
                 <Field id="email" label="Email" error={e.email}><input {...props('email')} type="email" autoComplete="email" required /></Field>
                 <Field id="phone" label="Phone" hint="(optional, unless you want a call)" error={e.phone}><input {...props('phone')} type="tel" autoComplete="tel" /></Field>
-                <Choices name="reply" label="How should we reply?" options={REPLIES} checked={o => (v.reply ?? REPLIES[0]) === o} />
+                <Choices name="reply" label="How should we reply?" options={REPLIES} checked={o => (v.reply ?? REPLIES[0]) === o} only={{ [DEALER_REPLY]: 'hidden group-has-[[data-dealer]:checked]:block has-[:checked]:block' }} />
                 <Field id="message" label="Tell us about it" hint={<span className="hidden group-has-[[data-dealer]:checked]:inline">(optional)</span>} error={e.message}>
                     <textarea {...props('message')} rows={5} placeholder="What is not working today, and what should the site do?" />
                 </Field>

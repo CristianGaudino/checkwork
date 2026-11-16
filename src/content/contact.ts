@@ -23,15 +23,9 @@ export const DEALER_NEEDS = [NEEDS[2], NEEDS[3]] as const;
 
 export const STOCK_SIZES = ['Under 25 cars', '25 to 75 cars', 'More than 75 cars'] as const;
 export const STOCK_SOURCES = ['On DoneDeal', 'On CarsIreland', 'On another listing site', 'In our own system or a spreadsheet', 'Not sure'] as const;
-export const INTERESTS = [
-    'Stock search and car pages',
-    'Leads in one place',
-    'Test drive booking',
-    'Trade-ins with registration lookup',
-    'Finance estimator',
-    'Reports and margins',
-] as const;
-export const REPLIES = ['By email', 'A phone call'] as const;
+// The last is shown to dealers only (the demo is a dealer site), and to anyone who picked it before switching away; any reply but email needs a phone number
+export const REPLIES = ['By email', 'A phone call', 'A call with a demo walkthrough'] as const;
+export const DEALER_REPLY = REPLIES[2];
 
 const shot = (name: string) => `/work/dealer-demo/${name}.webp`;
 
