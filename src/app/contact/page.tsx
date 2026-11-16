@@ -27,7 +27,7 @@ export default async function Contact({ searchParams }: PageProps<'/contact'>) {
 
     return (
         <>
-            <PageHead title="Start a project" lead="Pick what you need and tell us a little about it. A few taps and a few lines is enough." />
+            <PageHead title="Start a project" lead="Leave your name and a number or email, and we will get back to you. Everything else is optional." />
             <Section className="pt-10 md:pt-14">
                 <Container className="grid gap-14 lg:grid-cols-[1.4fr_1fr] lg:gap-16">
                     <ContactForm need={dealer ? DEALER_NEEDS[0] : undefined} />

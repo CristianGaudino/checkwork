@@ -6,6 +6,7 @@ export const NEEDS = [
     'Dealer tools (stock, finance, enquiries)',
     'AI features, training or advice',
     'Something else',
+    'Not sure yet',
 ] as const;
 
 // One line under each choice, so a visitor can tell them apart without guessing
@@ -16,16 +17,20 @@ export const NEED_HINTS: Record<(typeof NEEDS)[number], string> = {
     'Dealer tools (stock, finance, enquiries)': 'Add to the site you have, or the dashboard behind it.',
     'AI features, training or advice': 'AI in your tools, or help for your team to use it.',
     'Something else': 'Tell us what you have in mind.',
+    'Not sure yet': 'Fine. We can work it out together.',
 };
+
+// Stored when nothing is picked: only a name and a way to reply are required
+export const NO_NEED = 'Not sure yet' satisfies (typeof NEEDS)[number];
 
 // The choices that open the dealer questions. `?need=dealer` on the contact page picks the first.
 export const DEALER_NEEDS = [NEEDS[2], NEEDS[3]] as const;
 
-export const STOCK_SIZES = ['Under 25 cars', '25 to 75 cars', 'More than 75 cars'] as const;
+export const STOCK_SIZES = ['Under 25 cars', '25 to 75 cars', 'More than 75 cars', 'Not sure'] as const;
 export const STOCK_SOURCES = ['On DoneDeal', 'On CarsIreland', 'On another listing site', 'In our own system or a spreadsheet', 'Not sure'] as const;
-// The last is shown to dealers only (the demo is a dealer site), and to anyone who picked it before switching away; any reply but email needs a phone number
-export const REPLIES = ['By email', 'A phone call', 'A call with a demo walkthrough'] as const;
-export const DEALER_REPLY = REPLIES[2];
+// Stored values; the form shows REPLY_LABELS. A call needs a phone number, email an email address.
+export const REPLIES = ['A phone call', 'By email'] as const;
+export const REPLY_LABELS: Record<(typeof REPLIES)[number], string> = { 'A phone call': 'Call me', 'By email': 'Email me' };
 
 const shot = (name: string) => `/work/dealer-demo/${name}.webp`;
 
@@ -61,8 +66,9 @@ export const CONCERNS = [
         demo: { text: 'Where buyers come from and which sources send leads, plus sales, profit and days to sell by month.', src: shot('dash-analytics'), alt: 'Demo dealer dashboard analytics with visitors each day and where they come from', path: null },
     },
     { id: 'cost', label: 'We pay too much for what we have', show: '', demo: null },
+    { id: 'other', label: 'Something else', show: '', demo: null },
 ] as const;
 export const CONCERN_LABELS = CONCERNS.map(c => c.label);
 
 // How soon: the clearest sign of how warm a lead is
-export const TIMINGS = ['As soon as possible', 'In the next few months', 'Just looking for now'] as const;
+export const TIMINGS = ['As soon as possible', 'In the next few months', 'Just looking for now', 'Not sure'] as const;

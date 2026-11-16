@@ -56,7 +56,8 @@ export default async function Admin({ searchParams }: PageProps<'/admin'>) {
 
                     {rows.length === 0 && <p className="text-fg-muted">{all === 0 ? 'No enquiries yet.' : 'Nothing matches.'}</p>}
                     {rows.map(r => {
-                        const reply = `mailto:${r.email}?subject=${encodeURIComponent('Re: your Checkwork enquiry')}&body=${encodeURIComponent(`Hi ${r.name.split(' ')[0]},\n\n`)}`;
+                        // No email (they asked for a call): Reply rings them instead
+                        const reply = !r.email && r.phone ? `tel:${r.phone}` : `mailto:${r.email}?subject=${encodeURIComponent('Re: your Checkwork enquiry')}&body=${encodeURIComponent(`Hi ${r.name.split(' ')[0]},\n\n`)}`;
                         const details = detailLines(r.details);
                         return (
                             <article key={r.id} className="grid gap-3 rounded-xl border border-line bg-surface p-5">
@@ -68,8 +69,8 @@ export default async function Admin({ searchParams }: PageProps<'/admin'>) {
                                     </p>
                                 </div>
                                 <p className="text-sm text-fg-muted">
-                                    <a href={`mailto:${r.email}`} className="underline underline-offset-4">{r.email}</a>
-                                    {r.phone && <> · <a href={`tel:${r.phone}`} className="underline underline-offset-4">{r.phone}</a></>} · {r.need}
+                                    {r.email && <><a href={`mailto:${r.email}`} className="underline underline-offset-4">{r.email}</a> · </>}
+                                    {r.phone && <><a href={`tel:${r.phone}`} className="underline underline-offset-4">{r.phone}</a></>} · {r.need}
                                 </p>
                                 {details.length > 0 && <ul className="grid gap-0.5 text-sm">{details.map(l => <li key={l}>{l}</li>)}</ul>}
                                 {r.message && <p className="whitespace-pre-wrap">{r.message}</p>}

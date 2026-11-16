@@ -9,9 +9,22 @@ it('accepts a valid enquiry and trims it', () => {
 });
 
 it('reports each bad field once, with a plain message', () => {
-    const r = parseEnquiry({ ...valid, name: '  ', email: 'nope', need: 'Hack', message: 'x'.repeat(5001) });
+    const r = parseEnquiry({ ...valid, name: '  ', email: 'nope', message: 'x'.repeat(5001) });
     expect(r.ok).toBe(false);
-    if (!r.ok) expect(Object.keys(r.errors).sort()).toEqual(['email', 'message', 'name', 'need']);
+    if (!r.ok) expect(Object.keys(r.errors).sort()).toEqual(['email', 'message', 'name']);
+});
+
+it('needs only a name and a phone number or email; no need picked reads as not sure', () => {
+    const bare = { name: 'Aoife', email: '', phone: '' };
+    const none = parseEnquiry(bare);
+    expect(!none.ok && none.errors).toEqual({ phone: 'Add a phone number or an email so we can reply.' });
+    // A number alone means call; an email alone means email
+    const call = parseEnquiry({ ...bare, phone: '087 000 0000' }), mail = parseEnquiry({ ...bare, email: 'a@example.ie', need: 'Hack' });
+    expect(call.ok && [call.data.need, call.data.details.reply]).toEqual(['Not sure yet', 'A phone call']);
+    expect(mail.ok && [mail.data.need, mail.data.details.reply]).toEqual(['Not sure yet', 'By email']);
+    // Asked for email with only a number
+    const r = parseEnquiry({ ...bare, phone: '087', reply: 'By email' });
+    expect(!r.ok && Object.keys(r.errors)).toEqual(['email']);
 });
 
 it('treats a missing field (no form value) as an error, not a crash', () => {
@@ -25,9 +38,8 @@ it('keeps the dealer answers for a dealer, without needing a message', () => {
     expect(r.ok && r.data.details).toEqual({ reply: 'By email', concerns: ['Our site is poor on phones'], timing: 'In the next few months', stock: '25 to 75 cars', source: 'On DoneDeal', website: 'www.example.ie' });
 });
 
-it('drops the dealer answers when the need is not a dealer one, and still asks for a message', () => {
-    expect(parseEnquiry({ ...dealer, need: 'Something else' }).ok).toBe(false);
-    const r = parseEnquiry({ ...dealer, need: 'Something else', message: 'Hi' });
+it('drops the dealer answers when the need is not a dealer one', () => {
+    const r = parseEnquiry({ ...dealer, need: 'Something else' });
     expect(r.ok && r.data.details).toEqual({ reply: 'By email' });
 });
 
@@ -35,14 +47,6 @@ it('needs a phone number for a call, and reports it with the other errors at onc
     const r = parseEnquiry({ ...dealer, reply: 'A phone call', name: '' });
     expect(!r.ok && Object.keys(r.errors).sort()).toEqual(['name', 'phone']);
     expect(parseEnquiry({ ...dealer, reply: 'A phone call', phone: '087 000 0000' }).ok).toBe(true);
-    expect(parseEnquiry({ ...dealer, reply: 'A call with a demo walkthrough' }).ok).toBe(false);
-});
-
-it('offers the demo walkthrough to dealers only: anyone else asking gets a phone call', () => {
-    const withPhone = { ...dealer, reply: 'A call with a demo walkthrough', phone: '087' };
-    const a = parseEnquiry(withPhone), b = parseEnquiry({ ...withPhone, need: 'Something else', message: 'Hi' });
-    expect(a.ok && a.data.details.reply).toBe('A call with a demo walkthrough');
-    expect(b.ok && b.data.details.reply).toBe('A phone call');
 });
 
 it('treats an unknown or tampered choice as not answered', () => {

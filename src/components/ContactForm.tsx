@@ -5,7 +5,7 @@ import { useActionState, useEffect, useRef } from 'react';
 import { sendEnquiry, type ContactState } from '@/app/contact/actions';
 import { DemoButton } from '@/components/DemoButton';
 import { Turnstile } from '@/components/Turnstile';
-import { CONCERNS, DEALER_NEEDS, DEALER_REPLY, NEED_HINTS, NEEDS, REPLIES, STOCK_SIZES, STOCK_SOURCES, TIMINGS } from '@/content/contact';
+import { CONCERNS, DEALER_NEEDS, NEED_HINTS, NEEDS, REPLIES, REPLY_LABELS, STOCK_SIZES, STOCK_SOURCES, TIMINGS } from '@/content/contact';
 import { DEMO_URL } from '@/lib/config';
 
 const field = 'w-full rounded-xl border border-line bg-surface px-4 py-3 text-base text-fg placeholder:text-fg-muted aria-[invalid=true]:border-red-400';
@@ -13,6 +13,7 @@ const field = 'w-full rounded-xl border border-line bg-surface px-4 py-3 text-ba
 const chip = 'cursor-pointer rounded-xl border border-line px-4 py-2.5 transition-colors hover:border-fg/40 has-[:checked]:border-accent-alt has-[:checked]:bg-accent/15 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-accent-alt';
 const legend = 'mb-3 font-medium';
 // The form's steps are numbered by a CSS counter: the dealer step is display:none for anyone else, so it isn't counted and About you is 2
+const button = 'inline-flex items-center justify-center rounded-xl bg-action px-5 py-3.5 text-base font-semibold text-white transition-[background-color,transform] duration-150 hover:bg-action-hover active:scale-[0.97] disabled:opacity-60';
 const step = `font-display text-2xl font-semibold [counter-increment:step] before:mr-3 before:inline-grid before:size-8 before:place-content-center before:rounded-full before:border before:border-line before:align-[0.2em] before:text-sm before:text-accent-alt before:content-[counter(step)_/_'']`;
 const hidden = 'sr-only';
 
@@ -26,15 +27,15 @@ function Field({ id, label, hint, error, children }: { id: string; label: React.
     );
 }
 
-function Choices({ name, label, options, checked, only, error }: { name: string; label: React.ReactNode; options: readonly string[]; checked: (o: string) => boolean; only?: Record<string, string>; error?: string }) {
+function Choices({ name, label, options, checked, labels, error }: { name: string; label: React.ReactNode; options: readonly string[]; checked: (o: string) => boolean; labels?: Record<string, string>; error?: string }) {
     return (
         <fieldset aria-describedby={error ? `${name}-error` : undefined}>
             <legend className={legend}>{label}</legend>
             <div className="flex flex-wrap gap-2">
                 {options.map(o => (
-                    <label key={o} className={`${chip} ${only?.[o] ?? ''}`}>
+                    <label key={o} className={chip}>
                         <input type="radio" name={name} value={o} defaultChecked={checked(o)} className={hidden} />
-                        {o}
+                        {labels?.[o] ?? o}
                     </label>
                 ))}
             </div>
@@ -65,7 +66,7 @@ export function ContactForm({ need }: { need?: (typeof NEEDS)[number] }) {
     // After a failed send, put the cursor on the first field to fix (or the message) so keyboard and screen-reader users are not left at the button
     useEffect(() => {
         if (state.status !== 'error') return;
-        form.current?.querySelector<HTMLElement>('[aria-invalid=true], fieldset[aria-describedby] input')?.focus();
+        form.current?.querySelector<HTMLElement>('[aria-invalid=true], fieldset[aria-describedby] input, [role=alert]')?.focus();
     }, [state]);
 
     if (state.status === 'sent') return <Sent dealer={state.dealer} />;
@@ -77,14 +78,31 @@ export function ContactForm({ need }: { need?: (typeof NEEDS)[number] }) {
     const worries = new Set((v.concerns ?? '').split('|'));
 
     return (
-        // `group`: the dealer questions and the "optional" on the message follow whichever choice is ticked, with no script
+        // Contact details first, so a visitor who stops there can still send. `group`: the dealer questions follow whichever need is ticked, with no script
         <form ref={form} action={action} noValidate className="group grid gap-10 [counter-reset:step]">
             <p aria-hidden="true" className="absolute -left-[9999px]">
                 <label>Leave this empty <input type="text" name="company_website" tabIndex={-1} autoComplete="off" /></label>
             </p>
 
-            <fieldset aria-describedby={e.need ? 'need-error' : undefined}>
-                <legend className={`mb-4 ${step}`}>What do you need?</legend>
+            <div className="grid gap-6">
+                <div className="grid gap-1">
+                    <h2 className={step}>Your details</h2>
+                    <p className="text-sm text-fg-muted">Your name, and a phone number or email.</p>
+                </div>
+                <Field id="name" label="Your name" error={e.name}><input {...props('name')} type="text" autoComplete="name" required /></Field>
+                <Field id="phone" label="Phone" error={e.phone}><input {...props('phone')} type="tel" autoComplete="tel" /></Field>
+                <Field id="email" label="Email" error={e.email}><input {...props('email')} type="email" autoComplete="email" /></Field>
+                <Choices name="reply" label="How should we get back to you?" options={REPLIES} labels={REPLY_LABELS} checked={o => v.reply === o} />
+                <Turnstile resetKey={state} />
+                {state.message && <p role="alert" tabIndex={-1} className="text-red-300">{state.message}</p>}
+                <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+                    <button type="submit" disabled={pending} className={button}>{pending ? 'Sending' : 'Send now'}</button>
+                    <p className="text-sm text-fg-muted">That is all we need. The rest is optional.</p>
+                </div>
+            </div>
+
+            <fieldset>
+                <legend className={`mb-4 ${step}`}>What do you need? <span className="text-base font-normal text-fg-muted">(optional)</span></legend>
                 <div className="grid gap-3 sm:grid-cols-2">
                     {NEEDS.map(n => (
                         <label key={n} className={`${chip} grid gap-1 p-4`}>
@@ -94,13 +112,12 @@ export function ContactForm({ need }: { need?: (typeof NEEDS)[number] }) {
                         </label>
                     ))}
                 </div>
-                {e.need && <p id="need-error" className="mt-2 text-sm text-red-300">{e.need}</p>}
             </fieldset>
 
             <div className="hidden gap-8 rounded-2xl border border-line bg-surface p-5 group-has-[[data-dealer]:checked]:grid sm:p-7">
                 <div className="grid gap-1">
                     <h2 className={step}>About your dealership</h2>
-                    <p className="text-sm text-fg-muted">Tap what fits. It all helps, none of it is required.</p>
+                    <p className="text-sm text-fg-muted">Tap what fits, or skip it.</p>
                 </div>
                 <fieldset>
                     <legend className={legend}>What is not working today? <span className="font-normal text-fg-muted">(pick any)</span></legend>
@@ -143,23 +160,13 @@ export function ContactForm({ need }: { need?: (typeof NEEDS)[number] }) {
             </div>
 
             <div className="grid gap-6">
-                <h2 className={step}>About you</h2>
-                <Field id="name" label="Your name" error={e.name}><input {...props('name')} type="text" autoComplete="name" required /></Field>
-                <Field id="business" label="Business name" hint="(optional)" error={e.business}><input {...props('business')} type="text" autoComplete="organization" /></Field>
-                <Field id="email" label="Email" error={e.email}><input {...props('email')} type="email" autoComplete="email" required /></Field>
-                <Field id="phone" label="Phone" hint="(optional, unless you want a call)" error={e.phone}><input {...props('phone')} type="tel" autoComplete="tel" /></Field>
-                <Choices name="reply" label="How should we reply?" options={REPLIES} checked={o => (v.reply ?? REPLIES[0]) === o} only={{ [DEALER_REPLY]: 'hidden group-has-[[data-dealer]:checked]:block has-[:checked]:block' }} />
-                <Field id="message" label="Tell us about it" hint={<span className="hidden group-has-[[data-dealer]:checked]:inline">(optional)</span>} error={e.message}>
-                    <textarea {...props('message')} rows={5} placeholder="What is not working today, and what should the site do?" />
+                <Field id="message" label="Anything else?" hint="(optional)" error={e.message}>
+                    <textarea {...props('message')} rows={4} placeholder="What is not working today, and what should the site do?" />
                 </Field>
-            </div>
-
-            <Turnstile resetKey={state} />
-            {state.message && <p role="alert" className="text-red-300">{state.message}</p>}
-            <div>
-                <button type="submit" disabled={pending} className="inline-flex items-center justify-center rounded-xl bg-action px-5 py-3.5 text-base font-semibold text-white transition-[background-color,transform] duration-150 hover:bg-action-hover active:scale-[0.97] disabled:opacity-60">
-                    {pending ? 'Sending' : 'Send message'}
-                </button>
+                <Field id="business" label="Business name" hint="(optional)" error={e.business}><input {...props('business')} type="text" autoComplete="organization" /></Field>
+                <div>
+                    <button type="submit" disabled={pending} className={button}>{pending ? 'Sending' : 'Send message'}</button>
+                </div>
             </div>
         </form>
     );

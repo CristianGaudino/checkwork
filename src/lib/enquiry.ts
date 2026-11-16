@@ -1,7 +1,9 @@
 import { z } from 'zod';
-import { CONCERN_LABELS, DEALER_NEEDS, DEALER_REPLY, NEEDS, REPLIES, STOCK_SIZES, STOCK_SOURCES, TIMINGS } from '@/content/contact';
+import { CONCERN_LABELS, DEALER_NEEDS, NEEDS, NO_NEED, REPLIES, STOCK_SIZES, STOCK_SOURCES, TIMINGS } from '@/content/contact';
 
-const optional = (max: number) => z.string().trim().max(max, `Keep this under ${max.toLocaleString('en-IE')} characters.`);
+// Missing (not on the form) reads as empty, like a field left blank
+const blank = <T extends z.ZodType>(schema: T) => z.preprocess(v => v ?? '', schema);
+const optional = (max: number) => blank(z.string().trim().max(max, `Keep this under ${max.toLocaleString('en-IE')} characters.`));
 // A choice left unpicked sends nothing, and a tampered one is dropped: either way it reads as "not answered", never an error
 const pick = <T extends readonly [string, ...string[]]>(values: T) => z.enum(values).optional().catch(undefined);
 // Ticked boxes sharing a name: the known ones, once each
@@ -11,15 +13,17 @@ const ticked = <T extends string>(values: readonly T[]) =>
 export const enquirySchema = z.object({
     name: z.string().trim().min(1, 'Enter your name.').max(100, 'Keep this under 100 characters.'),
     business: optional(100),
-    email: z.string().trim().max(254, 'That email address is too long.').pipe(z.email('Enter an email address we can reply to, like name@example.ie.')),
+    // Phone or email, whichever suits: one of them is checked for in parseEnquiry
+    email: blank(z.string().trim().max(254, 'That email address is too long.')
+        .refine(v => !v || z.email().safeParse(v).success, 'Enter an email address we can reply to, like name@example.ie.')),
     phone: optional(30),
-    need: z.enum(NEEDS, 'Choose what you need.'),
+    need: z.enum(NEEDS).catch(NO_NEED),
     message: optional(5000),
-    reply: z.enum(REPLIES).catch('By email'),
+    reply: pick(REPLIES),
     // The dealer questions. Kept only when the need is a dealer one (see parseEnquiry).
     stock: pick(STOCK_SIZES),
     source: pick(STOCK_SOURCES),
-    website: optional(200).optional(), // only on the form while a dealer choice is ticked
+    website: optional(200), // only on the form while a dealer choice is ticked
     // Unknown boxes are dropped one by one, so a tampered one never costs the real ones
     concerns: ticked(CONCERN_LABELS),
     timing: pick(TIMINGS),
@@ -53,15 +57,17 @@ export function parseEnquiry(raw: Record<string, FormDataEntryValue | FormDataEn
     if (!result.success) for (const issue of result.error.issues) errors[issue.path[0] as EnquiryField] ??= issue.message;
     // Checked on the raw values, so they show alongside the errors above instead of after them
     const text = (k: string) => (typeof raw[k] === 'string' ? raw[k].trim() : '');
-    // The dealer questions can stand in for a message; anything else needs a few lines
-    if (!text('message') && !isDealerNeed(raw.need)) errors.message ??= 'Write a few lines about what you need.';
-    if ((REPLIES as readonly unknown[]).slice(1).includes(raw.reply) && !text('phone')) errors.phone ??= 'Add a number so we can call you.';
+    // Only a way to reply is needed. No choice made: call when there is only a number, else email
+    const phone = text('phone'), email = text('email');
+    const reply = (REPLIES as readonly unknown[]).includes(raw.reply) ? raw.reply as (typeof REPLIES)[number] : phone && !email ? 'A phone call' : 'By email';
+    if (!phone && !email) errors.phone ??= 'Add a phone number or an email so we can reply.';
+    else if (reply === 'A phone call' && !phone) errors.phone ??= 'Add a number so we can call you.';
+    else if (reply === 'By email' && !email) errors.email ??= 'Add an email so we can reply, or pick Call me.';
     if (!result.success || Object.keys(errors).length) return { ok: false, errors };
 
     const d = result.data;
     const details: EnquiryDetails = {
-        // The walkthrough is offered to dealers only: anyone else who sends it still gets the call
-        reply: d.reply === DEALER_REPLY && !isDealerNeed(d.need) ? 'A phone call' : d.reply,
+        reply,
         ...(isDealerNeed(d.need) && {
             ...(d.concerns.length && { concerns: d.concerns }),
             ...(d.timing && { timing: d.timing }),
