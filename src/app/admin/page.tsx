@@ -25,8 +25,14 @@ export default async function Admin({ searchParams }: PageProps<'/admin'>) {
     const db = getDb();
 
     // Escape LIKE wildcards so a search for "%" or "_" matches the character itself
-    const term = `%${q.replace(/[\\%_]/g, '\\$&')}%`;
-    const search = q ? or(...[enquiries.name, enquiries.email, enquiries.phone, enquiries.business, enquiries.message, enquiries.notes].map(c => sql`${c} like ${term} escape '\\'`)) : undefined;
+    const like = (text: string) => `%${text.replace(/[\\%_]/g, '\\$&')}%`;
+    const term = like(q);
+    // Numbers are typed with or without spaces and dashes: also compare them without either
+    const digits = like(q.replace(/[\s-]/g, ''));
+    const search = q ? or(
+        ...[enquiries.name, enquiries.email, enquiries.phone, enquiries.business, enquiries.message, enquiries.notes].map(c => sql`${c} like ${term} escape '\\'`),
+        sql`replace(replace(${enquiries.phone}, ' ', ''), '-', '') like ${digits} escape '\\'`,
+    ) : undefined;
     // shortcut: newest 200 only, no paging. Upgrade when there are more than that to read.
     const rows = await db.select().from(enquiries).where(and(status && eq(enquiries.status, status), search)).orderBy(desc(enquiries.id)).limit(200);
     const totals = new Map((await db.select({ status: enquiries.status, n: count() }).from(enquiries).groupBy(enquiries.status)).map(t => [t.status, t.n]));
@@ -56,8 +62,8 @@ export default async function Admin({ searchParams }: PageProps<'/admin'>) {
 
                     {rows.length === 0 && <p className="text-fg-muted">{all === 0 ? 'No enquiries yet.' : 'Nothing matches.'}</p>}
                     {rows.map(r => {
-                        // No email (they asked for a call): Reply rings them instead
-                        const reply = !r.email && r.phone ? `tel:${r.phone}` : `mailto:${r.email}?subject=${encodeURIComponent('Re: your Checkwork enquiry')}&body=${encodeURIComponent(`Hi ${r.name.split(' ')[0]},\n\n`)}`;
+                        // Reply the way they asked: ring them if they asked for a call or left no email
+                        const reply = r.phone && (r.details?.reply === 'A phone call' || !r.email) ? `tel:${r.phone}` : `mailto:${r.email}?subject=${encodeURIComponent('Re: your Checkwork enquiry')}&body=${encodeURIComponent(`Hi ${r.name.split(' ')[0]},\n\n`)}`;
                         const details = detailLines(r.details);
                         return (
                             <article key={r.id} className="grid gap-3 rounded-xl border border-line bg-surface p-5">
