@@ -17,6 +17,9 @@ it('builds a text alert with a fixed subject, reply-to the visitor and no empty 
     expect(a.text).not.toMatch(/Business|Phone/);
     expect(a.text).toContain('Message:\nHello\nthere');
     expect(buildEnquiryAlert({ ...base, business: 'Acme', phone: '087' }).text).toMatch(/Business: Acme[\s\S]*Phone: 087/);
+    // A call only: no email line and no reply-to
+    const call = buildEnquiryAlert({ ...base, email: '', phone: '087' });
+    expect([call.text.includes('Email'), 'replyTo' in call]).toEqual([false, false]);
 });
 
 it('lists the dealer answers, and leaves out an empty message', () => {
