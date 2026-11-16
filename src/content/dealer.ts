@@ -1,5 +1,5 @@
 // The car dealer page: what the product does, from the demo dealer site (the checkwork-demo repo). Everything here is built and working in
-// the demo. Some need the dealer's own account before they work for real, and say so: DoneDeal's API, a registration lookup service and Google reviews.
+// the demo. Some need the dealer's own account before they work for real, and say so: a listing site's API (DoneDeal, CarsIreland or another), a registration lookup service and Google reviews.
 // Screenshots are of the demo with its made-up dealer and sample data.
 
 const shot = (name: string) => `/work/dealer-demo/${name}.webp`;
@@ -46,13 +46,13 @@ export const FEATURES = [
 ] as const;
 
 export const STOCK_OPTIONS = [
-    { title: 'Your stock stays on DoneDeal', text: 'Keep adding cars on DoneDeal as you do now. The site follows it every 15 minutes, and holds back if DoneDeal ever sends back an empty list. This needs API access from DoneDeal for your account.' },
+    { title: 'Your stock stays where you list it', text: 'Keep adding cars on DoneDeal, CarsIreland or another listing site as you do now. The website follows it every 15 minutes, and holds back if the listing site ever sends back an empty list. This needs API access from that site for your account.' },
     { title: 'Or keep your stock in the dashboard', text: 'Add cars, photos and prices in the dashboard and the website changes at once. Sales, deposits and margins sit with each car.' },
 ] as const;
 
 export const DEALER_FAQS = [
     { q: 'Can we try it before we talk to you?', a: 'Yes. The demo site is live for anyone to use, with a made-up dealer and sample stock. The dealer dashboard is shown in the screenshots on this page, and we walk you through it on a call.' },
-    { q: 'Can our team add and update cars without a developer?', a: 'Yes. Either your stock stays on DoneDeal and the site follows it, or your team adds and edits cars in the dashboard. Neither waits on us.' },
+    { q: 'Can our team add and update cars without a developer?', a: 'Yes. Either your stock stays on DoneDeal, CarsIreland or another listing site and the website follows it, or your team adds and edits cars in the dashboard. Neither waits on us.' },
     { q: 'Where do enquiries go?', a: 'Into the dashboard as leads, and by email to the addresses you choose. Each one is stored with the consent it was sent under.' },
     { q: 'Can we show finance on the site?', a: 'Yes. The estimator uses your lender’s rate and the representative example and warnings you are required to show. We never make up rates.' },
     { q: 'Who sees our margins?', a: 'Only the people you choose. Each person has a role, and figures like cost and margin are checked on the server, not just hidden on screen.' },

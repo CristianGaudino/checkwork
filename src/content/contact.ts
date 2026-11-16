@@ -22,7 +22,7 @@ export const NEED_HINTS: Record<(typeof NEEDS)[number], string> = {
 export const DEALER_NEEDS = [NEEDS[2], NEEDS[3]] as const;
 
 export const STOCK_SIZES = ['Under 25 cars', '25 to 75 cars', 'More than 75 cars'] as const;
-export const STOCK_SOURCES = ['On DoneDeal', 'In our own system or a spreadsheet', 'On another listing site', 'Not sure'] as const;
+export const STOCK_SOURCES = ['On DoneDeal', 'On CarsIreland', 'On another listing site', 'In our own system or a spreadsheet', 'Not sure'] as const;
 export const INTERESTS = [
     'Stock search and car pages',
     'Leads in one place',
@@ -44,7 +44,7 @@ const shot = (name: string) => `/work/dealer-demo/${name}.webp`;
 export const CONCERNS = [
     {
         id: 'stock', label: 'Updating stock takes too long', show: 'group-has-[[data-concern=stock]:checked]:grid',
-        demo: { text: 'Keep adding cars on DoneDeal and the site follows it (this needs API access from DoneDeal for your account), or add them in the dashboard and the site changes at once.', src: shot('dash-stock'), alt: 'Demo dealer dashboard stock list with prices, margins and days in stock', path: null },
+        demo: { text: 'Keep listing cars on DoneDeal, CarsIreland or another listing site and the website follows it, once that site gives your account API access. Or add them in the dashboard and the website changes at once.', src: shot('dash-stock'), alt: 'Demo dealer dashboard stock list with prices, margins and days in stock', path: null },
     },
     {
         id: 'enquiries', label: 'Not enough enquiries from the site', show: 'group-has-[[data-concern=enquiries]:checked]:grid',
