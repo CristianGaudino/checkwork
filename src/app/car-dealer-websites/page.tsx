@@ -3,11 +3,12 @@ import { DealerTour } from '@/components/DealerTour';
 import { DemoButton } from '@/components/DemoButton';
 import { Faqs } from '@/components/Faqs';
 import { JsonLd } from '@/components/JsonLd';
+import { WhatsAppChat } from '@/components/WhatsAppChat';
 import { Button } from '@/components/ui/Button';
 import { CtaBand } from '@/components/ui/CtaBand';
 import { Container, Section } from '@/components/ui/Container';
 import { DEALER_CHECKS } from '@/content/checks';
-import { DEALER_FAQS, FEATURES, STOCK_OPTIONS } from '@/content/dealer';
+import { DEALER_FAQS, FEATURES, STOCK_OPTIONS, TRADE_IN_CHAT, WHATSAPP_ALERTS, WHATSAPP_CARE } from '@/content/dealer';
 import { STEPS } from '@/content/services';
 import { DEALER_CONTACT, ROUTES } from '@/lib/config';
 import { pageMetadata } from '@/lib/metadata';
@@ -59,6 +60,36 @@ export default function CarDealerWebsites() {
                 </Container>
             </Section>
 
+            <Section className="border-t border-line">
+                <Container className="grid gap-12">
+                    <div className="grid max-w-2xl gap-3">
+                        <h2 className="font-display text-4xl font-semibold md:text-5xl">Answer leads from the yard</h2>
+                        <p className="text-lg text-fg-muted">Every new lead reaches your team’s phones on WhatsApp. A trade-in comes with the reg and the photos. Tap Reply with a price, type the number, and the buyer gets a proper offer from your dealership.</p>
+                    </div>
+                    <div className="grid gap-10 md:grid-cols-2">
+                        <WhatsAppChat title="Checkwork Motors" caption="Your salesperson’s phone" lines={TRADE_IN_CHAT.dealer} who={{ in: 'Your site', out: 'Salesperson' }} />
+                        <WhatsAppChat title="Checkwork Motors" caption="Ciarán’s phone" lines={TRADE_IN_CHAT.buyer} who={{ in: 'Your dealership', out: 'Ciarán' }} />
+                    </div>
+                    <p className="text-sm text-fg-muted">From the demo, with a made-up buyer. In the demo, messages stay inside it.</p>
+                    <div className="grid gap-x-10 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
+                        {WHATSAPP_ALERTS.map(a => (
+                            <div key={a.title} className="grid content-start gap-2 border-t border-line pt-5">
+                                <h3 className="font-display text-xl font-semibold">{a.title}</h3>
+                                <p className="text-fg-muted">{a.text}</p>
+                            </div>
+                        ))}
+                    </div>
+                    <ul className="grid gap-3 rounded-2xl border border-line bg-surface p-6 text-fg-muted md:p-8">
+                        {WHATSAPP_CARE.map(c => (
+                            <li key={c} className="grid grid-cols-[1rem_1fr] gap-3">
+                                <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" className="mt-1 size-4 text-accent-alt"><path d="M2.5 8.6 6.2 12 13.5 4" stroke="currentColor" strokeWidth="2" /></svg>
+                                {c}
+                            </li>
+                        ))}
+                    </ul>
+                </Container>
+            </Section>
+
             <Section className="border-t border-line bg-surface">
                 <Container className="grid gap-10">
                     <div className="grid max-w-2xl gap-3">
@@ -99,7 +130,7 @@ export default function CarDealerWebsites() {
                     </div>
                     <div className="flex flex-wrap gap-3">
                         <DemoButton variant="secondary" />
-                        <Button href={ROUTES.dealerAI} variant="secondary">AI and WhatsApp for dealers</Button>
+                        <Button href={ROUTES.dealerAI} variant="secondary">AI for dealers</Button>
                     </div>
                 </Container>
             </Section>

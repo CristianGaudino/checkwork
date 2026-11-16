@@ -35,7 +35,7 @@ export const SERVICES = [
             'Training and enablement: your team learns to use AI tools safely',
             'Advice and audits: where AI would and would not help, and the workflow around it',
         ],
-        more: { href: ROUTES.dealerAI, label: 'AI and WhatsApp for car dealers' },
+        more: { href: ROUTES.dealerAI, label: 'AI for car dealers' },
     },
     {
         id: 'support',

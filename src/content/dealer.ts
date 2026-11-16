@@ -56,5 +56,45 @@ export const DEALER_FAQS = [
     { q: 'Where do enquiries go?', a: 'Into the dashboard as leads, and by email to the addresses you choose. Each one is stored with the consent it was sent under.' },
     { q: 'Can we show finance on the site?', a: 'Yes. The estimator uses your lender’s rate and the representative example and warnings you are required to show. We never make up rates.' },
     { q: 'Who sees our margins?', a: 'Only the people you choose. Each person has a role, and figures like cost and margin are checked on the server, not just hidden on screen.' },
+    { q: 'Does my team need a new app for WhatsApp?', a: 'No. Alerts come to the WhatsApp they already use, from your dealership’s WhatsApp Business number. Each message has a small running cost, and you set the monthly cap.' },
+    { q: 'Can buyers message us on WhatsApp from the site?', a: 'Yes. Every car page has a WhatsApp button, and buyers can ask for updates on WhatsApp when they enquire.' },
     { q: 'Will the website rank on Google?', a: 'We set up what Google looks for: speed, page titles, structured data for each car and your local details. No one can promise a ranking, and anyone who does is guessing.' },
+] as const;
+
+// WhatsApp, from the demo dashboard (src/lib/whatsapp there). The demo's own wording, with a made-up buyer; in the demo the messages stay
+// inside it. `in` is what the phone receives, `out` what its owner sends.
+export type ChatLine = { dir: 'in' | 'out'; text: string; photos?: readonly string[]; buttons?: readonly string[] };
+
+const golf = ['/work/dealer-demo/trade-1.webp', '/work/dealer-demo/trade-2.webp', '/work/dealer-demo/trade-3.webp'];
+
+export const TRADE_IN_CHAT: { dealer: readonly ChatLine[]; buyer: readonly ChatLine[] } = {
+    dealer: [
+        { dir: 'in', text: 'Ciarán wants a price for a trade-in.\nReg 131-D-20456.\n“2013 Golf, 142,000 km, full service history.”', photos: golf, buttons: ['Reply with a price', 'Ask for more photos', 'Not for us'] },
+        { dir: 'out', text: 'Reply with a price' },
+        { dir: 'in', text: 'What price do you want to offer Ciarán? Type it, like 8,500.' },
+        { dir: 'out', text: '6.5k' },
+        { dir: 'in', text: 'Done. I sent Ciarán your offer of €6,500 by WhatsApp. I will tell you when they answer.' },
+        { dir: 'in', text: 'Ciarán replied: “That sounds good. Could I bring it in on Saturday morning?”', buttons: ['Call back', 'Mark handled'] },
+    ],
+    buyer: [
+        { dir: 'in', text: 'Hi Ciarán, thanks for sending us your car. We have your details and photos, and we will come back to you shortly.' },
+        { dir: 'in', text: 'Hi Ciarán, thank you for sending us your car. We can offer you €6,500 for it, subject to seeing it. Reply here and we will book a time for you to bring it in. Checkwork Motors' },
+        { dir: 'out', text: 'That sounds good. Could I bring it in on Saturday morning?' },
+    ],
+};
+
+/** The other WhatsApp alerts, each answered with a tap (the buttons are the demo's) */
+export const WHATSAPP_ALERTS = [
+    { title: 'New enquiry', text: 'The car and the question. Tap “Yes, it’s available” or “Can you come in Saturday?” and the buyer is answered.' },
+    { title: 'Test drive booking', text: 'Confirm it, or suggest another time.' },
+    { title: 'A car 60 days in stock', text: 'With a suggested price drop to apply in one tap.' },
+    { title: 'New Google review', text: 'Type a reply and it is posted on Google.' },
+    { title: 'Finance, service and deposits', text: 'Acknowledge an application, confirm a service slot or a deposit, so nobody waits.' },
+    { title: 'The Monday summary', text: 'Last week in a few lines, with a link to the full report.' },
+] as const;
+
+export const WHATSAPP_CARE = [
+    'A buyer gets WhatsApp messages only if they ticked the box on the form. Otherwise they get an email, or your team is told to call.',
+    'Alerts go from your WhatsApp Business number to the phones you link. Only a linked phone can act, and every tap is in the activity log.',
+    'You set a monthly cap. Past it, alerts come by email instead.',
 ] as const;

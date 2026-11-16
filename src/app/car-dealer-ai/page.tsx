@@ -3,48 +3,33 @@ import { JsonLd } from '@/components/JsonLd';
 import { Button } from '@/components/ui/Button';
 import { CtaBand } from '@/components/ui/CtaBand';
 import { Container, Section } from '@/components/ui/Container';
-import { ADJUSTS, AI_FAQS, ALERTS, CARE, CHAT, WRITING } from '@/content/dealer-ai';
+import { ADJUSTS, AI_FAQS, CARE, DRAFT, WRITING } from '@/content/dealer-ai';
 import { DEALER_CONTACT, ROUTES } from '@/lib/config';
 import { pageMetadata } from '@/lib/metadata';
 import { service } from '@/lib/schema';
 
 export const metadata = pageMetadata({
-    title: 'AI and WhatsApp for car dealers in Ireland',
-    description: 'AI that drafts your car descriptions, posts and replies for your team to check, and WhatsApp alerts that let your team answer leads from the yard. Built into the dealer websites we make.',
+    title: 'AI for car dealers in Ireland',
+    description: 'AI that drafts your car descriptions, social posts, newsletters and replies from your own records, for your team to check and send. Built into the dealer websites we make.',
     path: ROUTES.dealerAI,
 });
 
 const chip = 'rounded-full border border-line px-3 py-1 text-sm text-accent-alt';
 
-/** The demo's enquiry alert as it reaches a salesperson's phone: drawn in code, so it stays sharp and true to the demo's wording */
-function Chat() {
+/** The writing box from the demo dashboard, with a draft in it: drawn in code, so it stays sharp and true to the demo's wording */
+function Draft() {
     return (
-        <figure className="mx-auto grid w-full max-w-sm gap-3">
-            <div className="overflow-hidden rounded-[2rem] border border-line bg-canvas shadow-[0_40px_90px_-50px_rgb(0_0_0/0.9)]">
-                <div className="flex items-center gap-3 border-b border-line bg-surface px-5 py-4">
-                    <span aria-hidden="true" className="grid size-9 place-content-center rounded-full bg-accent/20 font-display font-semibold text-accent-alt">C</span>
-                    <div className="grid">
-                        <span className="font-semibold">Checkwork Motors</span>
-                        <span className="text-xs text-fg-muted">WhatsApp Business</span>
-                    </div>
+        <figure className="mx-auto grid w-full max-w-md gap-3">
+            <div className="grid gap-4 rounded-2xl border border-line bg-surface p-5 shadow-[0_40px_90px_-50px_rgb(0_0_0/0.9)] sm:p-6">
+                <p className="font-medium">{DRAFT.label}</p>
+                <p className="whitespace-pre-line rounded-xl border border-line bg-canvas px-4 py-3 text-sm">{DRAFT.text}</p>
+                <div className="flex flex-wrap items-center gap-3 text-sm">
+                    <span className="rounded-lg border border-fg/40 px-3 py-1.5 font-semibold">Write again</span>
+                    <span className="font-medium text-accent-alt">AI draft</span>
                 </div>
-                <ol className="grid gap-3 p-4 text-sm">
-                    {CHAT.map(m => (
-                        <li key={m.text} className={`grid max-w-[85%] gap-2 ${m.from === 'staff' ? 'justify-self-end' : ''}`}>
-                            <p className={`whitespace-pre-line rounded-2xl px-4 py-2.5 ${m.from === 'staff' ? 'rounded-br-md bg-accent/20' : 'rounded-bl-md bg-surface'}`}>
-                                <span className="sr-only">{m.from === 'staff' ? 'Salesperson: ' : 'Your site: '}</span>
-                                {m.text}
-                            </p>
-                            {'buttons' in m && (
-                                <ul className="grid gap-1" aria-label="Reply buttons">
-                                    {m.buttons.map(b => <li key={b} className="rounded-xl border border-line bg-surface px-3 py-2 text-center text-accent-alt">{b}</li>)}
-                                </ul>
-                            )}
-                        </li>
-                    ))}
-                </ol>
+                <ul className="flex flex-wrap gap-2" aria-label="Change the draft">{DRAFT.adjusts.map(a => <li key={a} className={chip}>{a}</li>)}</ul>
             </div>
-            <figcaption className="text-center text-sm text-fg-muted">From the demo, with a made-up buyer.</figcaption>
+            <figcaption className="text-center text-sm text-fg-muted">From the demo dashboard, with its sample stock.</figcaption>
         </figure>
     );
 }
@@ -52,21 +37,21 @@ function Chat() {
 export default function CarDealerAI() {
     return (
         <>
-            <JsonLd data={service('AI and WhatsApp for car dealers', 'AI writing and WhatsApp alerts in car dealer websites', ROUTES.dealerAI)} />
+            <JsonLd data={service('AI for car dealers', 'AI writing in car dealer websites and dashboards', ROUTES.dealerAI)} />
 
             <section className="overflow-hidden border-b border-line pb-16 pt-14 md:pb-24 md:pt-24">
                 <Container className="grid items-center gap-14 lg:grid-cols-[1.1fr_0.9fr]">
                     <div className="grid gap-6">
-                        <h1 className="font-display text-5xl font-semibold md:text-6xl">AI and WhatsApp for car dealers</h1>
+                        <h1 className="font-display text-5xl font-semibold md:text-6xl">AI for car dealers</h1>
                         <p className="max-w-xl text-lg text-fg-muted md:text-xl">
-                            Built into the website and dashboard we make for your dealership. AI writes the first draft of your listings, posts and replies. WhatsApp puts every new lead on your team’s phones, to answer from the yard.
+                            Built into the dashboard we make for your dealership. AI writes the first draft of your car descriptions, posts, newsletters and replies, from your own stock. Your team checks it and sends it.
                         </p>
                         <div className="flex flex-wrap gap-3">
                             <Button href={DEALER_CONTACT}>Talk to us</Button>
                             <Button href={ROUTES.dealers} variant="secondary">See the dealer websites</Button>
                         </div>
                     </div>
-                    <Chat />
+                    <Draft />
                 </Container>
             </section>
 
@@ -92,28 +77,10 @@ export default function CarDealerAI() {
             </Section>
 
             <Section className="border-t border-line bg-surface">
-                <Container className="grid gap-12">
-                    <div className="grid max-w-2xl gap-3">
-                        <h2 className="font-display text-4xl font-semibold md:text-5xl">Answer leads from the yard</h2>
-                        <p className="text-lg text-fg-muted">Each alert comes with buttons. Tap one and the buyer is answered, and the lead in the dashboard is updated, so the office sees what was done.</p>
-                    </div>
-                    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                        {ALERTS.map(a => (
-                            <div key={a.title} className="grid content-start gap-3 rounded-2xl border border-line bg-canvas p-6">
-                                <h3 className="font-display text-xl font-semibold">{a.title}</h3>
-                                <p className="text-fg-muted">{a.text}</p>
-                                <ul className="flex flex-wrap gap-2" aria-label="Buttons">{a.buttons.map(b => <li key={b} className={chip}>{b}</li>)}</ul>
-                            </div>
-                        ))}
-                    </div>
-                </Container>
-            </Section>
-
-            <Section>
                 <Container className="grid gap-10 md:grid-cols-[1fr_1.4fr] md:gap-16">
                     <div className="grid content-start gap-4">
                         <h2 className="font-display text-4xl font-semibold">How it is kept safe</h2>
-                        <p className="max-w-prose text-fg-muted">AI and WhatsApp handle your customers’ messages, so these are set up on every site, not left as options.</p>
+                        <p className="max-w-prose text-fg-muted">The drafts use your customers’ messages, so these are set up on every site, not left as options.</p>
                     </div>
                     <dl className="border-t border-line">
                         {CARE.map(c => (
@@ -128,7 +95,7 @@ export default function CarDealerAI() {
 
             <Faqs faqs={AI_FAQS} />
 
-            <CtaBand title="See it with your team in mind" text="Tell us how your team handles leads today. We will show you the AI writing and WhatsApp in the demo on a call." href={DEALER_CONTACT} label="Talk to us" />
+            <CtaBand title="See it with your stock in mind" text="Tell us how your team writes listings and replies today. We will show you the AI writing in the demo on a call." href={DEALER_CONTACT} label="Talk to us" />
         </>
     );
 }
