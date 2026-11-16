@@ -3,14 +3,14 @@ import { JsonLd } from '@/components/JsonLd';
 import { Button } from '@/components/ui/Button';
 import { CtaBand } from '@/components/ui/CtaBand';
 import { Container, Section } from '@/components/ui/Container';
-import { ADJUSTS, AI_FAQS, CARE, DRAFT, WRITING } from '@/content/dealer-ai';
+import { ADJUSTS, AI_FAQS, CARE, DRAFT, POST_NOTES, POST_STEPS, WRITING } from '@/content/dealer-ai';
 import { DEALER_CONTACT, ROUTES } from '@/lib/config';
 import { pageMetadata } from '@/lib/metadata';
 import { service } from '@/lib/schema';
 
 export const metadata = pageMetadata({
     title: 'AI for car dealers in Ireland',
-    description: 'AI that drafts your car descriptions, social posts, newsletters and replies from your own records, for your team to check and send. Built into the dealer websites we make.',
+    description: 'AI that drafts your car descriptions, Facebook, Instagram and TikTok posts, newsletters and replies from your own stock, for your team to check and send. Built into the dealer websites we make.',
     path: ROUTES.dealerAI,
 });
 
@@ -72,7 +72,34 @@ export default function CarDealerAI() {
                     <div className="grid gap-3">
                         <p className="font-medium">Then change it in one tap</p>
                         <ul className="flex flex-wrap gap-2">{ADJUSTS.map(a => <li key={a} className={chip}>{a}</li>)}</ul>
+                        <p className="max-w-2xl text-fg-muted">Undo takes back one step. A draft stays marked as an AI draft, even once edited, and a reply can be copied to send by email or WhatsApp.</p>
                     </div>
+                </Container>
+            </Section>
+
+            <Section className="border-t border-line">
+                <Container className="grid gap-12">
+                    <div className="grid max-w-2xl gap-3">
+                        <h2 className="font-display text-4xl font-semibold md:text-5xl">From a car to a post</h2>
+                        <p className="text-lg text-fg-muted">Your stock is already in the dashboard, so a post for any car takes four steps.</p>
+                    </div>
+                    <ol className="grid gap-8 md:grid-cols-4">
+                        {POST_STEPS.map((s, i) => (
+                            <li key={s.title} className="grid content-start gap-2 border-t border-line pt-5">
+                                <span className="font-display text-sm text-accent-alt">{String(i + 1).padStart(2, '0')}</span>
+                                <h3 className="font-display text-xl font-semibold">{s.title}</h3>
+                                <p className="text-fg-muted">{s.text}</p>
+                            </li>
+                        ))}
+                    </ol>
+                    <ul className="grid gap-3 rounded-2xl border border-line bg-surface p-6 text-fg-muted md:p-8">
+                        {POST_NOTES.map(n => (
+                            <li key={n} className="grid grid-cols-[1rem_1fr] gap-3">
+                                <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" className="mt-1 size-4 text-accent-alt"><path d="M2.5 8.6 6.2 12 13.5 4" stroke="currentColor" strokeWidth="2" /></svg>
+                                {n}
+                            </li>
+                        ))}
+                    </ul>
                 </Container>
             </Section>
 

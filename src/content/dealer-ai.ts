@@ -1,6 +1,6 @@
 // The AI page for car dealers (issue #45). Everything here is built in the demo dealer dashboard (the checkwork-demo repo, src/lib/ai).
 // In the demo the writing is simulated: drafts are sample text built from the record. Keep each line true to that code: what a draft sees,
-// the buttons, the cap. WhatsApp is on the dealer page (src/content/dealer.ts), not here.
+// the buttons, the cap. Posting is simulated there too: nothing goes to Facebook, Instagram, TikTok or a mailbox. WhatsApp is on the dealer page (src/content/dealer.ts), not here.
 
 /** The draft in the hero: the demo's car description for its 2019 MINI Clubman, with the buttons a car description gets */
 export const DRAFT = {
@@ -11,10 +11,24 @@ export const DRAFT = {
 
 export const WRITING = [
     { title: 'Car descriptions', text: 'From the details on the car: year, mileage, fuel, features and NCT. Adjust it to highlight economy or family use.' },
-    { title: 'Social posts', text: 'A post or a story for a car in stock, with your sign-off and hashtags, ready to approve and schedule.' },
+    { title: 'Social posts', text: 'Captions for Facebook, Instagram and TikTok, written for a post, a story, a reel or a carousel.' },
     { title: 'Newsletters', text: 'Your newest arrivals in one email, with a subject line.' },
     { title: 'Replies to leads', text: 'A reply to an enquiry, a trade-in or a test drive request, using the buyer’s first name and the car they asked about.' },
     { title: 'Replies to reviews', text: 'A reply to a new Google review, shorter or more apologetic as it needs.' },
+] as const;
+
+/** A social post from the demo's composer (src/components/admin/PostComposer.tsx there), one step per screen on a phone */
+export const POST_STEPS = [
+    { title: 'Pick a car', text: 'From photo cards of your stock.' },
+    { title: 'Pick where it goes', text: 'Facebook, Instagram or TikTok, as a post, a story, a reel or a carousel. Add a paid ad on Meta or Google if you want one.' },
+    { title: 'AI writes the text', text: 'For that network and format, with your sign-off and hashtags. A story gets a ready layout: Just in, or Price drop.' },
+    { title: 'Post now or later', text: 'Scheduled posts sit on a calendar and go out on time.' },
+] as const;
+
+export const POST_NOTES = [
+    'Facebook and Instagram posts, reels and carousels go out on their own. Stories and TikTok are made ready for you to post from your phone, where those networks do not allow posting from outside.',
+    'When a car is added to stock, your team can get a WhatsApp nudge to post it.',
+    'Newsletters go only to people who signed up on your site, each with its own unsubscribe link. Your team can take someone off the list, never add them.',
 ] as const;
 
 export const ADJUSTS = ['Shorter', 'Friendlier', 'More professional', 'More detail', 'Add urgency', 'Highlight economy', 'Highlight family use'] as const;
@@ -33,5 +47,5 @@ export const AI_FAQS = [
     { q: 'Will the drafts sound like us?', a: 'Each draft uses your dealership’s name, your stock and your sign-off. Adjust it with one tap, or edit it like any other text.' },
     { q: 'Can it make up details about a car?', a: 'It only gets the details on the car’s record, so that is what it writes from. AI can still get things wrong, which is why a person checks every draft.' },
     { q: 'What does it cost to run?', a: 'Each draft has a small running cost. We go through it with you before AI is switched on, and you set the monthly cap.' },
-    { q: 'Can we try it?', a: 'It is in the demo dealer dashboard, where the drafts are sample text. We walk you through it on a call.' },
+    { q: 'Can we try it?', a: 'It is in the demo dealer dashboard, where the drafts are sample text and nothing is posted. We walk you through it on a call.' },
 ] as const;
