@@ -7,7 +7,7 @@ export const SERVICES = [
         summary: 'A fast website that brings in enquiries and is set up so Google can find it.',
         text: 'Design and development of fast, custom websites. We build them in code, so they load quickly and do exactly what your business needs, and we set up the technical basics Google looks for.',
         points: ['Design and build, start to finish', 'Set up for search: titles, structured data, local details', 'Tested on real phones before launch'],
-        more: { href: ROUTES.dealers, label: 'Websites for car dealerships' },
+        more: { href: `${ROUTES.work}/blacktail-archive`, label: 'See Blacktail Archive' },
     },
     {
         id: 'web-apps',
@@ -18,12 +18,12 @@ export const SERVICES = [
         more: { href: `${ROUTES.work}/how-many`, label: 'See How Many' },
     },
     {
-        id: 'dealer-tools',
-        title: 'Dealer tools',
-        summary: 'Searchable stock, compare and saved cars, a finance calculator and enquiry forms that store every lead.',
-        text: 'The tools a buyer uses on a dealership website, and the system that catches their enquiries so none are lost. See it working in our demo dealer site.',
-        points: ['Stock search with filters', 'Compare and saved cars', 'Finance calculator', 'Enquiry forms with every lead stored'],
-        more: { href: `${ROUTES.work}/dealer-demo`, label: 'See the demo dealer site' },
+        id: 'car-dealers',
+        title: 'Car dealer websites',
+        summary: 'A website that sells your stock, and a dashboard where your team handles every lead, test drive and sale.',
+        text: 'A website for buyers and a dashboard for your team, built for how a dealership sells. Try it in our live demo dealer site.',
+        points: ['Stock search, car pages, test drives, trade-ins and finance', 'Every lead in one place, with alerts on WhatsApp', 'Stock, sales and margins, with roles for your team'],
+        more: { href: ROUTES.dealers, label: 'Websites for car dealerships' },
     },
     {
         id: 'ai',

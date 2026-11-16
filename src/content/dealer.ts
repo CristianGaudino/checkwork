@@ -53,7 +53,7 @@ export const STOCK_OPTIONS = [
 export const DEALER_FAQS = [
     { q: 'Can we try it before we talk to you?', a: 'Yes. The demo site is live for anyone to use, with a made-up dealer and sample stock. The dealer dashboard is shown in the screenshots on this page, and we walk you through it on a call.' },
     { q: 'Can our team add and update cars without a developer?', a: 'Yes. Either your stock stays on DoneDeal and the site follows it, or your team adds and edits cars in the dashboard. Neither waits on us.' },
-    { q: 'Where do enquiries go?', a: 'Into the dashboard as leads, and by email to the addresses you choose. Each one is stored with the consent it was sent under.' },
+    { q: 'Where do enquiries go?', a: 'Into the dashboard as leads, by email to the addresses you choose, and on WhatsApp to the phones you link. Each one is stored with the consent it was sent under.' },
     { q: 'Can we show finance on the site?', a: 'Yes. The estimator uses your lender’s rate and the representative example and warnings you are required to show. We never make up rates.' },
     { q: 'Who sees our margins?', a: 'Only the people you choose. Each person has a role, and figures like cost and margin are checked on the server, not just hidden on screen.' },
     { q: 'Does my team need a new app for WhatsApp?', a: 'No. Alerts come to the WhatsApp they already use, from your dealership’s WhatsApp Business number. Each message has a small running cost, and you set the monthly cap.' },

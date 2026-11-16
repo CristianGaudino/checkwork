@@ -1,5 +1,5 @@
 // Case studies. Everything here comes from what the owner said about each build; nothing is invented.
-// TODO (issue #2): real screenshots in /public/work/<slug>/ (set `src` on each shot) and measured results (`result`).
+// TODO (issue #2): measured results (`result`). Screenshots of the live sites are of their public front pages.
 
 export type Project = {
   slug: string;
@@ -9,9 +9,10 @@ export type Project = {
   intro: string; // opening paragraph on the case study
   built: { title: string; text: string }[];
   forDealers?: string; // why it matters to the motor trade
-  shots: { src?: string; alt: string; caption?: string }[];
+  shots: { src: string; alt: string; caption?: string }[];
   result?: string; // TODO: real outcome, shown when set
   live?: 'demo'; // has a live site to try (the demo)
+  site?: string; // the live public site, linked from the case study
   featured?: boolean;
 };
 
@@ -88,7 +89,8 @@ export const PROJECTS: Project[] = [
         text: 'Connects to our finance app, How Much, so stock and accounts agree with each other.',
       },
     ],
-    shots: [{ alt: 'How Many inventory and profit view', caption: 'Inventory and profit' }],
+    shots: [{ src: '/work/how-many/home.webp', alt: 'How Many home page: profit this month, items sold and in stock, and a price tag showing the profit on one jacket', caption: 'The How Many home page' }],
+    site: 'https://www.checkhowmany.com',
   },
   {
     slug: 'how-much',
@@ -106,7 +108,8 @@ export const PROJECTS: Project[] = [
         text: 'Link it to How Many to run stock and finances as one system.',
       },
     ],
-    shots: [{ alt: 'How Much sales and reports view', caption: 'Sales and reports' }],
+    shots: [{ src: '/work/how-much/home.webp', alt: 'How Much sign-in page: keep your records ready for year end', caption: 'The How Much front page' }],
+    site: 'https://www.checkhowmuch.com',
   },
   {
     slug: 'blacktail-archive',
@@ -119,7 +122,8 @@ export const PROJECTS: Project[] = [
       { title: 'Public storefront', text: 'A clean website built around showing each piece clearly.' },
       { title: 'Public only', text: 'No logins and no back-office. Just the website, doing one job well.' },
     ],
-    shots: [{ alt: 'Blacktail Archive website', caption: 'Public website' }],
+    shots: [{ src: '/work/blacktail-archive/home.webp', alt: 'Blacktail Archive home page with brands to shop by and the latest pieces', caption: 'The Blacktail Archive home page' }],
+    site: 'https://www.blacktailarchive.cgaudino.com',
   },
 ];
 
