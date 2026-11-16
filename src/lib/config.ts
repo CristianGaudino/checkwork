@@ -21,6 +21,7 @@ export const ROUTES = {
     work: '/work',
     services: '/services',
     dealers: '/car-dealer-websites',
+    dealerAI: '/car-dealer-ai',
     about: '/about',
     contact: '/contact',
     privacy: '/privacy',
@@ -31,6 +32,7 @@ export const NAV = [
     { href: ROUTES.work, label: 'Work' },
     { href: ROUTES.services, label: 'Services' },
     { href: ROUTES.dealers, label: 'Car dealers' },
+    { href: ROUTES.dealerAI, label: 'AI for dealers' },
     { href: ROUTES.about, label: 'About' },
 ] as const;
 

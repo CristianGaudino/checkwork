@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { DealerTour } from '@/components/DealerTour';
 import { DemoButton } from '@/components/DemoButton';
+import { Faqs } from '@/components/Faqs';
 import { JsonLd } from '@/components/JsonLd';
 import { Button } from '@/components/ui/Button';
 import { CtaBand } from '@/components/ui/CtaBand';
@@ -10,7 +11,7 @@ import { DEALER_FAQS, FEATURES, STOCK_OPTIONS } from '@/content/dealer';
 import { STEPS } from '@/content/services';
 import { DEALER_CONTACT, ROUTES } from '@/lib/config';
 import { pageMetadata } from '@/lib/metadata';
-import { dealerService } from '@/lib/schema';
+import { service } from '@/lib/schema';
 
 export const metadata = pageMetadata({
     title: 'Car dealer websites in Ireland',
@@ -21,14 +22,7 @@ export const metadata = pageMetadata({
 export default function CarDealerWebsites() {
     return (
         <>
-            <JsonLd
-                data={{
-                    '@context': 'https://schema.org',
-                    '@type': 'FAQPage',
-                    mainEntity: DEALER_FAQS.map(f => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
-                }}
-            />
-            <JsonLd data={dealerService()} />
+            <JsonLd data={service('Car dealer websites', 'Website design and development for car dealerships', ROUTES.dealers)} />
 
             <section className="overflow-hidden border-b border-line pb-16 pt-14 md:pb-24 md:pt-24">
                 <Container className="grid items-center gap-14 lg:grid-cols-[0.9fr_1.1fr]">
@@ -103,7 +97,10 @@ export default function CarDealerWebsites() {
                             </div>
                         ))}
                     </div>
-                    <div><DemoButton variant="secondary" /></div>
+                    <div className="flex flex-wrap gap-3">
+                        <DemoButton variant="secondary" />
+                        <Button href={ROUTES.dealerAI} variant="secondary">AI and WhatsApp for dealers</Button>
+                    </div>
                 </Container>
             </Section>
 
@@ -142,22 +139,7 @@ export default function CarDealerWebsites() {
                 </Container>
             </Section>
 
-            <Section className="border-t border-line">
-                <Container className="grid gap-8 md:grid-cols-[1fr_1.4fr] md:gap-16">
-                    <h2 className="font-display text-4xl font-semibold">Questions dealers ask</h2>
-                    <div className="border-t border-line">
-                        {DEALER_FAQS.map(f => (
-                            <details key={f.q} className="group border-b border-line">
-                                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-5 font-display text-xl font-semibold [&::-webkit-details-marker]:hidden">
-                                    {f.q}
-                                    <span aria-hidden="true" className="text-2xl font-normal text-accent-alt transition-transform group-open:rotate-45">+</span>
-                                </summary>
-                                <p className="max-w-prose pb-6 text-fg-muted">{f.a}</p>
-                            </details>
-                        ))}
-                    </div>
-                </Container>
-            </Section>
+            <Faqs faqs={DEALER_FAQS} />
 
             <CtaBand title="See it with your own stock in mind" text="Tell us a little about your dealership. We will reply, and walk you through the demo if you would like." href={DEALER_CONTACT} label="Talk to us" />
         </>

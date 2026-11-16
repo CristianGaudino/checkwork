@@ -50,6 +50,14 @@ export const PROJECTS: Project[] = [
         text: 'Sales and profit by month, days to sell, where visitors come from and how many become leads.',
       },
       {
+        title: 'AI writing help',
+        text: 'A first draft of car descriptions, social posts, newsletters and replies to leads and reviews, for the team to check and send. A draft sees the car and the message, never a phone number or email. In the demo the drafts are sample text.',
+      },
+      {
+        title: 'Leads on WhatsApp',
+        text: 'New enquiries, trade-ins, test drives and reviews reach the team’s phones with buttons to answer from the yard, and every tap updates the lead in the dashboard. In the demo the messages stay inside it.',
+      },
+      {
         title: 'Personal data handled properly',
         text: 'Data requests to see, export or erase what is held about a person, and old leads cleared after a set time.',
       },
