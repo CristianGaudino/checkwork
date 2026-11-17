@@ -8,6 +8,8 @@ const TURNSTILE_TEST_SECRET = '1x0000000000000000000000000000000AA';
 export default defineConfig({
     testDir: 'e2e',
     retries: 0,
+    // One page at a time against the live site, to stay under its rate limit (50 page requests in 10 seconds)
+    workers: process.env.E2E_BASE_URL ? 1 : undefined,
     reporter: process.env.CI ? [['github'], ['list'], ['html', { open: 'never' }]] : 'list',
     use: { baseURL: process.env.E2E_BASE_URL ?? `http://127.0.0.1:${PORT}`, trace: 'retain-on-failure' },
     projects: [

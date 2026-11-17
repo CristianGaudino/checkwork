@@ -9,6 +9,11 @@ const settled = (page: Page) => page.waitForFunction(() => document.getAnimation
 // Add each page here as it lands.
 const PAGES = [ROUTES.home, ROUTES.work, ROUTES.contact, ROUTES.services, ROUTES.dealers, ROUTES.dealerAI, ROUTES.about, ROUTES.privacy, ...PROJECTS.map(p => `${ROUTES.work}/${p.slug}`)];
 
+// Live site: skip Next's link prefetches (about 10 a page). Cloudflare's rate limit counts each as a page visit and blocks at 50 in 10 seconds
+test.beforeEach(async ({ page }) => {
+    if (process.env.E2E_BASE_URL) await page.route(url => url.searchParams.has('_rsc'), route => (route.request().headers()['next-router-prefetch'] ? route.abort() : route.continue()));
+});
+
 for (const path of PAGES) {
     test(`${path}: one h1, a title, a canonical, and no axe violations`, async ({ page }) => {
         const response = await page.goto(path);
