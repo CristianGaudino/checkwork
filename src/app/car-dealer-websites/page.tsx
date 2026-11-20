@@ -81,7 +81,7 @@ export default function CarDealerWebsites() {
             </Section>
 
             <Section className="border-t border-line">
-                <Container className="grid gap-10 md:grid-cols-[1fr_1.4fr] md:gap-16">
+                <Container className="grid gap-10 lg:grid-cols-[1fr_1.4fr] lg:gap-16">
                     <div className="grid content-start gap-3">
                         <h2 className="font-display text-4xl font-semibold md:text-5xl">Everything in the demo</h2>
                         <p className="text-lg text-fg-muted">All of it works in the demo today and is on offer. The pricing page shows which plan has what, and we connect your own accounts at setup.</p>
@@ -101,7 +101,7 @@ export default function CarDealerWebsites() {
                                 </summary>
                                 <ul className="grid gap-2.5 pb-6 text-fg-muted">
                                     {f.items.map(i => (
-                                        <li key={i} className="grid grid-cols-[1rem_1fr] gap-3">
+                                        <li key={i} className="grid grid-cols-[1rem_minmax(0,1fr)] gap-3">
                                             <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" className="mt-1 size-4 text-accent-alt"><path d="M2.5 8.6 6.2 12 13.5 4" stroke="currentColor" strokeWidth="2" /></svg>
                                             {i}
                                         </li>

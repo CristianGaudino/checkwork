@@ -76,7 +76,7 @@ export function Header() {
                                     href={item.href}
                                     aria-current={current(item.href)}
                                     onClick={() => setOpen(false)}
-                                    className="block border-b border-line py-4 text-base text-fg-muted hover:text-fg aria-[current=page]:text-fg md:border-0 md:border-b-2 md:border-transparent md:py-1.5 md:text-sm md:aria-[current=page]:border-accent"
+                                    className="block border-b border-line py-4 text-base text-fg-muted hover:text-fg aria-[current=page]:text-fg md:border-0 md:py-1.5 md:text-sm md:aria-[current=page]:underline md:aria-[current=page]:decoration-accent md:aria-[current=page]:decoration-2 md:aria-[current=page]:underline-offset-[0.6rem]"
                                 >
                                     {item.label}
                                 </Link>

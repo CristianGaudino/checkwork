@@ -108,11 +108,13 @@ export function ContactForm({ need }: { need?: (typeof NEEDS)[number] }) {
                 {/* The server's message may name the contact email: shown as a link */}
                 {state.message && <p role="alert" tabIndex={-1} className="text-bad">{state.message.split(CONTACT_EMAIL).flatMap((part, i) => (i ? [<a key={i} href={`mailto:${CONTACT_EMAIL}`} className="underline underline-offset-4">{CONTACT_EMAIL}</a>, part] : [part]))}</p>}
                 <noscript><p className="text-bad">This form needs JavaScript. Turn it on to send, or email {mail}.</p></noscript>
-                <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-                    <button type="submit" disabled={pending || waiting} className={button}>{sendLabel('Send now')}</button>
-                    <p className="text-sm text-fg-muted">That is all we need. The rest is optional.</p>
-                    {/* Always rendered (display kept), so screen readers announce the text when it appears */}
-                    <p role="status" className="basis-full text-sm text-bad">{showFailed && failedText}</p>
+                <div>
+                    <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+                        <button type="submit" disabled={pending || waiting} className={button}>{sendLabel('Send now')}</button>
+                        <p className="text-sm text-fg-muted">That is all we need. The rest is optional.</p>
+                    </div>
+                    {/* Always rendered (display kept), so screen readers announce the text when it appears; no space taken while empty */}
+                    <p role="status" className="mt-2 text-sm text-bad empty:mt-0">{showFailed && failedText}</p>
                 </div>
             </div>
 

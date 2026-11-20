@@ -28,7 +28,7 @@ export default function Home() {
             <section className="py-12 md:py-14">
                 <Container className="grid items-center gap-14 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
                     <div>
-                        <h1 className="font-display text-4xl font-bold sm:text-5xl md:text-7xl">
+                        <h1 className="font-display text-4xl font-bold sm:text-5xl md:text-7xl lg:text-6xl xl:text-7xl">
                             Your own dealer website, on the stock you already list
                             <Mark id="hero" className="ml-2 inline-block size-[0.7em] align-[-0.02em]" />
                         </h1>
@@ -90,7 +90,7 @@ export default function Home() {
             </Section>
 
             <Section className="border-t border-line">
-                <Container className="grid items-center gap-12 md:grid-cols-[1.1fr_1fr] md:gap-16">
+                <Container className="grid items-center gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
                     <div className="grid content-start gap-5">
                         <h2 className="font-display text-4xl font-semibold md:text-5xl">Answer leads from the yard</h2>
                         <p className="text-lg text-fg-muted">On Dealer and Group, every new lead reaches your team’s phones on WhatsApp. A trade-in comes with the reg and the photos. Tap Reply with a price, type the number, and the buyer gets an offer from your dealership.</p>
@@ -106,15 +106,17 @@ export default function Home() {
                         <h2 className="font-display text-4xl font-semibold md:text-5xl">Three plans</h2>
                         <p className="text-lg text-fg-muted">A month, before VAT, plus a setup fee. No setup fee on a 2-year contract.</p>
                     </div>
-                    <ul className="border-t border-line">
+                    {/* From xl the columns live on the list and each row takes them (subgrid), so the rows share their edges. Below xl they stack: at
+                        1024 to 1100px with large text the price column would squeeze to a word per line. */}
+                    <ul className="border-t border-line xl:grid xl:grid-cols-[auto_minmax(14rem,1fr)_minmax(0,17rem)] xl:gap-x-10">
                         {TIERS.map(t => (
-                            <li key={t.id} className="relative grid gap-2 border-b border-line py-6 transition-colors hover:bg-surface has-[:focus-visible]:bg-surface lg:grid-cols-[auto_minmax(14rem,1fr)_auto] lg:items-baseline lg:gap-10 lg:px-4">
+                            <li key={t.id} className="relative grid gap-y-2 border-b border-line py-6 transition-colors hover:bg-surface has-[:focus-visible]:bg-surface xl:col-span-full xl:grid-cols-subgrid xl:items-baseline xl:px-4">
                                 <h3 className="font-display text-2xl font-semibold">
                                     {/* The link covers the whole row (bigger target) */}
                                     <Link href={`${ROUTES.pricing}#plan-${t.id}`} className="after:absolute after:inset-0">{t.name}</Link>
                                 </h3>
                                 <p className="text-fg-muted">{t.summary}</p>
-                                <p className="font-display text-xl font-semibold tabular-nums lg:text-right">{eur(t.eur)}<span className="font-sans text-base font-normal text-fg-muted"> a month{t.branchEur && `, plus ${eur(t.branchEur)} for each branch after the first`}</span></p>
+                                <p className="font-display text-xl font-semibold tabular-nums xl:text-right"><span className="whitespace-nowrap">{eur(t.eur)}</span><span className="font-sans text-base font-normal text-fg-muted"> a month{t.branchEur && `, plus ${eur(t.branchEur)} for each branch after the first`}</span></p>
                             </li>
                         ))}
                     </ul>

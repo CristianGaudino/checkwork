@@ -31,7 +31,7 @@ function Plan({ tier }: { tier: Tier }) {
                 <p className={pick ? 'text-ink-muted' : 'text-fg-muted'}>{tier.fits}</p>
             </div>
             <div className="grid gap-1">
-                <p><span className="font-display text-5xl font-semibold tracking-tight">{eur(tier.eur)}</span> <span className={pick ? 'text-ink-muted' : 'text-fg-muted'}>a month</span></p>
+                <p><span className="whitespace-nowrap font-display text-4xl font-semibold tracking-tight sm:text-5xl">{eur(tier.eur)}</span> <span className={pick ? 'text-ink-muted' : 'text-fg-muted'}>a month</span></p>
                 <p className={`text-sm ${pick ? 'text-ink-muted' : 'text-fg-muted'}`}>
                     {tier.branchEur && <>Plus {eur(tier.branchEur)} a month for each branch after the first. </>}
                     {eur(tier.setupEur)} setup. Before VAT.
@@ -84,7 +84,7 @@ export default function Pricing() {
                                 <a href={`#plan-${t.id}`} className="group grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-4 border-b border-line py-4">
                                     <span className="grid grid-cols-[minmax(0,1fr)_auto] items-baseline gap-x-4 gap-y-1">
                                         <span className="font-display text-xl font-semibold wrap-normal">{t.name}</span>
-                                        <span className="font-display text-xl font-semibold tabular-nums">{eur(t.eur)}<span className="font-sans text-sm font-normal text-fg-muted"> a month</span></span>
+                                        <span className="font-display text-xl font-semibold tabular-nums"><span className="whitespace-nowrap">{eur(t.eur)}</span><span className="font-sans text-sm font-normal text-fg-muted"> a month</span></span>
                                         <span className="col-span-2 text-sm text-fg-muted">{t.id === 'dealer' && <span className="font-semibold text-accent-alt">Recommended. </span>}{t.fits}{t.branchEur && `. Plus ${eur(t.branchEur)} a month for each branch after the first`}</span>
                                     </span>
                                     <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" className="size-4 text-fg-muted transition-transform group-hover:translate-y-0.5"><path d="m4 6 4 4 4-4" stroke="currentColor" strokeWidth="2" /></svg>
@@ -121,8 +121,10 @@ export default function Pricing() {
                             </div>
                         ))}
                     </div>
-                    <table className="hidden w-full border-t border-line text-left md:table">
+                    <table className="hidden w-full table-fixed border-t border-line text-left md:table">
                         <caption className="sr-only">What each plan includes a month</caption>
+                        {/* Labels a third, the three plans equal */}
+                        <colgroup><col className="w-[34%]" /><col /><col /><col /></colgroup>
                         <thead>
                             <tr className="border-b border-line">
                                 <td className="py-3" />
@@ -171,13 +173,14 @@ export default function Pricing() {
             </Section>
 
             <Section className="border-t border-line bg-surface">
-                <Container className="grid gap-10 md:grid-cols-[1fr_1.4fr] md:gap-16">
+                <Container className="grid gap-10 lg:grid-cols-[1fr_1.4fr] lg:gap-16">
                     <h2 className="font-display text-4xl font-semibold">Paying</h2>
                     <dl className="border-t border-line">
                         {TERMS.map(t => (
-                            <div key={t.title} className="grid gap-1 border-b border-line py-5 sm:grid-cols-[minmax(0,12rem)_minmax(0,1fr)] sm:gap-6">
-                                <dt className="font-semibold">{t.title}</dt>
-                                <dd className="text-fg-muted">{t.text}</dd>
+                            // Label and text side by side while both fit (12rem and at least 10rem), else the text goes under: never a squeezed column
+                            <div key={t.title} className="flex flex-wrap gap-x-6 gap-y-1 border-b border-line py-5">
+                                <dt className="basis-48 font-semibold">{t.title}</dt>
+                                <dd className="grow basis-40 text-fg-muted">{t.text}</dd>
                             </div>
                         ))}
                     </dl>
