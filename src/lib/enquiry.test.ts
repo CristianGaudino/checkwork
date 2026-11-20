@@ -1,7 +1,7 @@
 import { expect, it } from 'vitest';
 import { detailLines, parseEnquiry } from './enquiry';
 
-const valid = { name: ' Aoife ', business: '', email: 'aoife@example.ie', phone: '', need: 'Something else', message: 'Hello' };
+const valid = { name: ' Aoife ', business: '', email: 'aoife@example.ie', phone: '', need: 'Not sure yet', message: 'Hello' };
 
 it('accepts a valid enquiry and trims it', () => {
     const r = parseEnquiry(valid);
@@ -41,9 +41,9 @@ it('keeps the dealer answers for a dealer, without needing a message', () => {
     expect(r.ok && r.data.details).toEqual({ reply: 'By email', concerns: ['Our site is poor on phones'], timing: 'In the next few months', stock: '25 to 75 cars', source: 'On DoneDeal', website: 'www.example.ie' });
 });
 
-it('drops the dealer answers when the need is not a dealer one', () => {
-    const r = parseEnquiry({ ...dealer, need: 'Something else' });
-    expect(r.ok && r.data.details).toEqual({ reply: 'By email' });
+it('keeps the dealer answers whatever the need, and reads a removed need as not sure', () => {
+    const r = parseEnquiry({ ...dealer, need: 'A custom web app' });
+    expect(r.ok && [r.data.need, r.data.details.stock]).toEqual(['Not sure yet', '25 to 75 cars']);
 });
 
 it('needs a phone number for a call, and reports it with the other errors at once', () => {
@@ -67,7 +67,7 @@ it('reads stored details as lines, and gives none for an old or broken row', () 
     expect(detailLines({ interests: 'not a list' } as never)).toEqual([]);
 });
 
-it('ignores a bad website left in the hidden dealer box once the visitor picks something else', () => {
-    expect(parseEnquiry({ ...dealer, need: 'Something else', message: 'Hi', website: 'x'.repeat(300) }).ok).toBe(true);
-    expect(parseEnquiry({ ...dealer, website: 'x'.repeat(300) }).ok).toBe(false);
+it('reports a website address that is too long', () => {
+    const r = parseEnquiry({ ...dealer, website: 'x'.repeat(300) });
+    expect(!r.ok && Object.keys(r.errors)).toEqual(['website']);
 });

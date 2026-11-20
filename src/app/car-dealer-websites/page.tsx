@@ -58,7 +58,7 @@ export default function CarDealerWebsites() {
                 </Container>
             </Section>
 
-            <Section className="border-t border-line">
+            <Section id="whatsapp" className="scroll-mt-20 border-t border-line">
                 <Container className="grid gap-12">
                     <div className="grid max-w-2xl gap-3">
                         <h2 className="font-display text-4xl font-semibold md:text-5xl">Answer leads from the yard</h2>
@@ -84,9 +84,10 @@ export default function CarDealerWebsites() {
                 <Container className="grid gap-10 md:grid-cols-[1fr_1.4fr] md:gap-16">
                     <div className="grid content-start gap-3">
                         <h2 className="font-display text-4xl font-semibold md:text-5xl">Everything in the demo</h2>
-                        <p className="text-lg text-fg-muted">All of it works in the demo today. We set it up around your dealership and leave out what you do not need.</p>
+                        <p className="text-lg text-fg-muted">All of it works in the demo today and is on offer. The pricing page shows which plan has what, and we connect your own accounts at setup.</p>
                         <div className="mt-3 flex flex-wrap gap-3">
                             <DemoButton variant="secondary" />
+                            <Button href={ROUTES.pricing} variant="secondary">See prices</Button>
                             <Button href={ROUTES.dealerAI} variant="secondary">AI for dealers</Button>
                         </div>
                     </div>

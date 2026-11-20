@@ -43,9 +43,9 @@ export const CARE = [
 ] as const;
 
 export const AI_FAQS = [
-    { q: 'Is this a separate product?', a: 'No. It is part of the dealer website and dashboard we build, set up with the rest of it.' },
+    { q: 'Is this a separate product?', a: 'No. It is in the dashboard, on the Dealer and Group plans, and set up with the rest of it. Social posts and the newsletter are in Group, or add-ons on Dealer.' },
     { q: 'Will the drafts sound like us?', a: 'Each draft uses your dealership’s name, your stock and your sign-off. Adjust it with one tap, or edit it like any other text.' },
     { q: 'Can it make up details about a car?', a: 'It only gets the details on the car’s record, so that is what it writes from. AI can still get things wrong, which is why a person checks every draft.' },
-    { q: 'Is there a limit?', a: 'Yes, a monthly one, agreed with you before AI is switched on. Past it the buttons stop until next month, and we can raise it if you ask.' },
+    { q: 'Is there a limit?', a: 'Dealer includes 100 uses a month and Group 300. Past that each use is €0.04, or €0.08 for Premium, up to €50 a month unless you set a lower limit. At the limit the buttons stop until next month.' },
     { q: 'Can we try it?', a: 'It is in the demo dealer dashboard, where the drafts are sample text and nothing is posted. We walk you through it on a call.' },
 ] as const;

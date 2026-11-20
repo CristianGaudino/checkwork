@@ -5,7 +5,7 @@ import { useActionState, useEffect, useRef } from 'react';
 import { sendEnquiry, type ContactState } from '@/app/contact/actions';
 import { DemoButton } from '@/components/DemoButton';
 import { Turnstile } from '@/components/Turnstile';
-import { CONCERNS, DEALER_NEEDS, NEED_HINTS, NEEDS, REPLIES, REPLY_LABELS, STOCK_SIZES, STOCK_SOURCES, TIMINGS } from '@/content/contact';
+import { CONCERNS, NEED_HINTS, NEEDS, REPLIES, REPLY_LABELS, STOCK_SIZES, STOCK_SOURCES, TIMINGS } from '@/content/contact';
 import { DEMO_URL } from '@/lib/config';
 
 const field = 'w-full rounded-xl border border-line bg-surface px-4 py-3 text-base text-fg placeholder:text-fg-muted aria-[invalid=true]:border-red-400';
@@ -13,7 +13,7 @@ const field = 'w-full rounded-xl border border-line bg-surface px-4 py-3 text-ba
 const chip = 'cursor-pointer rounded-xl border border-line px-4 py-2.5 transition-colors hover:border-fg/40 has-[:checked]:border-accent-alt has-[:checked]:bg-accent/15 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-accent-alt';
 const legend = 'mb-3 font-medium';
 const button = 'inline-flex items-center justify-center rounded-xl bg-action px-5 py-3.5 text-base font-semibold text-white transition-[background-color,transform] duration-150 hover:bg-action-hover active:scale-[0.97] disabled:opacity-60';
-// The form's steps are numbered by a CSS counter: the dealer step is display:none for anyone else, so it isn't counted
+// The form's steps are numbered by a CSS counter, so a step added or removed renumbers the rest
 const step = `font-display text-2xl font-semibold [counter-increment:step] before:mr-3 before:inline-grid before:size-8 before:place-content-center before:rounded-full before:border before:border-line before:align-[0.2em] before:text-sm before:text-accent-alt before:content-[counter(step)_/_'']`;
 const hidden = 'sr-only';
 
@@ -44,17 +44,13 @@ function Choices({ name, label, options, checked, labels, error }: { name: strin
     );
 }
 
-function Sent({ dealer }: { dealer?: boolean }) {
+function Sent() {
     return (
         <div role="status" className="rise grid gap-4 rounded-2xl border border-line bg-surface p-8">
             <h2 className="font-display text-2xl font-semibold">Message sent</h2>
             <p className="text-fg-muted">Thanks. We read every message ourselves and reply the way you asked.</p>
-            {dealer && (
-                <>
-                    <p className="text-fg-muted">While you wait, try the demo: search the stock, open a car and send it an enquiry.</p>
-                    <div><DemoButton variant="secondary" /></div>
-                </>
-            )}
+            <p className="text-fg-muted">While you wait, try the demo: search the stock, open a car and send it an enquiry.</p>
+            <div><DemoButton variant="secondary" /></div>
         </div>
     );
 }
@@ -69,7 +65,7 @@ export function ContactForm({ need }: { need?: (typeof NEEDS)[number] }) {
         form.current?.querySelector<HTMLElement>('[aria-invalid=true], fieldset[aria-describedby] input, [role=alert]')?.focus();
     }, [state]);
 
-    if (state.status === 'sent') return <Sent dealer={state.dealer} />;
+    if (state.status === 'sent') return <Sent />;
 
     const v = state.values ?? {};
     const e = state.errors ?? {};
@@ -78,7 +74,7 @@ export function ContactForm({ need }: { need?: (typeof NEEDS)[number] }) {
     const worries = new Set((v.concerns ?? '').split('|'));
 
     return (
-        // Contact details first, so a visitor who stops there can still send. `group`: the dealer questions follow whichever need is ticked, with no script
+        // Contact details first, so a visitor who stops there can still send. `group`: each problem ticked shows the demo's answer, with no script
         <form ref={form} action={action} noValidate className="group grid gap-10 [counter-reset:step]">
             <p aria-hidden="true" className="absolute -left-[9999px]">
                 <label>Leave this empty <input type="text" name="company_website" tabIndex={-1} autoComplete="off" /></label>
@@ -103,10 +99,10 @@ export function ContactForm({ need }: { need?: (typeof NEEDS)[number] }) {
 
             <fieldset>
                 <legend className={`mb-4 ${step}`}>What do you need? <span className="text-base font-normal text-fg-muted">(optional)</span></legend>
-                <div className="grid gap-3 sm:grid-cols-2">
+                <div className="grid gap-3">
                     {NEEDS.map(n => (
                         <label key={n} className={`${chip} grid gap-1 p-4`}>
-                            <input type="radio" name="need" value={n} defaultChecked={n === chosen} className={hidden} data-dealer={(DEALER_NEEDS as readonly string[]).includes(n) || undefined} />
+                            <input type="radio" name="need" value={n} defaultChecked={n === chosen} className={hidden} />
                             <span className="font-semibold">{n}</span>
                             <span className="text-sm text-fg-muted">{NEED_HINTS[n]}</span>
                         </label>
@@ -114,7 +110,7 @@ export function ContactForm({ need }: { need?: (typeof NEEDS)[number] }) {
                 </div>
             </fieldset>
 
-            <div className="hidden gap-8 rounded-2xl border border-line bg-surface p-5 group-has-[[data-dealer]:checked]:grid sm:p-7">
+            <div className="grid gap-8 rounded-2xl border border-line bg-surface p-5 sm:p-7">
                 <div className="grid gap-1">
                     <h2 className={step}>About your dealership</h2>
                     <p className="text-sm text-fg-muted">Tap what fits, or skip it.</p>

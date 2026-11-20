@@ -21,7 +21,8 @@ test('empty form asks only for a name and a way to reply, and moves focus to the
 test('a name and a number is enough: sent as a call-back, need not sure', async ({ page }) => {
     const name = `Caller ${Date.now()}`;
     await page.goto(ROUTES.contact);
-    await expect(page.getByRole('heading', { name: 'About your dealership' })).toBeHidden();
+    // Every visitor is a dealer: the dealer questions show with no need ticked
+    await expect(page.getByRole('heading', { name: 'About your dealership', exact: true })).toBeVisible();
     await page.getByLabel('Your name').fill(name);
     await page.getByLabel('Phone', { exact: true }).fill('087 000 0000');
     await page.getByText('Call me', { exact: true }).click();
@@ -50,7 +51,7 @@ test('a dealer arriving from the dealer page gets the dealer questions, and can 
     const email = `dealer-${Date.now()}@example.ie`;
     await page.goto(`${ROUTES.contact}?need=dealer`);
     await expect(page.getByRole('radio', { name: /A website for my dealership/ })).toBeChecked();
-    await expect(page.getByRole('heading', { name: 'About your dealership' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'About your dealership', exact: true })).toBeVisible();
     // A problem ticked shows how the demo answers it; one not ticked shows nothing
     const answer = page.getByRole('figure').filter({ hasText: 'Every lead lands in one list' });
     await expect(answer).toBeHidden();

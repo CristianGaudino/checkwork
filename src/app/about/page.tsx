@@ -1,38 +1,49 @@
+import Link from 'next/link';
+import { DemoButton } from '@/components/DemoButton';
 import { CtaBand } from '@/components/ui/CtaBand';
 import { Container, Section } from '@/components/ui/Container';
 import { PageHead } from '@/components/ui/PageHead';
+import { DEALER_CONTACT, ROUTES } from '@/lib/config';
 import { pageMetadata } from '@/lib/metadata';
 
 export const metadata = pageMetadata({
-    title: 'A web development company in Ireland',
-    description: 'Checkwork is a web development company in Ireland building websites and web apps for businesses, and helping teams use AI.',
-    path: '/about',
+    title: 'Who builds Checkwork for car dealers',
+    description: 'Checkwork is run by one person in Ireland, building websites and a dashboard for car dealers. Who you deal with, and how it works with your dealership.',
+    path: ROUTES.about,
 });
 
+// TODO (issue #2): the owner's name and a photo, once the owner wants them on the site
 const PRINCIPLES = [
-    { title: 'Plain answers', text: 'We explain what we are doing and why, without jargon.' },
-    { title: 'Built to be run', text: 'We build things your team can use day to day, not things only a developer can change.' },
-    { title: 'Checked before launch', text: 'Nothing goes live until it passes the same checks, every time.' },
+    { title: 'One person, start to finish', text: 'The person on the first call builds your site, launches it and answers when you need a change.' },
+    { title: 'Your own accounts', text: 'Your stock stays on DoneDeal or CarsIreland, your reviews on Google and your WhatsApp Business number with you. We connect them at setup.' },
+    { title: 'Prices you can see', text: 'Every plan, add-on and price per use is on the pricing page, before VAT.' },
+    { title: 'Checked before launch', text: 'Nothing goes live until it passes the same checks, every time, on a phone as well as a laptop.' },
+    { title: 'Plain answers', text: 'What we are doing and why, without jargon.' },
 ];
+
+const link = 'text-accent-alt underline underline-offset-4';
 
 export default function About() {
     return (
         <>
             <PageHead
-                title="What we build and how we work"
-                lead="Checkwork is a web development company in Ireland. We design and build websites, and the software behind them, for businesses of any size. We also help teams use AI well, through training and enablement."
-            />
+                title="Who builds Checkwork"
+                lead="Checkwork is run by one person in Ireland, building websites and a dashboard for car dealers on the stock they already list."
+            >
+                <DemoButton variant="secondary" />
+            </PageHead>
             <Section>
                 <Container className="grid gap-8 md:grid-cols-[1fr_1.6fr] md:gap-12">
-                    <h2 className="font-display text-3xl font-semibold">What we have built</h2>
+                    <h2 className="font-display text-3xl font-semibold">Why only car dealers</h2>
                     <div className="grid max-w-prose gap-4 text-fg-muted">
-                        <p>We build in code, end to end. That is how we made our demo dealer website and the dashboard behind it, where every lead lands, alerts reach the team on WhatsApp and AI drafts the listings and replies. We also built stock and profit apps for resellers, and a finance app for sole traders.</p>
+                        <p>A dealership sells from its stock, its reviews and how quickly it answers a lead. Checkwork is built around that: a site that follows your DoneDeal or CarsIreland stock, your Google reviews on it, trade-ins with a reg lookup, and a dashboard where every lead has an owner and a follow-up date.</p>
+                        <p>All of it is in the <Link href={ROUTES.dealers} className={link}>demo dealer site and dashboard</Link>, built in code from start to finish. AI writes first drafts of descriptions and replies for your team to check, as the <Link href={ROUTES.dealerAI} className={link}>AI for dealers</Link> page shows.</p>
                     </div>
                 </Container>
             </Section>
             <Section className="border-t border-line bg-surface">
                 <Container>
-                    <h2 className="mb-10 font-display text-4xl font-semibold">How we work</h2>
+                    <h2 className="mb-10 font-display text-4xl font-semibold">How it works with you</h2>
                     <ul className="border-t border-line">
                         {PRINCIPLES.map(p => (
                             <li key={p.title} className="grid gap-2 border-b border-line py-6 md:grid-cols-[1fr_1.6fr] md:gap-12">
@@ -41,9 +52,10 @@ export default function About() {
                             </li>
                         ))}
                     </ul>
+                    <p className="mt-8 text-fg-muted">See the <Link href={ROUTES.pricing} className={link}>plans and prices</Link>.</p>
                 </Container>
             </Section>
-            <CtaBand />
+            <CtaBand title="Talk to the person who builds it" text="Tell us a little about your dealership. You will hear back from the same person who would build your site." href={DEALER_CONTACT} label="Talk to us" />
         </>
     );
 }

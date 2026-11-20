@@ -5,12 +5,11 @@ import { headers } from 'next/headers';
 import { sendEnquiryAlert } from '@/lib/alert';
 import { getDb } from '@/lib/db';
 import { enquiries } from '@/lib/db/schema';
-import { type EnquiryErrors, isDealerNeed, parseEnquiry } from '@/lib/enquiry';
+import { type EnquiryErrors, parseEnquiry } from '@/lib/enquiry';
 import { verifyTurnstile } from '@/lib/turnstile';
 
 export type ContactState = {
     status: 'idle' | 'sent' | 'error';
-    dealer?: boolean; // sent: the thank-you points a dealer to the demo
     errors?: EnquiryErrors;
     message?: string;
     values?: Record<string, string>;
@@ -55,5 +54,5 @@ export async function sendEnquiry(_prev: ContactState, data: FormData): Promise<
     }
     // Stored first: a failed alert never loses the enquiry or fails the form
     sendEnquiryAlert(parsed.data);
-    return { status: 'sent', dealer: isDealerNeed(parsed.data.need) };
+    return { status: 'sent' };
 }

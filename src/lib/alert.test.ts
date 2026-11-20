@@ -5,14 +5,14 @@ const waitUntil = vi.fn();
 vi.mock('@opennextjs/cloudflare', () => ({ getCloudflareContext: () => ({ env: { EMAIL: { send } }, ctx: { waitUntil } }) }));
 const { buildEnquiryAlert, sendEnquiryAlert } = await import('./alert');
 
-const base = { name: 'Ann', business: '', email: 'ann@example.ie', phone: '', need: 'A custom web app' as const, message: 'Hello\nthere', details: { reply: 'By email' as const } };
+const base = { name: 'Ann', business: '', email: 'ann@example.ie', phone: '', need: 'Dealer tools (stock, finance, enquiries)' as const, message: 'Hello\nthere', details: { reply: 'By email' as const } };
 
 beforeEach(() => { send.mockReset(); waitUntil.mockReset(); });
 afterEach(() => { vi.unstubAllEnvs(); vi.restoreAllMocks(); });
 
 it('builds a text alert with a fixed subject, reply-to the visitor and no empty lines', () => {
     const a = buildEnquiryAlert(base);
-    expect(a.subject).toBe('New enquiry: A custom web app');
+    expect(a.subject).toBe('New enquiry: Dealer tools (stock, finance, enquiries)');
     expect(a.replyTo).toBe('ann@example.ie');
     expect(a.text).not.toMatch(/Business|Phone/);
     expect(a.text).toContain('Message:\nHello\nthere');

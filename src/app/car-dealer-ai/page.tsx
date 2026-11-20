@@ -48,7 +48,7 @@ export default function CarDealerAI() {
                         </p>
                         <div className="flex flex-wrap gap-3">
                             <Button href={DEALER_CONTACT}>Talk to us</Button>
-                            <Button href={ROUTES.dealers} variant="secondary">See the dealer websites</Button>
+                            <Button href={ROUTES.pricing} variant="secondary">See prices</Button>
                         </div>
                     </div>
                     <Draft />

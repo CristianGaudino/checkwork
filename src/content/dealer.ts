@@ -54,6 +54,7 @@ export const DEALER_FAQS = [
     { q: 'Does my team need a new app for WhatsApp?', a: 'No. Alerts come to the WhatsApp they already use, from your dealership’s WhatsApp Business number. Each person picks the alerts they get and can set quiet hours.' },
     { q: 'Will buyers get WhatsApp messages they did not ask for?', a: 'No. A buyer gets WhatsApp messages only if they ticked the box on the form; otherwise they get an email, or your team is told to call. Every car page also has a WhatsApp button for buyers who want to message you.' },
     { q: 'Who can act on a WhatsApp alert?', a: 'Only the phones you link to your WhatsApp Business number, and every change made from WhatsApp is in the activity log. If WhatsApp can’t send, alerts go by email instead.' },
+    { q: 'What does it cost?', a: 'Showroom is €249 a month, Dealer €449 and Group €749, before VAT, plus a setup fee. The pricing page has what each includes.' },
     { q: 'Will the website rank on Google?', a: 'We set up what Google looks for: speed, page titles, structured data for each car and your local details. No one can promise a ranking, and anyone who does is guessing.' },
 ] as const;
 

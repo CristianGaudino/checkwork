@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import { SITE } from '@/lib/config';
 
-export const OG_IMAGE = { url: '/og-image.png', width: 1200, height: 630, alt: `${SITE.name}: ${SITE.tagline}` } as const;
+// The alt says what the image shows, so it changes only with the image (issue #2: a new one for the dealer site)
+export const OG_IMAGE = { url: '/og-image.png', width: 1200, height: 630, alt: `${SITE.name}: websites that work, for the Irish motor trade` } as const;
 
 /**
  * Title, description, canonical and share (Open Graph / Twitter) tags for a page, in one place so no page forgets one.

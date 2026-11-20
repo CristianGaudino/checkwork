@@ -1,5 +1,5 @@
-import { SERVICES } from '@/content/services';
-import { SITE, SITE_URL } from '@/lib/config';
+import { TIERS } from '@/content/pricing';
+import { ROUTES, SITE, SITE_URL } from '@/lib/config';
 
 // schema.org structured data. Only facts the site already states: no address, phone, ratings or social profiles until they exist (issue #2).
 
@@ -19,18 +19,19 @@ export const siteGraph = () => ({
             areaServed: { '@type': 'Country', name: 'Ireland' },
             hasOfferCatalog: {
                 '@type': 'OfferCatalog',
-                name: 'Services',
-                itemListElement: SERVICES.map(s => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: s.title, description: s.summary } })),
+                name: 'Plans for car dealers',
+                // The monthly price before VAT. Setup and Group's extra branches are on top, so they are named in the description rather than left out silently.
+                itemListElement: TIERS.map(t => ({
+                    '@type': 'Offer',
+                    url: url(ROUTES.pricing),
+                    itemOffered: { '@type': 'Service', name: `${t.name} plan`, description: `${t.lead} ${t.items.join('. ')}.` },
+                    priceSpecification: { '@type': 'UnitPriceSpecification', price: t.eur, priceCurrency: 'EUR', unitText: 'MONTH', valueAddedTaxIncluded: false },
+                    description: `€${t.eur} a month and €${t.setupEur} setup, before VAT${t.branchEur ? `, plus €${t.branchEur} a month for each extra branch` : ''}.`,
+                })),
             },
         },
         { '@type': 'WebSite', '@id': `${SITE_URL}/#website`, url: url('/'), name: SITE.name, publisher: { '@id': ORG_ID } },
     ],
-});
-
-export const breadcrumbs = (trail: { name: string; path: string }[]) => ({
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: trail.map((t, i) => ({ '@type': 'ListItem', position: i + 1, name: t.name, item: url(t.path) })),
 });
 
 export const service = (name: string, serviceType: string, path: string) => ({

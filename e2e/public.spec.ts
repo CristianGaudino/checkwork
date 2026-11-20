@@ -1,13 +1,12 @@
 import axe from 'axe-core';
 import { expect, type Page, test } from '@playwright/test';
-import { PROJECTS } from '@/content/projects';
 import { ROUTES } from '@/lib/config';
 
 // Page animations (the home page's launch check) must be finished before axe measures colours or a screenshot is taken
 const settled = (page: Page) => page.waitForFunction(() => document.getAnimations().every(a => a.playState === 'finished'));
 
 // Add each page here as it lands.
-const PAGES = [ROUTES.home, ROUTES.work, ROUTES.contact, ROUTES.services, ROUTES.dealers, ROUTES.dealerAI, ROUTES.about, ROUTES.privacy, ...PROJECTS.map(p => `${ROUTES.work}/${p.slug}`)];
+const PAGES = [ROUTES.home, ROUTES.contact, ROUTES.dealers, ROUTES.dealerAI, ROUTES.pricing, ROUTES.about, ROUTES.privacy];
 
 // Live site: skip Next's link prefetches (about 10 a page). Cloudflare's rate limit counts each as a page visit and blocks at 50 in 10 seconds
 test.beforeEach(async ({ page }) => {
@@ -63,11 +62,11 @@ test('skip link is first on the tab order and the mobile menu opens and closes',
     await page.keyboard.press('Tab');
     await expect(page.getByRole('link', { name: 'Skip to content' })).toBeFocused();
     if (!isMobile) return;
-    const services = page.getByRole('navigation', { name: 'Main' }).getByRole('link', { name: 'Services' });
+    const pricing = page.getByRole('navigation', { name: 'Main' }).getByRole('link', { name: 'Pricing' });
     await page.getByRole('button', { name: 'Menu' }).click();
-    await expect(services).toBeVisible();
+    await expect(pricing).toBeVisible();
     await page.getByRole('button', { name: 'Close' }).click();
-    await expect(services).toBeHidden();
+    await expect(pricing).toBeHidden();
 });
 
 test('dealer page has site, service and FAQ structured data', async ({ page }) => {
@@ -86,4 +85,19 @@ test('the dealer page tour switches screens and sides', async ({ page }) => {
     await expect(page.getByRole('button', { name: 'What your team sees' })).toHaveAttribute('aria-pressed', 'true');
     await expect(tour.getByRole('img')).toHaveAttribute('alt', /dashboard overview/);
     await expect(page.getByRole('link', { name: /Try the live demo/ }).first()).toHaveAttribute('href', 'https://www.demo.checkwork.ie');
+});
+
+test('pricing fits a 320px phone without scrolling sideways, and has FAQ data', async ({ page }) => {
+    await page.setViewportSize({ width: 320, height: 640 });
+    await page.goto(ROUTES.pricing);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(320);
+    const types = (await page.locator('script[type="application/ld+json"]').allTextContents()).map(t => JSON.parse(t)['@type'] ?? 'graph');
+    expect(types).toEqual(expect.arrayContaining(['graph', 'FAQPage']));
+});
+
+test('old agency pages redirect to their dealer pages', async ({ request }) => {
+    for (const [from, to] of [['/services', ROUTES.pricing], ['/work', ROUTES.dealers], ['/work/how-many', ROUTES.dealers], ['/work/blacktail-archive', ROUTES.dealers]]) {
+        const r = await request.get(from, { maxRedirects: 0 });
+        expect([from, r.status(), new URL(r.headers().location, 'http://x').pathname]).toEqual([from, 308, to]);
+    }
 });

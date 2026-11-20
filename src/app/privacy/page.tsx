@@ -16,10 +16,10 @@ const UPDATED = '16 November 2026';
 export default function Privacy() {
     const sections: [string, React.ReactNode][] = [
         ['Who we are', <>{LEGAL.companyName} runs this website. You can reach us through the <Link href={ROUTES.contact} className="text-accent-alt underline underline-offset-4">contact form</Link>.</>],
-        ['What we collect', 'Only what you send us through the contact form: your name, a phone number or an email address, and how you would like us to reply. Anything else is up to you: what you need, your business name, your message and, for a car dealer, a few answers about your dealership.'],
+        ['What we collect', 'Only what you send us through the contact form: your name, a phone number or an email address, and how you would like us to reply. Anything else is up to you: what you need, your business name, your message and a few answers about your dealership.'],
         ['Why we use it', 'To reply to your enquiry and, if you go ahead, to work with you. We do not use it for marketing and we do not sell it.'],
         ['Who sees it', `The people at ${LEGAL.companyName}. Your enquiry is stored in a database we host with Cloudflare (D1), and we are sent a copy by email through Cloudflare Email Service. We do not share it with anyone else unless the law requires it.`],
-        ['How long we keep it', 'We keep enquiries that do not lead to work for as long as we need to deal with them, and then delete them. If we work together, we keep what we need for the project and our records.'],
+        ['How long we keep it', 'We keep enquiries that do not lead to work for as long as we need to deal with them, and then delete them. If we work together, we keep what we need for your site and our records.'],
         ['Cookies and tracking', `This site sets no cookies. ${ANALYTICS_TOKEN ? 'We count visits with Cloudflare Web Analytics, which does not use cookies and does not track you across sites. ' : ''}The contact form uses Cloudflare Turnstile to block spam.`],
         ['Your rights', <>You can ask to see, correct or delete the details we hold about you by sending us a message. You can also complain to the Data Protection Commission at <a href="https://www.dataprotection.ie" className="text-accent-alt underline underline-offset-4">dataprotection.ie</a>.</>],
     ];

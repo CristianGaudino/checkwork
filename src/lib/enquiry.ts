@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { CONCERN_LABELS, DEALER_NEEDS, NEEDS, NO_NEED, REPLIES, STOCK_SIZES, STOCK_SOURCES, TIMINGS } from '@/content/contact';
+import { CONCERN_LABELS, NEEDS, NO_NEED, REPLIES, STOCK_SIZES, STOCK_SOURCES, TIMINGS } from '@/content/contact';
 
 // Missing (not on the form) reads as empty, like a field left blank
 const blank = <T extends z.ZodType>(schema: T) => z.preprocess(v => v ?? '', schema);
@@ -20,10 +20,10 @@ export const enquirySchema = z.object({
     phone: optional(30).refine(v => !v || (v.match(/\d/g)?.length ?? 0) >= 7, 'Enter a phone number we can call.'),
     need: z.enum(NEEDS).catch(NO_NEED),
     message: optional(5000),
-    // The dealer questions. Kept only when the need is a dealer one (see parseEnquiry).
+    // The dealer questions, all optional
     stock: pick(STOCK_SIZES),
     source: pick(STOCK_SOURCES),
-    website: optional(200), // only on the form while a dealer choice is ticked
+    website: optional(200),
     // Unknown boxes are dropped one by one, so a tampered one never costs the real ones
     concerns: ticked(CONCERN_LABELS),
     timing: pick(TIMINGS),
@@ -47,12 +47,9 @@ export type EnquiryDetails = {
 
 export type EnquiryInput = { name: string; business: string; email: string; phone: string; need: (typeof NEEDS)[number]; message: string; details: EnquiryDetails };
 
-export const isDealerNeed = (need: unknown) => (DEALER_NEEDS as readonly unknown[]).includes(need);
-
 /** Validates raw form data (`concerns` is the list of ticked boxes). Every problem is reported at once, the first on each field. */
 export function parseEnquiry(raw: Record<string, FormDataEntryValue | FormDataEntryValue[] | null>): { ok: true; data: EnquiryInput } | { ok: false; errors: EnquiryErrors } {
-    // The dealer box is hidden for anything else but still sent: a bad value left in it must not stop a form that cannot show the error
-    const result = enquirySchema.safeParse(isDealerNeed(raw.need) ? raw : { ...raw, website: undefined });
+    const result = enquirySchema.safeParse(raw);
     const errors: EnquiryErrors = {};
     if (!result.success) for (const issue of result.error.issues) errors[issue.path[0] as EnquiryField] ??= issue.message;
     // Checked on the raw values, so they show alongside the errors above instead of after them
@@ -68,13 +65,11 @@ export function parseEnquiry(raw: Record<string, FormDataEntryValue | FormDataEn
     const d = result.data;
     const details: EnquiryDetails = {
         reply,
-        ...(isDealerNeed(d.need) && {
-            ...(d.concerns.length && { concerns: d.concerns }),
-            ...(d.timing && { timing: d.timing }),
-            ...(d.stock && { stock: d.stock }),
-            ...(d.source && { source: d.source }),
-            ...(d.website && { website: d.website }),
-        }),
+        ...(d.concerns.length && { concerns: d.concerns }),
+        ...(d.timing && { timing: d.timing }),
+        ...(d.stock && { stock: d.stock }),
+        ...(d.source && { source: d.source }),
+        ...(d.website && { website: d.website }),
     };
     return { ok: true, data: { name: d.name, business: d.business, email: d.email, phone: d.phone, need: d.need, message: d.message, details } };
 }

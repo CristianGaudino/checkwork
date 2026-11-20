@@ -2,7 +2,7 @@ import { JsonLd } from '@/components/JsonLd';
 import { Container, Section } from '@/components/ui/Container';
 
 /** A dealer page's questions, opened one at a time, with the same questions as FAQPage structured data */
-export function Faqs({ faqs }: { faqs: readonly { q: string; a: string }[] }) {
+export function Faqs({ faqs, title = 'Questions dealers ask' }: { faqs: readonly { q: string; a: string }[]; title?: string }) {
     return (
         <Section className="border-t border-line">
             <JsonLd
@@ -13,7 +13,7 @@ export function Faqs({ faqs }: { faqs: readonly { q: string; a: string }[] }) {
                 }}
             />
             <Container className="grid gap-8 md:grid-cols-[1fr_1.4fr] md:gap-16">
-                <h2 className="font-display text-4xl font-semibold">Questions dealers ask</h2>
+                <h2 className="font-display text-4xl font-semibold">{title}</h2>
                 <div className="border-t border-line">
                     {faqs.map(f => (
                         <details key={f.q} name="faqs" className="group border-b border-line">
