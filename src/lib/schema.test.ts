@@ -1,20 +1,15 @@
 import { expect, it } from 'vitest';
-import { breadcrumbs, service, siteGraph } from './schema';
-
-it('breadcrumbs are numbered from 1 with absolute URLs, and the home path has no trailing slash', () => {
-    const b = breadcrumbs([{ name: 'Home', path: '/' }, { name: 'Work', path: '/work' }]);
-    expect(b.itemListElement.map(i => i.position)).toEqual([1, 2]);
-    expect(b.itemListElement[0].item).toMatch(/^https:\/\/[^/]+$/);
-    expect(b.itemListElement[1].item).toMatch(/^https:\/\/[^/]+\/work$/);
-});
+import { service, siteGraph } from './schema';
 
 it('the service points at the organisation declared in the site graph', () => {
     const org = siteGraph()['@graph'][0]['@id'];
     expect(service('A', 'B', '/a').provider['@id']).toBe(org);
 });
 
-it('the organisation lists every service the site offers, including AI', () => {
-    const names = siteGraph()['@graph'][0].hasOfferCatalog!.itemListElement.map(o => o.itemOffered.name);
-    expect(names).toContain('AI for your business');
-    expect(names).toHaveLength(5);
+it('the organisation lists the three dealer plans, priced a month before VAT', () => {
+    const offers = siteGraph()['@graph'][0].hasOfferCatalog!.itemListElement;
+    expect(offers.map(o => o.itemOffered.name)).toEqual(['Showroom plan', 'Dealer plan', 'Group plan']);
+    expect(offers.map(o => o.priceSpecification.price)).toEqual([249, 449, 749]);
+    expect(offers.every(o => o.priceSpecification.valueAddedTaxIncluded === false)).toBe(true);
+    expect(offers[2].description).toContain('€149 a month for each branch after the first');
 });

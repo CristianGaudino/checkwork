@@ -1,12 +1,13 @@
 # Checkwork
 
-The website for Checkwork: websites, web apps and AI enablement for businesses in Ireland. Fast on a phone, easy to find on Google and easy for your team to run.
+The website for Checkwork: websites and a dealer dashboard for car dealers in Ireland, on the stock they already list on DoneDeal or CarsIreland. The live demo is at https://www.demo.checkwork.ie.
 
 Live at **https://www.checkwork.ie** (the bare `checkwork.ie` redirects to it).
 
 ## What is in it
 
-- Public pages: home, services, work (with a case study per project), car dealer websites, about, contact and privacy.
+- Public pages: home, car dealer websites, AI for dealers, pricing, about, contact and privacy. The old `/services` and `/work` addresses redirect to pricing and the car dealer page (`next.config.ts`).
+- Plan prices live in `src/content/pricing.ts`, copied from the pricing model in the checkwork-demo repo (`docs/sales/pricing-strategy.md`, `src/lib/billing/rules.ts`). Change them there first.
 - A contact form. Enquiries are checked with Turnstile, rate limited, stored in Cloudflare D1 and, once switched on, emailed to the owner.
 - `/admin`: the owner's list of enquiries with status, search and private notes. It sits behind Cloudflare Access and is not in the sitemap.
 
@@ -35,6 +36,8 @@ npm run dev        # http://localhost:3000
 | `npm run build` | Next build |
 | `npm run e2e` | Builds the Worker, serves it with a local D1 and runs Playwright and axe on every page. Screenshots go to `test-results/screenshots/`. |
 | `npm run lighthouse` | Lighthouse against a running Worker. `CHROME_PATH` picks the browser. |
+
+One build at a time per folder. `npm run build` and `npm run e2e` rewrite `.next`, so a `next start` or `next dev` running from the same folder serves pages whose stylesheet is briefly missing, and they render unstyled. Stop the server first, or check from a separate clone.
 
 Add each new page to `PAGES` in `e2e/public.spec.ts` and `scripts/lighthouse.mjs`.
 

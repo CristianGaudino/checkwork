@@ -6,16 +6,17 @@ const headerIp = vi.fn();
 vi.mock('@opennextjs/cloudflare', () => ({ getCloudflareContext: () => ({ env: { CONTACT_LIMITER: { limit } }, ctx: { waitUntil: vi.fn() } }) }));
 vi.mock('next/headers', () => ({ headers: async () => ({ get: () => headerIp() }) }));
 vi.mock('@/lib/db', () => ({ getDb: () => ({ insert: () => ({ values: insert }) }) }));
-vi.mock('@/lib/turnstile', () => ({ verifyTurnstile: async () => true }));
+const verify = vi.fn();
+vi.mock('@/lib/turnstile', () => ({ verifyTurnstile: (token: string) => verify(token) }));
 const { sendEnquiry } = await import('./actions');
 
 const form = () => {
     const f = new FormData();
-    for (const [k, v] of Object.entries({ name: 'Ann', business: '', phone: '', email: 'ann@example.ie', need: 'Something else', message: 'Hello', 'cf-turnstile-response': 't' })) f.set(k, v);
+    for (const [k, v] of Object.entries({ name: 'Ann', business: '', phone: '', email: 'ann@example.ie', need: 'Not sure yet', message: 'Hello', 'cf-turnstile-response': 't' })) f.set(k, v);
     return f;
 };
 
-beforeEach(() => { vi.clearAllMocks(); headerIp.mockReturnValue('1.2.3.4'); insert.mockResolvedValue(undefined); });
+beforeEach(() => { vi.clearAllMocks(); headerIp.mockReturnValue('1.2.3.4'); insert.mockResolvedValue(undefined); verify.mockResolvedValue(true); });
 
 it('stores the enquiry when the IP is within the limit', async () => {
     limit.mockResolvedValue({ success: true });
@@ -42,4 +43,11 @@ it('skips the limiter when there is no IP (local dev)', async () => {
     headerIp.mockReturnValue(null);
     expect((await sendEnquiry({ status: 'idle' }, form())).status).toBe('sent');
     expect(limit).not.toHaveBeenCalled();
+});
+
+it('a failed spam check asks to send again, and stores nothing', async () => {
+    limit.mockResolvedValue({ success: true });
+    verify.mockResolvedValue(false);
+    expect((await sendEnquiry({ status: 'idle' }, form())).message).toMatch(/^We couldn’t check that you’re a person/);
+    expect(insert).not.toHaveBeenCalled();
 });

@@ -5,12 +5,12 @@ import { headers } from 'next/headers';
 import { sendEnquiryAlert } from '@/lib/alert';
 import { getDb } from '@/lib/db';
 import { enquiries } from '@/lib/db/schema';
-import { type EnquiryErrors, isDealerNeed, parseEnquiry } from '@/lib/enquiry';
+import { type EnquiryErrors, parseEnquiry } from '@/lib/enquiry';
 import { verifyTurnstile } from '@/lib/turnstile';
+import { CONTACT_EMAIL } from '@/lib/config';
 
 export type ContactState = {
     status: 'idle' | 'sent' | 'error';
-    dealer?: boolean; // sent: the thank-you points a dealer to the demo
     errors?: EnquiryErrors;
     message?: string;
     values?: Record<string, string>;
@@ -44,7 +44,7 @@ export async function sendEnquiry(_prev: ContactState, data: FormData): Promise<
         return { status: 'error', message: 'Too many messages in a short time. Wait a minute and try again.', values };
     }
     if (!(await verifyTurnstile(String(data.get('cf-turnstile-response') ?? ''), ip))) {
-        return { status: 'error', message: 'We could not check that you are a person. Reload the page and try again.', values };
+        return { status: 'error', message: `We couldn’t check that you’re a person. Wait a moment and send again, or email ${CONTACT_EMAIL}.`, values };
     }
 
     try {
@@ -55,5 +55,5 @@ export async function sendEnquiry(_prev: ContactState, data: FormData): Promise<
     }
     // Stored first: a failed alert never loses the enquiry or fails the form
     sendEnquiryAlert(parsed.data);
-    return { status: 'sent', dealer: isDealerNeed(parsed.data.need) };
+    return { status: 'sent' };
 }

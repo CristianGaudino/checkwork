@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/Button';
 import { CtaBand } from '@/components/ui/CtaBand';
 import { Container, Section } from '@/components/ui/Container';
 import { DEALER_FAQS, FEATURES, TRADE_IN_CHAT, WHATSAPP_ALERTS } from '@/content/dealer';
-import { DEALER_CONTACT, ROUTES } from '@/lib/config';
+import { ROUTES } from '@/lib/config';
 import { pageMetadata } from '@/lib/metadata';
 import { service } from '@/lib/schema';
 
@@ -26,23 +26,23 @@ export default function CarDealerWebsites() {
             <section className="overflow-hidden border-b border-line pb-16 pt-14 md:pb-24 md:pt-24">
                 <Container className="grid items-center gap-14 lg:grid-cols-[0.9fr_1.1fr]">
                     <div className="grid gap-6">
-                        <h1 className="font-display text-5xl font-semibold md:text-6xl">Websites for car dealerships in Ireland</h1>
+                        <h1 className="font-display text-4xl font-semibold sm:text-5xl md:text-6xl">Websites for car dealerships in Ireland</h1>
                         <p className="max-w-xl text-lg text-fg-muted md:text-xl">
                             A website that sells your stock, and a dashboard where your team handles every lead, test drive and sale. Try it yourself before you talk to us.
                         </p>
                         <div className="flex flex-wrap gap-3">
                             <DemoButton />
-                            <Button href={DEALER_CONTACT} variant="secondary">Talk to us</Button>
+                            <Button href={ROUTES.contact} variant="secondary">Talk to us</Button>
                         </div>
                         <p className="text-sm text-fg-muted">The demo is a made-up dealer with sample stock. Nothing you send there reaches anyone.</p>
                     </div>
                     {/* The desktop site with the phone version in front: the same stock, on both */}
                     <div className="relative pb-10 pr-10 sm:pb-14 sm:pr-16">
-                        <div className="overflow-hidden rounded-2xl border border-line bg-surface shadow-[0_40px_90px_-50px_rgb(0_0_0/0.9)]">
-                            <Image src="/work/dealer-demo/site-home.webp" alt="The demo dealer website on a laptop: a stock search over a photo of the showroom" width={1920} height={1200} priority className="h-auto w-full" />
+                        <div className="overflow-hidden rounded-2xl border border-line bg-surface shadow-frame">
+                            <Image src="/dealer-demo/site-home.webp" alt="The demo dealer website on a laptop: a stock search over a photo of the showroom" width={1920} height={1200} preload className="h-auto w-full" />
                         </div>
-                        <div className="absolute bottom-0 right-0 w-[30%] max-w-48 overflow-hidden rounded-[1.4rem] border-4 border-canvas bg-canvas shadow-[0_30px_60px_-20px_rgb(0_0_0/0.9)] outline outline-1 outline-line">
-                            <Image src="/work/dealer-demo/phone-stock.webp" alt="The same site on a phone: the used cars list" width={780} height={1688} priority className="h-auto w-full" />
+                        <div className="absolute bottom-0 right-0 w-[30%] max-w-48 overflow-hidden rounded-[1.4rem] border-4 border-canvas bg-canvas shadow-phone outline outline-1 outline-line">
+                            <Image src="/dealer-demo/phone-stock.webp" alt="The same site on a phone: the used cars list" width={780} height={1688} preload className="h-auto w-full" />
                         </div>
                     </div>
                 </Container>
@@ -58,11 +58,11 @@ export default function CarDealerWebsites() {
                 </Container>
             </Section>
 
-            <Section className="border-t border-line">
+            <Section id="whatsapp" className="scroll-mt-20 border-t border-line">
                 <Container className="grid gap-12">
                     <div className="grid max-w-2xl gap-3">
                         <h2 className="font-display text-4xl font-semibold md:text-5xl">Answer leads from the yard</h2>
-                        <p className="text-lg text-fg-muted">Every new lead reaches your team’s phones on WhatsApp. A trade-in comes with the reg and the photos. Tap Reply with a price, type the number, and the buyer gets a proper offer from your dealership.</p>
+                        <p className="text-lg text-fg-muted">On Dealer and Group, every new lead reaches your team’s phones on WhatsApp. A trade-in comes with the reg and the photos. Tap Reply with a price, type the number, and the buyer gets an offer from your dealership.</p>
                     </div>
                     <div className="grid gap-10 md:grid-cols-2">
                         <WhatsAppChat title="Checkwork Motors" caption="Your salesperson’s phone" lines={TRADE_IN_CHAT.dealer} who={{ in: 'Your site', out: 'Salesperson' }} />
@@ -81,12 +81,13 @@ export default function CarDealerWebsites() {
             </Section>
 
             <Section className="border-t border-line">
-                <Container className="grid gap-10 md:grid-cols-[1fr_1.4fr] md:gap-16">
+                <Container className="grid gap-10 lg:grid-cols-[1fr_1.4fr] lg:gap-16">
                     <div className="grid content-start gap-3">
                         <h2 className="font-display text-4xl font-semibold md:text-5xl">Everything in the demo</h2>
-                        <p className="text-lg text-fg-muted">All of it works in the demo today. We set it up around your dealership and leave out what you do not need.</p>
+                        <p className="text-lg text-fg-muted">All of it works in the demo today and is on offer. The pricing page shows which plan has what, and we connect your own accounts at setup.</p>
                         <div className="mt-3 flex flex-wrap gap-3">
                             <DemoButton variant="secondary" />
+                            <Button href={ROUTES.pricing} variant="secondary">See prices</Button>
                             <Button href={ROUTES.dealerAI} variant="secondary">AI for dealers</Button>
                         </div>
                     </div>
@@ -100,7 +101,7 @@ export default function CarDealerWebsites() {
                                 </summary>
                                 <ul className="grid gap-2.5 pb-6 text-fg-muted">
                                     {f.items.map(i => (
-                                        <li key={i} className="grid grid-cols-[1rem_1fr] gap-3">
+                                        <li key={i} className="grid grid-cols-[1rem_minmax(0,1fr)] gap-3">
                                             <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" className="mt-1 size-4 text-accent-alt"><path d="M2.5 8.6 6.2 12 13.5 4" stroke="currentColor" strokeWidth="2" /></svg>
                                             {i}
                                         </li>
@@ -114,7 +115,7 @@ export default function CarDealerWebsites() {
 
             <Faqs faqs={DEALER_FAQS} />
 
-            <CtaBand title="See it with your own stock in mind" text="Tell us a little about your dealership. We will reply, and walk you through the demo if you would like." href={DEALER_CONTACT} label="Talk to us" />
+            <CtaBand title="See it with your own stock in mind" text="Tell us a little about your dealership. We will reply, and walk you through the demo if you would like." />
         </>
     );
 }

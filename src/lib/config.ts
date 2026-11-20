@@ -6,9 +6,9 @@ export const SITE_URL = 'https://www.checkwork.ie';
 
 export const SITE = {
     name: 'Checkwork',
-    tagline: 'Websites that work.',
+    tagline: 'Websites for car dealers.',
     description:
-        'Websites, web apps and AI enablement for businesses in Ireland. Fast on a phone, easy to find on Google and easy for your team to run.',
+        'Websites and a dealer dashboard for car dealers in Ireland. Your own site on your DoneDeal or CarsIreland stock, with your reviews, trade-ins and every lead in one place.',
 } as const;
 
 export const BRAND_COLORS = { midnight: '#0B0F1F' } as const;
@@ -18,10 +18,9 @@ export const isProduction = (): boolean => process.env.APP_ENV === 'production';
 
 export const ROUTES = {
     home: '/',
-    work: '/work',
-    services: '/services',
     dealers: '/car-dealer-websites',
     dealerAI: '/car-dealer-ai',
+    pricing: '/pricing',
     about: '/about',
     contact: '/contact',
     privacy: '/privacy',
@@ -29,19 +28,19 @@ export const ROUTES = {
 } as const;
 
 export const NAV = [
-    { href: ROUTES.work, label: 'Work' },
-    { href: ROUTES.services, label: 'Services' },
     { href: ROUTES.dealers, label: 'Car dealers' },
     { href: ROUTES.dealerAI, label: 'AI for dealers' },
+    { href: ROUTES.pricing, label: 'Pricing' },
     { href: ROUTES.about, label: 'About' },
 ] as const;
 
-export const CTA = { href: ROUTES.contact, label: 'Start a project' } as const;
+export const CTA = { href: ROUTES.contact, label: 'Talk to us' } as const;
+
+/** The contact mailbox (it forwards to the owner). Shown as a plain mailto link. */
+export const CONTACT_EMAIL = 'contact@checkwork.ie';
 
 /** The live demo dealer site (the checkwork-demo repo): a made-up dealer, safe to link and to try. */
 export const DEMO_URL = 'https://www.demo.checkwork.ie';
-/** The contact page with the dealer questions open */
-export const DEALER_CONTACT = `${ROUTES.contact}?need=dealer`;
 
 /** TODO (issue #2): real registered company details. Empty values are not shown. */
 export const LEGAL = { companyName: 'Checkwork', companyNumber: '', registeredOffice: '' } as const;

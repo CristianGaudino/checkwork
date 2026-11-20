@@ -12,9 +12,11 @@
     --accent-alt: #a78bfa; /* Lavender */
     --action:     #5a5deb; /* white text on it is 5:1 */
     --action-hover: #4a4ede;
-    --paper:      #f4f6fb; /* the launch sheet: the one light surface */
+    --paper:      #f4f6fb; /* the one light surface: the home page's launch sheet and the recommended plan */
     --ink:        #161a33; /* 15:1 on paper */
     --ink-muted:  #4a5070; /* 7:1 on paper */
+    --on-action:  #ffffff; /* text on the action colour */
+    --bad:        #fca5a5; /* errors: 9:1 on canvas */
     color-scheme: dark;
 }
 
@@ -31,6 +33,12 @@
     --color-paper: var(--paper);
     --color-ink: var(--ink);
     --color-ink-muted: var(--ink-muted);
+    --color-on-action: var(--on-action);
+    --color-bad: var(--bad);
+    /* A light sheet lifted off the dark page; a dark frame (screenshot, chat, draft) a little closer to it; a phone in front of a laptop */
+    --shadow-lift: 0 40px 90px -40px rgb(0 0 0 / 0.9);
+    --shadow-frame: 0 40px 90px -50px rgb(0 0 0 / 0.9);
+    --shadow-phone: 0 30px 60px -20px rgb(0 0 0 / 0.9);
     --font-display: var(--font-sora), system-ui, sans-serif;
     --font-sans: var(--font-inter), system-ui, sans-serif;
 }
@@ -48,6 +56,15 @@
     h1 { letter-spacing: -0.03em; line-height: 1.04; }
     h2 { letter-spacing: -0.022em; line-height: 1.1; }
     h3 { letter-spacing: -0.012em; line-height: 1.25; }
+    /* A long word never pushes the page sideways, at 280px or with large text */
+    body { overflow-wrap: anywhere; }
+    /* Short labels keep whole words: a table cell, a button (or a link drawn as one) or a menu link never splits mid-word. (FAQ
+       questions are prose and may still break a long word at 320px with 200% text, rather than push the page sideways.) */
+    th, td, button, [data-button], nav a { overflow-wrap: normal; }
+    /* From sm up, headings break a word only when it alone is wider than the line. Below sm they keep the body's anywhere: break-word
+       makes a grid column as wide as the longest heading word, which at 280 to 400px with large text pushes the page sideways. */
+    h1, h2, h3 { hyphens: auto; }
+    @media (min-width: 40rem) { h1, h2, h3 { overflow-wrap: break-word; } }
     p { text-wrap: pretty; }
 }
 
