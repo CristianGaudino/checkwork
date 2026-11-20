@@ -37,6 +37,8 @@ npm run dev        # http://localhost:3000
 | `npm run e2e` | Builds the Worker, serves it with a local D1 and runs Playwright and axe on every page. Screenshots go to `test-results/screenshots/`. |
 | `npm run lighthouse` | Lighthouse against a running Worker. `CHROME_PATH` picks the browser. |
 
+One build at a time per folder. `npm run build` and `npm run e2e` rewrite `.next`, so a `next start` or `next dev` running from the same folder serves pages whose stylesheet is briefly missing, and they render unstyled. Stop the server first, or check from a separate clone.
+
 Add each new page to `PAGES` in `e2e/public.spec.ts` and `scripts/lighthouse.mjs`.
 
 ## Database
