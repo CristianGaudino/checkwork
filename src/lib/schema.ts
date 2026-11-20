@@ -1,4 +1,4 @@
-import { TIERS } from '@/content/pricing';
+import { eur, TIERS } from '@/content/pricing';
 import { ROUTES, SITE, SITE_URL } from '@/lib/config';
 
 // schema.org structured data. Only facts the site already states: no address, phone, ratings or social profiles until they exist (issue #2).
@@ -26,7 +26,7 @@ export const siteGraph = () => ({
                     url: url(ROUTES.pricing),
                     itemOffered: { '@type': 'Service', name: `${t.name} plan`, description: `${t.lead} ${t.items.join('. ')}.` },
                     priceSpecification: { '@type': 'UnitPriceSpecification', price: t.eur, priceCurrency: 'EUR', unitText: 'MONTH', valueAddedTaxIncluded: false },
-                    description: `€${t.eur} a month and €${t.setupEur} setup, before VAT${t.branchEur ? `, plus €${t.branchEur} a month for each extra branch` : ''}.`,
+                    description: `${eur(t.eur)} a month and ${eur(t.setupEur)} setup, before VAT${t.branchEur ? `, plus ${eur(t.branchEur)} a month for each extra branch` : ''}.`,
                 })),
             },
         },

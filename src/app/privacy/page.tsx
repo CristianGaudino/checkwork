@@ -27,13 +27,16 @@ export default function Privacy() {
         <>
             <PageHead title="Privacy notice" lead={`Last updated ${UPDATED}.`} />
             <Section>
-                <Container className="grid max-w-prose gap-8">
-                    {sections.map(([title, body]) => (
-                        <div key={title} className="grid gap-2">
-                            <h2 className="font-display text-2xl font-semibold">{title}</h2>
-                            <p className="text-fg-muted">{body}</p>
-                        </div>
-                    ))}
+                {/* The same left edge as the heading: the page's container, with the text kept to a readable width inside it */}
+                <Container>
+                    <div className="grid max-w-prose gap-8">
+                        {sections.map(([title, body]) => (
+                            <div key={title} className="grid gap-2">
+                                <h2 className="font-display text-2xl font-semibold">{title}</h2>
+                                <p className="text-fg-muted">{body}</p>
+                            </div>
+                        ))}
+                    </div>
                 </Container>
             </Section>
         </>

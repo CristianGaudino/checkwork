@@ -46,10 +46,11 @@ const nextConfig: NextConfig = {
     async redirects() {
         return [
             { source: "/:path*", has: [{ type: "host" as const, value: "checkwork.ie" }], destination: "https://www.checkwork.ie/:path*", permanent: true },
-            // The site is for car dealers only (#56): the old agency pages go to their dealer pages rather than a 404. `:slug*` also matches
-            // /work itself and every old case study, the taken-down /work/blacktail-archive included.
+            // The site is for car dealers only (#56): the old agency pages go to their dealer pages rather than a 404. One level under /work
+            // covers every old case study (the taken-down /work/blacktail-archive too); nothing is served from /work any more.
             { source: "/services", destination: "/pricing", permanent: true },
-            { source: "/work/:slug*", destination: "/car-dealer-websites", permanent: true },
+            { source: "/work", destination: "/car-dealer-websites", permanent: true },
+            { source: "/work/:slug", destination: "/car-dealer-websites", permanent: true },
         ];
     },
     async headers() {

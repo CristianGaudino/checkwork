@@ -10,7 +10,7 @@ export function Footer() {
             <Container className="grid gap-10">
                 <div className="grid gap-10 md:grid-cols-[1.4fr_1fr]">
                     <div className="grid content-start gap-4">
-                        <Image src="/brand/checkwork-logo-on-dark.svg" alt="" width={160} height={25} className="h-[25px] w-auto" />
+                        <Image src="/brand/checkwork-logo-on-dark.svg" alt="" width={160} height={25} className="h-[25px] w-auto forced-colors:bg-canvas forced-colors:[forced-color-adjust:none]" />
                         <p className="max-w-sm">{SITE.description}</p>
                     </div>
                     <nav aria-label="Footer">

@@ -2,7 +2,7 @@ import Link from 'next/link';
 import type { ComponentProps } from 'react';
 
 const base =
-    'inline-flex items-center justify-center gap-2 rounded-xl border px-5 py-3.5 text-base font-semibold leading-none ' +
+    'inline-flex items-center justify-center gap-2 rounded-xl border px-5 py-3.5 text-center text-base font-semibold leading-none ' +
     // Feedback is on the press, and instant (apple-design: response)
     'transition-[background-color,border-color,transform] duration-150 active:scale-[0.97] active:duration-100';
 

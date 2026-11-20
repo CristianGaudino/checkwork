@@ -38,14 +38,14 @@ export const CARE = [
     { title: 'A person sends everything', text: 'AI writes a first draft, marked as an AI draft. Nothing is posted, emailed or saved until someone on your team reads it and presses the button.' },
     { title: 'Only what the draft needs', text: 'A draft sees the car’s details, and for a reply the customer’s first name and message. Never their phone number or email.' },
     { title: 'Check the facts', text: 'AI can get things wrong. Check prices, mileage and finance wording in every draft, as you would a new salesperson’s.' },
-    { title: 'A monthly limit', text: 'Past it, the writing buttons stop for the month and your own text is left alone. Ask us if you need it raised.' },
-    { title: 'In your privacy notice', text: 'Your site’s privacy notice says what goes to the AI, and that phone numbers and emails are taken out first. Leave AI out and it is switched off.' },
+    { title: 'A monthly limit', text: 'Past your allowance each use is billed, up to €50 a month or a lower limit you set. At the limit the writing buttons stop until next month, and your own text is left alone. We can raise it if you ask.' },
+    { title: 'In your privacy notice', text: 'Your site’s privacy notice says what goes to the AI, and that phone numbers and emails are taken out first. If you don’t want AI writing, we switch it off and the notice leaves it out.' },
 ] as const;
 
 export const AI_FAQS = [
     { q: 'Is this a separate product?', a: 'No. It is in the dashboard, on the Dealer and Group plans, and set up with the rest of it. Social posts and the newsletter are in Group, or add-ons on Dealer.' },
     { q: 'Will the drafts sound like us?', a: 'Each draft uses your dealership’s name, your stock and your sign-off. Adjust it with one tap, or edit it like any other text.' },
     { q: 'Can it make up details about a car?', a: 'It only gets the details on the car’s record, so that is what it writes from. AI can still get things wrong, which is why a person checks every draft.' },
-    { q: 'Is there a limit?', a: 'Dealer includes 100 uses a month and Group 300. Past that each use is €0.04, or €0.08 for Premium, up to €50 a month unless you set a lower limit. At the limit the buttons stop until next month.' },
+    { q: 'Is there a limit?', a: 'Each draft or rewrite is one use. Dealer includes 100 uses a month and Group 300. Past that each use is €0.04, or €0.08 for Premium, up to €50 a month unless you set a lower limit. At the limit the buttons stop until next month, and we can raise it if you ask.' },
     { q: 'Can we try it?', a: 'It is in the demo dealer dashboard, where the drafts are sample text and nothing is posted. We walk you through it on a call.' },
 ] as const;

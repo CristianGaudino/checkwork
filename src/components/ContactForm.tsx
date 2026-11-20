@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useActionState, useEffect, useRef } from 'react';
+import { useActionState, useEffect, useRef, useState } from 'react';
 import { sendEnquiry, type ContactState } from '@/app/contact/actions';
 import { DemoButton } from '@/components/DemoButton';
 import { Turnstile } from '@/components/Turnstile';
@@ -10,9 +10,10 @@ import { DEMO_URL } from '@/lib/config';
 
 const field = 'w-full rounded-xl border border-line bg-surface px-4 py-3 text-base text-fg placeholder:text-fg-muted aria-[invalid=true]:border-red-400';
 // A choice drawn as a chip or card: the input is visually hidden, the label shows its state and its keyboard focus
-const chip = 'cursor-pointer rounded-xl border border-line px-4 py-2.5 transition-colors hover:border-fg/40 has-[:checked]:border-accent-alt has-[:checked]:bg-accent/15 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-accent-alt';
+// Forced colours drop border and background colours, so a ticked chip shows an outline instead
+const chip = 'cursor-pointer rounded-xl border border-line px-4 py-2.5 transition-colors hover:border-fg/40 has-[:checked]:border-accent-alt has-[:checked]:bg-accent/15 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-accent-alt forced-colors:has-[:checked]:outline-2';
 const legend = 'mb-3 font-medium';
-const button = 'inline-flex items-center justify-center rounded-xl bg-action px-5 py-3.5 text-base font-semibold text-white transition-[background-color,transform] duration-150 hover:bg-action-hover active:scale-[0.97] disabled:opacity-60';
+const button = 'inline-flex items-center justify-center rounded-xl border border-transparent bg-action px-5 py-3.5 text-base font-semibold text-white transition-[background-color,transform] duration-150 hover:bg-action-hover active:scale-[0.97] disabled:opacity-60';
 // The form's steps are numbered by a CSS counter, so a step added or removed renumbers the rest
 const step = `font-display text-2xl font-semibold [counter-increment:step] before:mr-3 before:inline-grid before:size-8 before:place-content-center before:rounded-full before:border before:border-line before:align-[0.2em] before:text-sm before:text-accent-alt before:content-[counter(step)_/_'']`;
 const hidden = 'sr-only';
@@ -58,6 +59,9 @@ function Sent() {
 export function ContactForm({ need }: { need?: (typeof NEEDS)[number] }) {
     const [state, action, pending] = useActionState<ContactState, FormData>(sendEnquiry, { status: 'idle' });
     const form = useRef<HTMLFormElement>(null);
+    // Sending waits for the spam check's token: without one the server can only refuse
+    const [checked, setChecked] = useState(false);
+    const sendLabel = (label: string) => (pending ? 'Sending' : checked ? label : 'Checking you’re a person…');
 
     // After a failed send, put the cursor on the first field to fix (or the message) so keyboard and screen-reader users are not left at the button
     useEffect(() => {
@@ -89,10 +93,11 @@ export function ContactForm({ need }: { need?: (typeof NEEDS)[number] }) {
                 <Field id="phone" label="Phone" error={e.phone}><input {...props('phone')} type="tel" autoComplete="tel" /></Field>
                 <Field id="email" label="Email" error={e.email}><input {...props('email')} type="email" autoComplete="email" /></Field>
                 <Choices name="reply" label="How should we get back to you?" options={REPLIES} labels={REPLY_LABELS} checked={o => v.reply === o} />
-                <Turnstile resetKey={state} />
+                <Turnstile resetKey={state} onToken={setChecked} />
                 {state.message && <p role="alert" tabIndex={-1} className="text-red-300">{state.message}</p>}
+                <noscript><p className="text-red-300">This form needs JavaScript to send.</p></noscript>
                 <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-                    <button type="submit" disabled={pending} className={button}>{pending ? 'Sending' : 'Send now'}</button>
+                    <button type="submit" disabled={pending || !checked} className={button}>{sendLabel('Send now')}</button>
                     <p className="text-sm text-fg-muted">That is all we need. The rest is optional.</p>
                 </div>
             </div>
@@ -161,7 +166,7 @@ export function ContactForm({ need }: { need?: (typeof NEEDS)[number] }) {
                 </Field>
                 <Field id="business" label="Business name" hint="(optional)" error={e.business}><input {...props('business')} type="text" autoComplete="organization" /></Field>
                 <div>
-                    <button type="submit" disabled={pending} className={button}>{pending ? 'Sending' : 'Send message'}</button>
+                    <button type="submit" disabled={pending || !checked} className={button}>{sendLabel('Send message')}</button>
                 </div>
             </div>
         </form>

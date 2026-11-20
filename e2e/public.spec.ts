@@ -43,7 +43,7 @@ for (const path of PAGES) {
 test('not found page is a 404 and not indexed', async ({ page }) => {
     const response = await page.goto('/does-not-exist');
     expect(response?.status()).toBe(404);
-    await expect(page.getByRole('heading', { level: 1 })).toContainText("didn't pass the check");
+    await expect(page.getByRole('heading', { level: 1 })).toContainText(/didn.t pass the check/);
     await expect(page.locator('meta[name=robots]').first()).toHaveAttribute('content', /noindex/);
 });
 
@@ -67,6 +67,12 @@ test('skip link is first on the tab order and the mobile menu opens and closes',
     await expect(pricing).toBeVisible();
     await page.getByRole('button', { name: 'Close' }).click();
     await expect(pricing).toBeHidden();
+    // Escape closes it too, and focus goes back to the Menu button
+    await page.getByRole('button', { name: 'Menu' }).click();
+    await pricing.focus();
+    await page.keyboard.press('Escape');
+    await expect(pricing).toBeHidden();
+    await expect(page.getByRole('button', { name: 'Menu' })).toBeFocused();
 });
 
 test('dealer page has site, service and FAQ structured data', async ({ page }) => {
@@ -79,7 +85,7 @@ test('the dealer page tour switches screens and sides', async ({ page }) => {
     await page.goto(ROUTES.dealers);
     const tour = page.locator('figure').filter({ has: page.locator('img[alt^="Demo dealer"], img[alt^="A lead"]') });
     await expect(tour.getByRole('img')).toHaveAttribute('alt', /home page/);
-    await page.getByRole('button', { name: /Car pages that ask for the sale/ }).click();
+    await page.getByRole('button', { name: /Car pages with every way to get in touch/ }).click();
     await expect(tour.getByRole('img')).toHaveAttribute('alt', /MINI Clubman/);
     await page.getByRole('button', { name: 'What your team sees' }).click();
     await expect(page.getByRole('button', { name: 'What your team sees' })).toHaveAttribute('aria-pressed', 'true');
@@ -100,4 +106,32 @@ test('old agency pages redirect to their dealer pages', async ({ request }) => {
         const r = await request.get(from, { maxRedirects: 0 });
         expect([from, r.status(), new URL(r.headers().location, 'http://x').pathname]).toEqual([from, 308, to]);
     }
+    // The demo screenshots are served, not caught by a redirect
+    expect((await request.get('/dealer-demo/site-home.webp')).status()).toBe(200);
 });
+
+// Break tests: no page scrolls sideways on a 280px screen or with the text made larger, and narrow screenshots for a person to look at
+for (const path of PAGES) {
+    test(`${path}: fits 280px and large text, with 320 and 390 screenshots`, async ({ page }, info) => {
+        test.skip(info.project.name !== 'desktop', 'One run is enough: it sets its own sizes');
+        // On a failure, names the elements that stick out past the right edge
+        const fits = async (what: string) => expect([what, await page.evaluate(() => {
+            const w = document.documentElement.clientWidth;
+            return [...document.body.querySelectorAll('*')].filter(e => e.getBoundingClientRect().right > w + 1).slice(-3).map(e => `${e.tagName.toLowerCase()} "${(e.textContent ?? '').trim().slice(0, 30)}"`);
+        })]).toEqual([what, []]);
+        await page.setViewportSize({ width: 280, height: 700 });
+        await page.goto(path);
+        await fits('280px');
+        for (const size of ['130%', '200%']) {
+            await page.setViewportSize({ width: 390, height: 844 });
+            await page.evaluate(s => { document.documentElement.style.fontSize = s; }, size);
+            await fits(`390px at ${size} text`);
+        }
+        for (const width of [320, 390]) {
+            await page.setViewportSize({ width, height: 800 });
+            await page.goto(path);
+            await settled(page);
+            await page.screenshot({ path: `test-results/screenshots/w${width}${path === '/' ? '-home' : path.replaceAll('/', '-')}.png`, fullPage: true });
+        }
+    });
+}

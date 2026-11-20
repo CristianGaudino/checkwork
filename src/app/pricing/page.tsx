@@ -9,22 +9,24 @@ import { DEALER_CONTACT, ROUTES } from '@/lib/config';
 import { pageMetadata } from '@/lib/metadata';
 
 export const metadata = pageMetadata({
-    title: 'Prices for car dealer websites',
+    title: 'Prices for car dealers',
     description: 'Checkwork plans for car dealers in Ireland: Showroom €249, Dealer €449 and Group €749 a month before VAT. What each includes, add-ons, usage and payment terms.',
     path: ROUTES.pricing,
 });
 
 const tick = <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" className="mt-1 size-4 shrink-0"><path d="M2.5 8.6 6.2 12 13.5 4" stroke="currentColor" strokeWidth="2" /></svg>;
 
-/** One plan. Dealer, the one most dealers pick, is the light sheet: the site's one light surface, as on the home page */
+/** One plan. Dealer, the one we recommend, is the light sheet: the site's one light surface, as on the home page */
 function Plan({ tier }: { tier: Tier }) {
     const pick = tier.id === 'dealer';
     return (
-        <article aria-labelledby={`plan-${tier.id}`} className={`grid content-start gap-6 rounded-2xl p-6 sm:p-7 ${pick ? 'bg-paper text-ink shadow-[0_40px_90px_-40px_rgb(0_0_0/0.9)] lg:-my-4 lg:py-10' : 'border border-line bg-surface'}`}>
+        // At lg the card's four parts sit on rows shared with the other cards (subgrid), so prices and buttons line up. The Dealer card's
+        // lift (-my-4, 16px) is made up by its padding (py-11, 44px = 16px + the others' 28px), so its content sits on the same lines.
+        <article id={`plan-${tier.id}`} aria-labelledby={`plan-${tier.id}-name`} className={`grid min-w-0 scroll-mt-24 content-start gap-6 rounded-2xl p-5 wrap-anywhere sm:p-7 lg:row-span-4 lg:grid-rows-subgrid ${pick ? 'bg-paper text-ink shadow-lift lg:-my-4 lg:py-11' : 'border border-line bg-surface'}`}>
             <div className="grid gap-1">
                 <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
-                    <h2 id={`plan-${tier.id}`} className="font-display text-2xl font-semibold">{tier.name}</h2>
-                    {pick && <p className="text-sm font-semibold text-action-hover">Right for most dealers</p>}
+                    <h2 id={`plan-${tier.id}-name`} className="font-display text-2xl font-semibold">{tier.name}</h2>
+                    {pick && <p className="text-sm font-semibold text-action-hover">The one we recommend</p>}
                 </div>
                 <p className={pick ? 'text-ink-muted' : 'text-fg-muted'}>{tier.fits}</p>
             </div>
@@ -36,7 +38,7 @@ function Plan({ tier }: { tier: Tier }) {
                 </p>
             </div>
             <Button href={DEALER_CONTACT} variant={pick ? 'primary' : 'secondary'}>Talk to us about {tier.name}</Button>
-            <div className={`grid gap-3 border-t pt-6 ${pick ? 'border-ink/15' : 'border-line'}`}>
+            <div className={`grid content-start gap-3 border-t pt-6 ${pick ? 'border-ink/15' : 'border-line'}`}>
                 <p className="font-semibold">{tier.lead}</p>
                 <ul className="grid gap-2.5">
                     {tier.items.map(i => (
@@ -74,8 +76,22 @@ export default function Pricing() {
             </PageHead>
 
             <Section className="pt-12 md:pt-20">
-                <Container className="grid gap-6 lg:grid-cols-3 lg:items-start lg:gap-5">
-                    {TIERS.map(t => <Plan key={t.id} tier={t} />)}
+                <Container className="grid gap-10">
+                    {/* On a phone the cards stack and run long: the three plans at a glance first, each a jump to its card */}
+                    <ul className="grid border-t border-line lg:hidden" aria-label="The plans at a glance">
+                        {TIERS.map(t => (
+                            <li key={t.id}>
+                                <a href={`#plan-${t.id}`} className="flex flex-wrap items-baseline justify-between gap-x-4 border-b border-line py-4">
+                                    <span className="font-display text-xl font-semibold">{t.name}</span>
+                                    <span className="font-display text-xl font-semibold tabular-nums">{eur(t.eur)}<span className="font-sans text-sm font-normal text-fg-muted"> a month</span></span>
+                                    <span className="basis-full text-sm text-fg-muted">{t.fits}</span>
+                                </a>
+                            </li>
+                        ))}
+                    </ul>
+                    <div className="mx-auto grid w-full max-w-xl gap-6 lg:max-w-none lg:grid-cols-3 lg:gap-x-5">
+                        {TIERS.map(t => <Plan key={t.id} tier={t} />)}
+                    </div>
                 </Container>
             </Section>
 
@@ -83,11 +99,12 @@ export default function Pricing() {
                 <Container className="grid gap-10 md:grid-cols-[1fr_1.4fr] md:gap-16">
                     <div className="grid content-start gap-3">
                         <h2 className="font-display text-4xl font-semibold">Included each month</h2>
-                        <p className="text-fg-muted">The uses that cost us money come with an allowance. Past it you pay per use, up to a limit.</p>
+                        <p className="text-fg-muted">Each plan includes these every month. Past them you pay per use, up to a limit.</p>
                     </div>
                     {/* Four narrow columns: fits a 320px phone without scrolling sideways */}
-                    <table className="w-full table-fixed border-t border-line text-left text-sm sm:text-base">
+                    <table className="w-full table-fixed border-t border-line text-left text-xs sm:text-base">
                         <caption className="sr-only">What each plan includes a month</caption>
+                        <colgroup><col className="w-[28%]" /><col /><col /><col /></colgroup>
                         <thead>
                             <tr className="border-b border-line">
                                 <td className="py-3" />
@@ -121,14 +138,14 @@ export default function Pricing() {
                     <div className="grid content-start gap-6">
                         <div className="grid gap-3">
                             <h2 className="font-display text-3xl font-semibold">Past the allowance</h2>
-                            <p className="text-fg-muted">Each use, before VAT.</p>
+                            <p className="text-fg-muted">Each use, before VAT. Replies to buyers and marketing messages are billed from the first one.</p>
                         </div>
                         <PriceList rows={USAGE} />
                     </div>
                     <div className="grid content-start gap-6">
                         <div className="grid gap-3">
                             <h2 className="font-display text-3xl font-semibold">Monthly limits</h2>
-                            <p className="text-fg-muted">Extra use stops at these amounts until the next month. On Dealer and Group you can set lower ones in the dashboard. On Showroom, ask us.</p>
+                            <p className="text-fg-muted">Extra use stops at these amounts until the next month. On Dealer and Group you can set lower ones in the dashboard. On Showroom, ask us. We can raise a limit if you ask.</p>
                         </div>
                         <PriceList rows={LIMITS} />
                     </div>

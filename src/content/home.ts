@@ -6,7 +6,7 @@ export const GETS = [
         id: 'site',
         problem: 'Your cars sit on DoneDeal next to everyone else’s.',
         title: 'Your own site, on your own stock',
-        text: 'A site in your name and your colours, on the stock you already list. Keep listing on DoneDeal or CarsIreland and the site follows it, once they give your account API access.',
+        text: 'A site in your name and your colours, on the stock you already list. Keep listing on DoneDeal or CarsIreland and the site follows it.',
     },
     {
         id: 'reviews',
@@ -23,7 +23,7 @@ export const GETS = [
     {
         id: 'leads',
         problem: 'Leads get lost in someone’s email.',
-        title: 'Every lead answered',
+        title: 'Every lead in one inbox',
         text: 'On Dealer and Group, every enquiry lands in one inbox with who has it and when to follow up, and reaches your team’s phones on WhatsApp.',
     },
 ] as const;
@@ -32,6 +32,6 @@ export const GETS = [
 export const STEPS = [
     { title: 'Try the demo', text: 'Use the demo site yourself, then we walk you through the dashboard on a call.' },
     { title: 'Pick a plan', text: 'Showroom, Dealer or Group, with any add-ons. You see the price before you agree to anything.' },
-    { title: 'Connect your accounts', text: 'We connect your own DoneDeal or CarsIreland, Google, WhatsApp, Facebook and Instagram, and email.' },
+    { title: 'Connect your accounts', text: 'We connect the accounts your plan uses: DoneDeal or CarsIreland, Google, WhatsApp, email, and Facebook and Instagram for social posts.' },
     { title: 'Go live', text: 'We build the site in your brand on your stock, check it on phones and launch it. Then we stay on for changes and support.' },
 ] as const;

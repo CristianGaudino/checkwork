@@ -18,7 +18,7 @@ const NEXT = [
     { title: 'We read it', text: 'A person reads every message.' },
     { title: 'We reply', text: 'By email or a call, as you asked, with any questions we have.' },
     { title: 'We talk it through', text: 'If it looks like a fit, a short call and a walk through the demo.' },
-    { title: 'You pick a plan', text: 'Which plan fits your yard, how your stock and leads would work, and what it costs. Then you decide.' },
+    { title: 'You pick a plan', text: 'We go through which plan fits your yard, how your stock and leads would work, and what it costs. Then you decide.' },
 ] as const;
 
 export default async function Contact({ searchParams }: PageProps<'/contact'>) {
@@ -49,7 +49,7 @@ export default async function Contact({ searchParams }: PageProps<'/contact'>) {
                         </div>
 
                         <div className="grid gap-4 overflow-hidden rounded-2xl border border-line bg-surface">
-                            <Image src="/work/dealer-demo/dash-overview.webp" alt="The demo dealer dashboard: leads each week and what needs attention" width={1920} height={1200} className="h-auto w-full border-b border-line" />
+                            <Image src="/dealer-demo/dash-overview.webp" alt="The demo dealer dashboard: leads each week and what needs attention" width={1920} height={1200} className="h-auto w-full border-b border-line" />
                             <div className="grid gap-3 px-5 pb-5">
                                 <h2 className="font-display text-xl font-semibold">Try it first</h2>
                                 <p className="text-fg-muted">Use the demo site yourself, or <Link href={ROUTES.dealers} className="text-accent-alt underline underline-offset-4">see what is in it</Link>.</p>

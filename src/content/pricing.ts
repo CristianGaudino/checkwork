@@ -1,7 +1,7 @@
 // The dealer plans (issue #56). Prices are a month, before VAT, from the owner's pricing model (checkwork-demo: docs/sales/pricing-strategy.md
 // and src/lib/billing/rules.ts, TIERS). Change them there first, then here. No launch discount: a year upfront and a 2-year contract are the only deals.
 
-export const VAT_PCT = 23;
+const VAT_PCT = 23;
 
 export type Tier = {
     id: 'showroom' | 'dealer' | 'group';
@@ -47,7 +47,7 @@ export const TIERS: readonly Tier[] = [
             'Test drive booking',
             'Trade-ins with 100 reg lookups a month',
             'Reply to Google reviews from the dashboard',
-            'AI writing, 100 uses a month, including better car descriptions to paste into DoneDeal',
+            'AI writing, 100 uses a month, including better car descriptions to paste into DoneDeal. Each draft or rewrite is one use',
             'Deposits and sales records',
             'Site analytics: visitors, and which ads bring leads',
             'Staff logins with roles, as many as you need',
@@ -59,12 +59,12 @@ export const TIERS: readonly Tier[] = [
         eur: 749,
         branchEur: 149,
         setupEur: 1950,
-        fits: 'For 2 or more branches',
-        summary: 'Dealer plus margins and reports, social posts, a newsletter and new cars. For 2 or more branches.',
+        fits: '2 or more branches on one site',
+        summary: 'Dealer plus margins and reports, social posts, a newsletter and new cars. 2 or more branches on one site.',
         lead: 'Everything in Dealer, plus:',
         items: [
             'Margins and reports',
-            'Social posts and ads, with AI writing raised to 300 uses a month',
+            'Social posts and ads, with AI writing raised to 300 uses a month. Each draft or rewrite is one use',
             'Newsletter and stock alerts',
             'New cars and factory orders for 2 brands',
             'Commercial vehicles',
@@ -96,7 +96,7 @@ export const USAGE = [
     { title: 'WhatsApp reply to a buyer', eur: '€0.03' },
     { title: 'WhatsApp marketing message', eur: '€0.12' },
     { title: 'AI writing, Standard', eur: '€0.04' },
-    { title: 'AI writing, Premium', eur: '€0.08' },
+    { title: 'AI writing, Premium (the stronger model, if you choose it)', eur: '€0.08' },
 ] as const;
 
 /** Where extra use stops each month unless the dealer sets a lower limit */
@@ -116,10 +116,10 @@ export const TERMS = [
 export const PRICING_FAQS = [
     { q: 'Do the prices include VAT?', a: `No. Every price on this page is before VAT, which is added at ${VAT_PCT}%.` },
     { q: 'What does the setup fee cover?', a: 'Building your site: your brand and content, connecting your stock, Google profile, WhatsApp and email, and the launch. There is no setup fee on a 2-year contract.' },
-    { q: 'Do we keep DoneDeal or CarsIreland?', a: 'Yes. Keep listing there and your site follows your stock. This needs API access from the listing site for your account. On Dealer and Group you can also add cars in the dashboard.' },
+    { q: 'Do we keep DoneDeal or CarsIreland?', a: 'Yes. Keep listing there and your site follows your stock, or, on Dealer and Group, keep your stock in the dashboard instead.' },
     { q: 'What happens when we go past the allowance?', a: 'Each extra use is billed at the prices above, up to the monthly limit. At the limit it stops until next month: buyers type their car in themselves instead of a lookup. On Dealer and Group you can set lower limits in the dashboard. On Showroom, ask us.' },
     { q: 'Can we change plan later?', a: 'Yes. Moving up a plan costs only the difference in setup. Add-ons and branches you drop stop from the 1st of the next month.' },
-    { q: 'Is there a launch discount?', a: 'No. The prices are the same for every dealer. A year paid upfront gets a month free, and a 2-year contract has no setup fee.' },
+    { q: 'Is there a launch discount?', a: 'No. A year paid upfront gets a month free, and a 2-year contract has no setup fee.' },
     { q: 'Is everything in the demo included?', a: 'Everything in the demo is on offer, in the plan that has it. At setup we connect your own accounts: DoneDeal or CarsIreland, WhatsApp, Google, Facebook and Instagram, and email.' },
 ] as const;
 

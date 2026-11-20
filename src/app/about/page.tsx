@@ -18,7 +18,6 @@ const PRINCIPLES = [
     { title: 'Your own accounts', text: 'Your stock stays on DoneDeal or CarsIreland, your reviews on Google and your WhatsApp Business number with you. We connect them at setup.' },
     { title: 'Prices you can see', text: 'Every plan, add-on and price per use is on the pricing page, before VAT.' },
     { title: 'Checked before launch', text: 'Nothing goes live until it passes the same checks, every time, on a phone as well as a laptop.' },
-    { title: 'Plain answers', text: 'What we are doing and why, without jargon.' },
 ];
 
 const link = 'text-accent-alt underline underline-offset-4';
@@ -37,7 +36,7 @@ export default function About() {
                     <h2 className="font-display text-3xl font-semibold">Why only car dealers</h2>
                     <div className="grid max-w-prose gap-4 text-fg-muted">
                         <p>A dealership sells from its stock, its reviews and how quickly it answers a lead. Checkwork is built around that: a site that follows your DoneDeal or CarsIreland stock, your Google reviews on it, trade-ins with a reg lookup, and a dashboard where every lead has an owner and a follow-up date.</p>
-                        <p>All of it is in the <Link href={ROUTES.dealers} className={link}>demo dealer site and dashboard</Link>, built in code from start to finish. AI writes first drafts of descriptions and replies for your team to check, as the <Link href={ROUTES.dealerAI} className={link}>AI for dealers</Link> page shows.</p>
+                        <p>All of it is in the <Link href={ROUTES.dealers} className={link}>demo dealer site and dashboard</Link>. AI writes first drafts of descriptions and replies for your team to check, as the <Link href={ROUTES.dealerAI} className={link}>AI for dealers</Link> page shows.</p>
                     </div>
                 </Container>
             </Section>

@@ -12,7 +12,7 @@
     --accent-alt: #a78bfa; /* Lavender */
     --action:     #5a5deb; /* white text on it is 5:1 */
     --action-hover: #4a4ede;
-    --paper:      #f4f6fb; /* the launch sheet: the one light surface */
+    --paper:      #f4f6fb; /* the one light surface: the home page's launch sheet and the recommended plan */
     --ink:        #161a33; /* 15:1 on paper */
     --ink-muted:  #4a5070; /* 7:1 on paper */
     color-scheme: dark;
@@ -31,6 +31,8 @@
     --color-paper: var(--paper);
     --color-ink: var(--ink);
     --color-ink-muted: var(--ink-muted);
+    /* A light sheet lifted off the dark page */
+    --shadow-lift: 0 40px 90px -40px rgb(0 0 0 / 0.9);
     --font-display: var(--font-sora), system-ui, sans-serif;
     --font-sans: var(--font-inter), system-ui, sans-serif;
 }
@@ -48,6 +50,8 @@
     h1 { letter-spacing: -0.03em; line-height: 1.04; }
     h2 { letter-spacing: -0.022em; line-height: 1.1; }
     h3 { letter-spacing: -0.012em; line-height: 1.25; }
+    /* A long word never pushes the page sideways, at 280px or with large text */
+    h1, h2, h3 { overflow-wrap: anywhere; hyphens: auto; }
     p { text-wrap: pretty; }
 }
 

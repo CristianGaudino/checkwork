@@ -1,7 +1,7 @@
 'use client';
 
-import Image from 'next/image';
 import { useState } from 'react';
+import { Shot } from '@/components/ui/Shot';
 import { TOUR } from '@/content/dealer';
 import { DEMO_URL } from '@/lib/config';
 
@@ -24,7 +24,7 @@ export function DealerTour() {
                 {TOUR.map((t, i) => (
                     <button key={t.id} type="button" aria-pressed={i === side}
                         onClick={() => { setSide(i); setAt(0); }}
-                        className="rounded-lg px-4 py-2.5 text-sm font-semibold text-fg-muted transition-colors aria-pressed:bg-surface aria-pressed:text-fg sm:px-5 sm:text-base">
+                        className="rounded-lg px-4 py-2.5 text-sm font-semibold text-fg-muted transition-colors aria-pressed:bg-surface aria-pressed:text-fg forced-colors:aria-pressed:outline-2 sm:px-5 sm:text-base">
                         {t.label}
                     </button>
                 ))}
@@ -37,7 +37,7 @@ export function DealerTour() {
                         {view.stops.map((s, i) => (
                             <li key={s.id} className="border-b border-line">
                                 <button type="button" aria-pressed={i === at} onClick={() => setAt(i)} onPointerEnter={() => preload(s.src)} onFocus={() => preload(s.src)}
-                                    className="group grid w-full grid-cols-[1.75rem_1fr] gap-x-2 py-3.5 text-left">
+                                    className="group grid w-full grid-cols-[1.75rem_1fr] gap-x-2 py-3.5 text-left forced-colors:aria-pressed:outline-2">
                                     <span className="font-display text-sm text-fg-muted group-aria-pressed:text-accent-alt">{String(i + 1).padStart(2, '0')}</span>
                                     <span className="font-semibold text-fg-muted transition-colors group-hover:text-fg group-aria-pressed:text-fg">{s.title}</span>
                                     {/* The open stop says more; the others stay one line so the list reads at a glance */}
@@ -54,7 +54,7 @@ export function DealerTour() {
                         <span className="flex gap-1.5">{[0, 1, 2].map(i => <span key={i} className="size-2.5 rounded-full bg-fg/15" />)}</span>
                         <span className="min-w-0 flex-1 truncate rounded-md bg-canvas px-3 py-1 text-center text-xs text-fg-muted">{host}{stop.path === '/' ? '' : stop.path}</span>
                     </div>
-                    <Image key={stop.src} src={stop.src} alt={stop.alt} width={1920} height={1200} priority={side === 0 && at === 0} className="appear-now h-auto w-full" />
+                    <Shot key={stop.src} src={stop.src} phone={stop.phone} alt={stop.alt} priority={side === 0 && at === 0} className="appear-now" />
                     <figcaption className="sr-only">{stop.title}</figcaption>
                 </figure>
             </div>

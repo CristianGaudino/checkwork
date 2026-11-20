@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import type { CSSProperties } from 'react';
 import { DemoButton } from '@/components/DemoButton';
@@ -7,6 +6,7 @@ import { Button } from '@/components/ui/Button';
 import { CtaBand } from '@/components/ui/CtaBand';
 import { Container, Section } from '@/components/ui/Container';
 import { Mark } from '@/components/ui/Mark';
+import { Shot } from '@/components/ui/Shot';
 import { CHECKS } from '@/content/checks';
 import { TRADE_IN_CHAT } from '@/content/dealer';
 import { GETS, STEPS } from '@/content/home';
@@ -16,7 +16,7 @@ import { pageMetadata } from '@/lib/metadata';
 
 export const metadata = pageMetadata({
     title: { absolute: 'Checkwork: websites and a dashboard for car dealers in Ireland' },
-    description: 'Your own dealer website on your DoneDeal or CarsIreland stock, with your Google reviews, trade-ins with a reg lookup and every lead answered. Try the live demo.',
+    description: 'Your own dealer website on your DoneDeal or CarsIreland stock, with your Google reviews, trade-ins with a reg lookup and every lead in one place. Try the live demo.',
     path: '/',
 });
 
@@ -28,12 +28,12 @@ export default function Home() {
             <section className="py-12 md:py-14">
                 <Container className="grid items-center gap-14 lg:grid-cols-[1.15fr_0.85fr]">
                     <div>
-                        <h1 className="font-display text-5xl font-bold md:text-7xl">
+                        <h1 className="font-display text-4xl font-bold sm:text-5xl md:text-7xl">
                             Your own dealer website, on the stock you already list
                             <Mark id="hero" className="ml-2 inline-block size-[0.7em] align-[-0.02em]" />
                         </h1>
                         <p className="rise mb-9 mt-7 max-w-xl text-lg text-fg-muted md:text-xl" style={{ "--d": 1 } as CSSProperties}>
-                            For car dealers in Ireland. Keep listing on DoneDeal or CarsIreland and your site follows it, with your Google reviews, trade-ins and finance. Every enquiry reaches someone who will answer it.
+                            For car dealers in Ireland. Keep listing on DoneDeal or CarsIreland and your site follows it, with your Google reviews, trade-ins and finance. Every enquiry reaches your inbox, and on Dealer and Group your team’s phones.
                         </p>
                         <div className="rise flex flex-wrap gap-3" style={{ "--d": 2 } as CSSProperties}>
                             <DemoButton />
@@ -42,7 +42,7 @@ export default function Home() {
                         <p className="rise mt-5 text-sm text-fg-muted" style={{ "--d": 3 } as CSSProperties}>The demo is a made-up dealer with sample stock. Nothing you send there reaches anyone.</p>
                     </div>
                     {/* The one light surface on the page: a sign-off sheet. Ticks draw in, then the stamp lands. */}
-                    <div className="rounded-sm bg-paper p-7 text-ink shadow-[0_40px_90px_-40px_rgb(0_0_0/0.9)] md:p-9" aria-labelledby="sheet-title">
+                    <div className="rounded-sm bg-paper p-5 text-ink shadow-lift wrap-anywhere sm:p-7 md:p-9" aria-labelledby="sheet-title">
                         <h2 id="sheet-title" className="font-sans text-xl font-semibold tracking-tight">Before it goes live</h2>
                         <p className="mt-1 text-sm text-ink-muted">Every dealer site we launch has these, on every plan.</p>
                         <ul className="mt-6 border-t border-ink/15">
@@ -58,7 +58,7 @@ export default function Home() {
                                 </li>
                             ))}
                         </ul>
-                        <p className="stamp mt-7 w-fit rounded-md border-2 border-action-hover px-4 py-1.5 font-display text-lg font-bold text-action-hover">Checked</p>
+                        <p className="stamp mt-7 w-fit rounded-md border-2 border-action-hover px-4 py-1.5 font-display text-base font-bold text-action-hover sm:text-lg">Checked</p>
                     </div>
                 </Container>
             </section>
@@ -71,7 +71,7 @@ export default function Home() {
                     </div>
                     {/* One screen of the demo, then the four answers: only some have a screenshot, so none are shown per item (the dealer page tours them all) */}
                     <div className="overflow-hidden rounded-2xl border border-line bg-surface">
-                        <Image src="/work/dealer-demo/site-stock.webp" alt="Demo dealer used cars page with filters down the side and car cards" width={1920} height={1200} sizes="(min-width: 1200px) 1200px, 100vw" className="h-auto w-full" />
+                        <Shot src="/dealer-demo/site-stock.webp" phone="/dealer-demo/phone-stock.webp" alt="Demo dealer used cars page with filters down the side and car cards" sizes="(min-width: 1200px) 1200px, 100vw" />
                     </div>
                     <ul className="grid gap-x-10 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
                         {GETS.map(g => (
@@ -108,13 +108,13 @@ export default function Home() {
                     </div>
                     <ul className="border-t border-line">
                         {TIERS.map(t => (
-                            <li key={t.id} className="relative grid gap-2 border-b border-line py-6 transition-colors hover:bg-surface has-[:focus-visible]:bg-surface md:grid-cols-[1fr_1.6fr_auto] md:items-baseline md:gap-10 md:px-4">
+                            <li key={t.id} className="relative grid gap-2 border-b border-line py-6 transition-colors hover:bg-surface has-[:focus-visible]:bg-surface md:grid-cols-[9rem_1fr_15rem] md:items-baseline md:gap-10 md:px-4">
                                 <h3 className="font-display text-2xl font-semibold">
                                     {/* The link covers the whole row (bigger target) */}
                                     <Link href={`${ROUTES.pricing}#plan-${t.id}`} className="after:absolute after:inset-0">{t.name}</Link>
                                 </h3>
                                 <p className="text-fg-muted">{t.summary}</p>
-                                <p className="font-display text-xl font-semibold tabular-nums">{eur(t.eur)}<span className="font-sans text-base font-normal text-fg-muted"> a month{t.branchEur && `, plus ${eur(t.branchEur)} a branch`}</span></p>
+                                <p className="font-display text-xl font-semibold tabular-nums md:text-right">{eur(t.eur)}<span className="font-sans text-base font-normal text-fg-muted"> a month{t.branchEur && `, plus ${eur(t.branchEur)} for each extra branch`}</span></p>
                             </li>
                         ))}
                     </ul>

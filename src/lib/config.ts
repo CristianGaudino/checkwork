@@ -8,7 +8,7 @@ export const SITE = {
     name: 'Checkwork',
     tagline: 'Websites for car dealers.',
     description:
-        'Websites and a dealer dashboard for car dealers in Ireland. Your own site on your DoneDeal or CarsIreland stock, with your reviews, trade-ins and every lead answered.',
+        'Websites and a dealer dashboard for car dealers in Ireland. Your own site on your DoneDeal or CarsIreland stock, with your reviews, trade-ins and every lead in one place.',
 } as const;
 
 export const BRAND_COLORS = { midnight: '#0B0F1F' } as const;

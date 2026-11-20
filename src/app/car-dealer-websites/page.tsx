@@ -26,7 +26,7 @@ export default function CarDealerWebsites() {
             <section className="overflow-hidden border-b border-line pb-16 pt-14 md:pb-24 md:pt-24">
                 <Container className="grid items-center gap-14 lg:grid-cols-[0.9fr_1.1fr]">
                     <div className="grid gap-6">
-                        <h1 className="font-display text-5xl font-semibold md:text-6xl">Websites for car dealerships in Ireland</h1>
+                        <h1 className="font-display text-4xl font-semibold sm:text-5xl md:text-6xl">Websites for car dealerships in Ireland</h1>
                         <p className="max-w-xl text-lg text-fg-muted md:text-xl">
                             A website that sells your stock, and a dashboard where your team handles every lead, test drive and sale. Try it yourself before you talk to us.
                         </p>
@@ -39,10 +39,10 @@ export default function CarDealerWebsites() {
                     {/* The desktop site with the phone version in front: the same stock, on both */}
                     <div className="relative pb-10 pr-10 sm:pb-14 sm:pr-16">
                         <div className="overflow-hidden rounded-2xl border border-line bg-surface shadow-[0_40px_90px_-50px_rgb(0_0_0/0.9)]">
-                            <Image src="/work/dealer-demo/site-home.webp" alt="The demo dealer website on a laptop: a stock search over a photo of the showroom" width={1920} height={1200} priority className="h-auto w-full" />
+                            <Image src="/dealer-demo/site-home.webp" alt="The demo dealer website on a laptop: a stock search over a photo of the showroom" width={1920} height={1200} priority className="h-auto w-full" />
                         </div>
                         <div className="absolute bottom-0 right-0 w-[30%] max-w-48 overflow-hidden rounded-[1.4rem] border-4 border-canvas bg-canvas shadow-[0_30px_60px_-20px_rgb(0_0_0/0.9)] outline outline-1 outline-line">
-                            <Image src="/work/dealer-demo/phone-stock.webp" alt="The same site on a phone: the used cars list" width={780} height={1688} priority className="h-auto w-full" />
+                            <Image src="/dealer-demo/phone-stock.webp" alt="The same site on a phone: the used cars list" width={780} height={1688} priority className="h-auto w-full" />
                         </div>
                     </div>
                 </Container>
@@ -62,7 +62,7 @@ export default function CarDealerWebsites() {
                 <Container className="grid gap-12">
                     <div className="grid max-w-2xl gap-3">
                         <h2 className="font-display text-4xl font-semibold md:text-5xl">Answer leads from the yard</h2>
-                        <p className="text-lg text-fg-muted">Every new lead reaches your team’s phones on WhatsApp. A trade-in comes with the reg and the photos. Tap Reply with a price, type the number, and the buyer gets a proper offer from your dealership.</p>
+                        <p className="text-lg text-fg-muted">On Dealer and Group, every new lead reaches your team’s phones on WhatsApp. A trade-in comes with the reg and the photos. Tap Reply with a price, type the number, and the buyer gets an offer from your dealership.</p>
                     </div>
                     <div className="grid gap-10 md:grid-cols-2">
                         <WhatsAppChat title="Checkwork Motors" caption="Your salesperson’s phone" lines={TRADE_IN_CHAT.dealer} who={{ in: 'Your site', out: 'Salesperson' }} />

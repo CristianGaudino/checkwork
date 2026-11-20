@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Container } from '@/components/ui/Container';
 import { CTA, NAV } from '@/lib/config';
@@ -12,6 +12,7 @@ export function Header() {
     const path = usePathname();
     const [open, setOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
+    const menu = useRef<HTMLButtonElement>(null);
     const current = (href: string) => (path === href || path.startsWith(`${href}/`) ? 'page' : undefined);
 
     // The divider and the blur appear only once content is under the bar: a scroll edge, not a permanent rule
@@ -24,7 +25,8 @@ export function Header() {
 
     useEffect(() => {
         if (!open) return;
-        const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setOpen(false);
+        // Escape closes the menu and puts focus back on the button that opened it
+        const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') { setOpen(false); menu.current?.focus(); } };
         window.addEventListener('keydown', onKey);
         return () => window.removeEventListener('keydown', onKey);
     }, [open]);
@@ -38,9 +40,10 @@ export function Header() {
         >
             <Container className="flex min-h-[4.5rem] items-center justify-between gap-6">
                 <Link href="/" aria-label="Checkwork, home" onClick={() => setOpen(false)}>
-                    <Image src="/brand/checkwork-logo-on-dark.svg" alt="Checkwork" width={190} height={30} priority className="h-[30px] w-auto" />
+                    <Image src="/brand/checkwork-logo-on-dark.svg" alt="Checkwork" width={190} height={30} priority className="h-[30px] w-auto forced-colors:bg-canvas forced-colors:[forced-color-adjust:none]" />
                 </Link>
                 <button
+                    ref={menu}
                     type="button"
                     aria-expanded={open}
                     aria-controls="site-nav"
@@ -53,6 +56,8 @@ export function Header() {
                 <nav
                     id="site-nav"
                     aria-label="Main"
+                    // Tabbing out of the open menu (to the page, not the Menu button) closes it, so it never hangs over what has focus
+                    onBlur={e => { if (open && !e.currentTarget.contains(e.relatedTarget) && e.relatedTarget !== menu.current) setOpen(false); }}
                     className={`absolute inset-x-0 top-full flex origin-top flex-col border-b border-line bg-canvas px-5 pb-6 pt-2 transition-[opacity,transform,visibility] duration-200 ease-out md:visible md:static md:translate-y-0 md:flex-row md:items-center md:gap-6 md:border-0 lg:gap-8 md:bg-transparent md:p-0 md:opacity-100 ${
                         open ? 'visible translate-y-0 opacity-100' : 'invisible -translate-y-2 opacity-0'
                     }`}
