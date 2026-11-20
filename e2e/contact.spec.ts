@@ -40,7 +40,7 @@ test('a name and a number is enough: sent as a call-back, need not sure', async 
 test('a spam check that never loads says so, and lets the visitor send for the server to explain', async ({ page }) => {
     await page.route('https://challenges.cloudflare.com/**', route => route.abort());
     await page.goto(ROUTES.contact);
-    await expect(page.getByText('The spam check didn’t load.').first()).toBeVisible();
+    await expect(page.getByText('The spam check hasn’t finished.').first()).toBeVisible();
     // Sending is open again, so the server's own message can explain (not sent here: the contact limit is 5 a minute for the whole run)
     await expect(page.getByRole('button', { name: 'Send now' })).toBeEnabled();
     await expect(page.getByRole('link', { name: 'contact@checkwork.ie' }).first()).toHaveAttribute('href', 'mailto:contact@checkwork.ie');

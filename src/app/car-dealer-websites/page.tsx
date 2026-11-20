@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/Button';
 import { CtaBand } from '@/components/ui/CtaBand';
 import { Container, Section } from '@/components/ui/Container';
 import { DEALER_FAQS, FEATURES, TRADE_IN_CHAT, WHATSAPP_ALERTS } from '@/content/dealer';
-import { DEALER_CONTACT, ROUTES } from '@/lib/config';
+import { ROUTES } from '@/lib/config';
 import { pageMetadata } from '@/lib/metadata';
 import { service } from '@/lib/schema';
 
@@ -32,7 +32,7 @@ export default function CarDealerWebsites() {
                         </p>
                         <div className="flex flex-wrap gap-3">
                             <DemoButton />
-                            <Button href={DEALER_CONTACT} variant="secondary">Talk to us</Button>
+                            <Button href={ROUTES.contact} variant="secondary">Talk to us</Button>
                         </div>
                         <p className="text-sm text-fg-muted">The demo is a made-up dealer with sample stock. Nothing you send there reaches anyone.</p>
                     </div>
@@ -115,7 +115,7 @@ export default function CarDealerWebsites() {
 
             <Faqs faqs={DEALER_FAQS} />
 
-            <CtaBand title="See it with your own stock in mind" text="Tell us a little about your dealership. We will reply, and walk you through the demo if you would like." href={DEALER_CONTACT} label="Talk to us" />
+            <CtaBand title="See it with your own stock in mind" text="Tell us a little about your dealership. We will reply, and walk you through the demo if you would like." />
         </>
     );
 }

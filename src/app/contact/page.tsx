@@ -47,7 +47,7 @@ export default async function Contact({ searchParams }: PageProps<'/contact'>) {
                                 ))}
                             </ol>
                             <p className="text-fg-muted">Want the numbers first? Every plan and price is on the <Link href={ROUTES.pricing} className="text-accent-alt underline underline-offset-4">pricing page</Link>.</p>
-                            <p className="text-fg-muted">Or email <a href={`mailto:${CONTACT_EMAIL}`} className="text-accent-alt underline underline-offset-4">{CONTACT_EMAIL}</a>.</p>
+                            <p className="text-fg-muted">Rather email? <a href={`mailto:${CONTACT_EMAIL}`} className="text-accent-alt underline underline-offset-4">{CONTACT_EMAIL}</a></p>
                         </div>
 
                         <div className="grid gap-4 overflow-hidden rounded-2xl border border-line bg-surface">

@@ -43,8 +43,13 @@ export async function sendEnquiry(_prev: ContactState, data: FormData): Promise<
     if (ip && !(await withinLimit(ip))) {
         return { status: 'error', message: 'Too many messages in a short time. Wait a minute and try again.', values };
     }
-    if (!(await verifyTurnstile(String(data.get('cf-turnstile-response') ?? ''), ip))) {
-        return { status: 'error', message: `We couldn’t check that you’re a person. Wait a moment and send again, or email ${CONTACT_EMAIL}.`, values };
+    const token = String(data.get('cf-turnstile-response') ?? '');
+    if (!(await verifyTurnstile(token, ip))) {
+        // No token and no `js` field: sent before the page's script ran (or with none), so waiting won't help
+        const message = !token && !data.get('js')
+            ? `This form needs JavaScript. Turn it on to send, or email ${CONTACT_EMAIL}.`
+            : `We couldn’t check that you’re a person. Wait a moment and send again, or email ${CONTACT_EMAIL}.`;
+        return { status: 'error', message, values };
     }
 
     try {

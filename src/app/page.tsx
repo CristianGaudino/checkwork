@@ -11,7 +11,7 @@ import { CHECKS } from '@/content/checks';
 import { TRADE_IN_CHAT } from '@/content/dealer';
 import { GETS, STEPS } from '@/content/home';
 import { eur, TIERS } from '@/content/pricing';
-import { DEALER_CONTACT, ROUTES } from '@/lib/config';
+import { ROUTES } from '@/lib/config';
 import { pageMetadata } from '@/lib/metadata';
 
 export const metadata = pageMetadata({
@@ -108,7 +108,7 @@ export default function Home() {
                     </div>
                     <ul className="border-t border-line">
                         {TIERS.map(t => (
-                            <li key={t.id} className="relative grid gap-2 border-b border-line py-6 transition-colors hover:bg-surface has-[:focus-visible]:bg-surface lg:grid-cols-[9rem_minmax(0,1fr)_15rem] lg:items-baseline lg:gap-10 lg:px-4">
+                            <li key={t.id} className="relative grid gap-2 border-b border-line py-6 transition-colors hover:bg-surface has-[:focus-visible]:bg-surface lg:grid-cols-[minmax(0,9rem)_minmax(0,1fr)_minmax(0,15rem)] lg:items-baseline lg:gap-10 lg:px-4">
                                 <h3 className="font-display text-2xl font-semibold">
                                     {/* The link covers the whole row (bigger target) */}
                                     <Link href={`${ROUTES.pricing}#plan-${t.id}`} className="after:absolute after:inset-0">{t.name}</Link>
@@ -140,7 +140,7 @@ export default function Home() {
                 </Container>
             </Section>
 
-            <CtaBand title="See it with your own stock in mind" text="Tell us a little about your dealership. We will reply the way you ask, and walk you through the demo if you would like." href={DEALER_CONTACT} label="Talk to us" />
+            <CtaBand title="See it with your own stock in mind" text="Tell us a little about your dealership. We will reply the way you ask, and walk you through the demo if you would like." />
         </>
     );
 }

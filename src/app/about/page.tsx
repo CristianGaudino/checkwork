@@ -3,7 +3,7 @@ import { DemoButton } from '@/components/DemoButton';
 import { CtaBand } from '@/components/ui/CtaBand';
 import { Container, Section } from '@/components/ui/Container';
 import { PageHead } from '@/components/ui/PageHead';
-import { DEALER_CONTACT, ROUTES } from '@/lib/config';
+import { ROUTES } from '@/lib/config';
 import { pageMetadata } from '@/lib/metadata';
 
 export const metadata = pageMetadata({
@@ -54,7 +54,7 @@ export default function About() {
                     <p className="mt-8 text-fg-muted">See the <Link href={ROUTES.pricing} className={link}>plans and prices</Link>.</p>
                 </Container>
             </Section>
-            <CtaBand title="Talk to the person who builds it" text="Tell us a little about your dealership. You will hear back from the same person who would build your site." href={DEALER_CONTACT} label="Talk to us" />
+            <CtaBand title="Talk to the person who builds it" text="Tell us a little about your dealership. You will hear back from the same person who would build your site." />
         </>
     );
 }

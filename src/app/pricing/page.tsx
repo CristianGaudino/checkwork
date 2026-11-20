@@ -5,7 +5,7 @@ import { CtaBand } from '@/components/ui/CtaBand';
 import { Container, Section } from '@/components/ui/Container';
 import { PageHead } from '@/components/ui/PageHead';
 import { ADDONS, ALLOWANCES, eur, LIMITS, PRICING_FAQS, TERMS, TIERS, USAGE, type Tier } from '@/content/pricing';
-import { DEALER_CONTACT, ROUTES } from '@/lib/config';
+import { ROUTES } from '@/lib/config';
 import { pageMetadata } from '@/lib/metadata';
 
 export const metadata = pageMetadata({
@@ -26,7 +26,7 @@ function Plan({ tier }: { tier: Tier }) {
             <div className="grid gap-1">
                 <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
                     <h2 id={`plan-${tier.id}-name`} className="font-display text-2xl font-semibold">{tier.name}</h2>
-                    {pick && <p className="text-sm font-semibold text-action-hover">The one we recommend</p>}
+                    {pick && <p className="text-sm font-semibold text-action-hover">Recommended</p>}
                 </div>
                 <p className={pick ? 'text-ink-muted' : 'text-fg-muted'}>{tier.fits}</p>
             </div>
@@ -72,7 +72,7 @@ export default function Pricing() {
         <>
             <PageHead title="Prices for car dealers" lead="Three plans, each a month, before VAT. Everything in the demo is on offer, in the plan that has it.">
                 <DemoButton />
-                <Button href={DEALER_CONTACT} variant="secondary">Talk to us</Button>
+                <Button href={ROUTES.contact} variant="secondary">Talk to us</Button>
             </PageHead>
 
             <Section className="pt-12 md:pt-20">
@@ -82,10 +82,10 @@ export default function Pricing() {
                         {TIERS.map(t => (
                             <li key={t.id}>
                                 <a href={`#plan-${t.id}`} className="group grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-4 border-b border-line py-4">
-                                    <span className="flex flex-wrap items-baseline justify-between gap-x-4">
-                                        <span className="font-display text-xl font-semibold">{t.name}{t.id === 'dealer' && <span className="ml-2 font-sans text-sm font-semibold text-accent-alt">Recommended</span>}</span>
+                                    <span className="grid grid-cols-[minmax(0,1fr)_auto] items-baseline gap-x-4 gap-y-1">
+                                        <span className="font-display text-xl font-semibold">{t.name}</span>
                                         <span className="font-display text-xl font-semibold tabular-nums">{eur(t.eur)}<span className="font-sans text-sm font-normal text-fg-muted"> a month</span></span>
-                                        <span className="basis-full text-sm text-fg-muted">{t.fits}{t.branchEur && `. Plus ${eur(t.branchEur)} a month for each branch after the first`}</span>
+                                        <span className="col-span-2 text-sm text-fg-muted">{t.id === 'dealer' && <span className="font-semibold text-accent-alt">Recommended. </span>}{t.fits}{t.branchEur && `. Plus ${eur(t.branchEur)} a month for each branch after the first`}</span>
                                     </span>
                                     <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" className="size-4 text-fg-muted transition-transform group-hover:translate-y-0.5"><path d="m4 6 4 4 4-4" stroke="currentColor" strokeWidth="2" /></svg>
                                 </a>
@@ -185,7 +185,7 @@ export default function Pricing() {
 
             <Faqs faqs={PRICING_FAQS} title="Questions about prices" />
 
-            <CtaBand title="Find the right plan for your yard" text="Tell us about your dealership and how many cars you carry. We will reply, walk you through the demo and price it with you." href={DEALER_CONTACT} label="Talk to us" />
+            <CtaBand title="Find the right plan for your yard" text="Tell us about your dealership and how many cars you carry. We will reply, walk you through the demo and price it with you." />
         </>
     );
 }

@@ -6,7 +6,8 @@ const headerIp = vi.fn();
 vi.mock('@opennextjs/cloudflare', () => ({ getCloudflareContext: () => ({ env: { CONTACT_LIMITER: { limit } }, ctx: { waitUntil: vi.fn() } }) }));
 vi.mock('next/headers', () => ({ headers: async () => ({ get: () => headerIp() }) }));
 vi.mock('@/lib/db', () => ({ getDb: () => ({ insert: () => ({ values: insert }) }) }));
-vi.mock('@/lib/turnstile', () => ({ verifyTurnstile: async () => true }));
+const verify = vi.fn();
+vi.mock('@/lib/turnstile', () => ({ verifyTurnstile: (token: string) => verify(token) }));
 const { sendEnquiry } = await import('./actions');
 
 const form = () => {
@@ -15,7 +16,7 @@ const form = () => {
     return f;
 };
 
-beforeEach(() => { vi.clearAllMocks(); headerIp.mockReturnValue('1.2.3.4'); insert.mockResolvedValue(undefined); });
+beforeEach(() => { vi.clearAllMocks(); headerIp.mockReturnValue('1.2.3.4'); insert.mockResolvedValue(undefined); verify.mockResolvedValue(true); });
 
 it('stores the enquiry when the IP is within the limit', async () => {
     limit.mockResolvedValue({ success: true });
@@ -42,4 +43,15 @@ it('skips the limiter when there is no IP (local dev)', async () => {
     headerIp.mockReturnValue(null);
     expect((await sendEnquiry({ status: 'idle' }, form())).status).toBe('sent');
     expect(limit).not.toHaveBeenCalled();
+});
+
+it('a failed spam check says JavaScript is needed only when the page never ran its script', async () => {
+    limit.mockResolvedValue({ success: true });
+    verify.mockResolvedValue(false);
+    const noScript = form();
+    noScript.set('cf-turnstile-response', '');
+    expect((await sendEnquiry({ status: 'idle' }, noScript)).message).toMatch(/^This form needs JavaScript/);
+    noScript.set('js', '1'); // the script ran, the check didn't finish
+    expect((await sendEnquiry({ status: 'idle' }, noScript)).message).toMatch(/^We couldn’t check that you’re a person/);
+    expect(insert).not.toHaveBeenCalled();
 });

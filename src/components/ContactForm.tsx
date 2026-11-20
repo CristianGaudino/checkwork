@@ -13,6 +13,7 @@ const field = 'w-full rounded-xl border border-line bg-surface px-4 py-3 text-ba
 // Forced colours drop border and background colours, so a ticked chip shows an outline instead
 const chip = 'cursor-pointer rounded-xl border border-line px-4 py-2.5 transition-colors hover:border-fg/40 has-[:checked]:border-accent-alt has-[:checked]:bg-accent/15 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-accent-alt forced-colors:has-[:checked]:outline-2';
 const legend = 'mb-3 font-medium';
+const mail = <a href={`mailto:${CONTACT_EMAIL}`} className="underline underline-offset-4">{CONTACT_EMAIL}</a>;
 const button = 'inline-flex items-center justify-center rounded-xl border border-transparent bg-action px-5 py-3.5 text-base font-semibold text-on-action transition-[background-color,transform] duration-150 hover:bg-action-hover active:scale-[0.97] disabled:opacity-80';
 // The form's steps are numbered by a CSS counter, so a step added or removed renumbers the rest
 const step = `font-display text-2xl font-semibold [counter-increment:step] before:mr-3 before:inline-grid before:size-8 before:place-content-center before:rounded-full before:border before:border-line before:align-[0.2em] before:text-sm before:text-accent-alt before:content-[counter(step)_/_'']`;
@@ -46,9 +47,12 @@ function Choices({ name, label, options, checked, labels, error }: { name: strin
 }
 
 function Sent() {
+    // The form is gone: put focus (and the screen) on the confirmation, so nobody is left at an empty spot further down
+    const heading = useRef<HTMLHeadingElement>(null);
+    useEffect(() => { heading.current?.focus(); heading.current?.scrollIntoView({ block: 'center' }); }, []);
     return (
-        <div role="status" className="rise grid gap-4 rounded-2xl border border-line bg-surface p-8">
-            <h2 className="font-display text-2xl font-semibold">Message sent</h2>
+        <div role="status" className="rise grid gap-4 self-start rounded-2xl border border-line bg-surface p-8">
+            <h2 ref={heading} tabIndex={-1} className="font-display text-2xl font-semibold">Message sent</h2>
             <p className="text-fg-muted">Thanks. We read every message ourselves and reply the way you asked.</p>
             <p className="text-fg-muted">While you wait, try the demo: search the stock, open a car and send it an enquiry.</p>
             <div><DemoButton variant="secondary" /></div>
@@ -65,7 +69,8 @@ export function ContactForm({ need }: { need?: (typeof NEEDS)[number] }) {
     const hydrated = useSyncExternalStore(() => () => {}, () => true, () => false);
     const waiting = hydrated && check === 'waiting';
     const sendLabel = (label: string) => (pending ? 'Sending' : waiting ? 'Checking you’re a person…' : label);
-    const failed = check === 'failed' && <p className="text-sm text-bad">The spam check didn’t load. Refresh the page, or email <a href={`mailto:${CONTACT_EMAIL}`} className="underline underline-offset-4">{CONTACT_EMAIL}</a>.</p>;
+    // One copy under each Send button; only the first is announced. Hidden while the server's own message says the same thing.
+    const failed = (announce: boolean) => check === 'failed' && !state.message && <p role={announce ? 'status' : undefined} className="text-sm text-bad">The spam check hasn’t finished. Refresh the page, or email {mail}.</p>;
 
     // After a failed send, put the cursor on the first field to fix (or the message) so keyboard and screen-reader users are not left at the button
     useEffect(() => {
@@ -98,13 +103,16 @@ export function ContactForm({ need }: { need?: (typeof NEEDS)[number] }) {
                 <Field id="email" label="Email" error={e.email}><input {...props('email')} type="email" autoComplete="email" /></Field>
                 <Choices name="reply" label="How should we get back to you?" options={REPLIES} labels={REPLY_LABELS} checked={o => v.reply === o} />
                 <Turnstile resetKey={state} onState={setCheck} />
-                {state.message && <p role="alert" tabIndex={-1} className="text-bad">{state.message}</p>}
-                <noscript><p className="text-bad">This form needs JavaScript. Turn it on to send, or email <a href={`mailto:${CONTACT_EMAIL}`} className="underline underline-offset-4">{CONTACT_EMAIL}</a>.</p></noscript>
+                {/* The server's message may name the contact email: shown as a link */}
+                {state.message && <p role="alert" tabIndex={-1} className="text-bad">{state.message.split(CONTACT_EMAIL).flatMap((part, i) => (i ? [<a key={i} href={`mailto:${CONTACT_EMAIL}`} className="underline underline-offset-4">{CONTACT_EMAIL}</a>, part] : [part]))}</p>}
+                {/* Sent once the page is interactive: a send without a spam-check token and without this came from a page with no script */}
+                {hydrated && <input type="hidden" name="js" value="1" />}
+                <noscript><p className="text-bad">This form needs JavaScript. Turn it on to send, or email {mail}.</p></noscript>
                 <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
                     <button type="submit" disabled={pending || waiting} className={button}>{sendLabel('Send now')}</button>
                     <p className="text-sm text-fg-muted">That is all we need. The rest is optional.</p>
                 </div>
-                {failed}
+                {failed(true)}
             </div>
 
             <fieldset>
@@ -172,7 +180,7 @@ export function ContactForm({ need }: { need?: (typeof NEEDS)[number] }) {
                 <Field id="business" label="Business name" hint="(optional)" error={e.business}><input {...props('business')} type="text" autoComplete="organization" /></Field>
                 <div className="grid justify-items-start gap-2">
                     <button type="submit" disabled={pending || waiting} className={button}>{sendLabel('Send message')}</button>
-                    {failed}
+                    {failed(false)}
                 </div>
             </div>
         </form>

@@ -20,7 +20,7 @@ export function DealerTour() {
 
     return (
         <div className="grid gap-8">
-            <div role="group" aria-label="Which side of the product" className="flex w-fit rounded-xl border border-line p-1">
+            <div role="group" aria-label="Which side of the product" className="flex w-fit max-w-full flex-wrap rounded-xl border border-line p-1">
                 {TOUR.map((t, i) => (
                     <button key={t.id} type="button" aria-pressed={i === side}
                         onClick={() => { setSide(i); setAt(0); }}

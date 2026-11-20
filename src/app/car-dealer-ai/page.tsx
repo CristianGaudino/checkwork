@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/Button';
 import { CtaBand } from '@/components/ui/CtaBand';
 import { Container, Section } from '@/components/ui/Container';
 import { ADJUSTS, AI_FAQS, CARE, DRAFT, POST_NOTES, POST_STEPS, WRITING } from '@/content/dealer-ai';
-import { DEALER_CONTACT, ROUTES } from '@/lib/config';
+import { ROUTES } from '@/lib/config';
 import { pageMetadata } from '@/lib/metadata';
 import { service } from '@/lib/schema';
 
@@ -49,7 +49,7 @@ export default function CarDealerAI() {
                         </p>
                         <div className="flex flex-wrap gap-3">
                             <DemoButton />
-                            <Button href={DEALER_CONTACT} variant="secondary">Talk to us</Button>
+                            <Button href={ROUTES.contact} variant="secondary">Talk to us</Button>
                             <Button href={ROUTES.pricing} variant="secondary">See prices</Button>
                         </div>
                     </div>
@@ -125,7 +125,7 @@ export default function CarDealerAI() {
 
             <Faqs faqs={AI_FAQS} />
 
-            <CtaBand title="See it with your stock in mind" text="Tell us how your team writes listings and replies today. We will show you the AI writing in the demo on a call." href={DEALER_CONTACT} label="Talk to us" />
+            <CtaBand title="See it with your stock in mind" text="Tell us how your team writes listings and replies today. We will show you the AI writing in the demo on a call." />
         </>
     );
 }

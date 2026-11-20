@@ -58,6 +58,9 @@
     h3 { letter-spacing: -0.012em; line-height: 1.25; }
     /* A long word never pushes the page sideways, at 280px or with large text */
     body { overflow-wrap: anywhere; }
+    /* Short labels keep whole words: a table header, a button or a menu link never splits mid-word. (FAQ questions are prose and may
+       still break a long word at 320px with 200% text, rather than push the page sideways.) */
+    th, button, nav a { overflow-wrap: normal; }
     h1, h2, h3 { hyphens: auto; }
     p { text-wrap: pretty; }
 }

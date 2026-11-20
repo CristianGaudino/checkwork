@@ -41,8 +41,6 @@ export const CONTACT_EMAIL = 'contact@checkwork.ie';
 
 /** The live demo dealer site (the checkwork-demo repo): a made-up dealer, safe to link and to try. */
 export const DEMO_URL = 'https://www.demo.checkwork.ie';
-/** The contact page, nothing ticked. A plan's own link ticks it: `?need=showroom`, `dealer` or `group` (see contact/page.tsx) */
-export const DEALER_CONTACT = ROUTES.contact;
 
 /** TODO (issue #2): real registered company details. Empty values are not shown. */
 export const LEGAL = { companyName: 'Checkwork', companyNumber: '', registeredOffice: '' } as const;

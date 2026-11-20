@@ -114,15 +114,29 @@ test('old agency pages redirect to their dealer pages', async ({ request }) => {
 for (const path of PAGES) {
     test(`${path}: fits 280px and large text, with 320 and 390 screenshots`, async ({ page }, info) => {
         test.skip(info.project.name !== 'desktop', 'One run is enough: it sets its own sizes');
-        // On a failure, names the elements that stick out past the right edge
+        // On a failure, names the elements that stick out past the right edge, and any word split across lines in a short label
         const fits = async (what: string) => expect([what, await page.evaluate(() => {
             const w = document.documentElement.clientWidth;
-            return [...document.body.querySelectorAll('*')].filter(e => e.getBoundingClientRect().right > w + 1).slice(-3).map(e => `${e.tagName.toLowerCase()} "${(e.textContent ?? '').trim().slice(0, 30)}"`);
+            const wide = [...document.body.querySelectorAll('*')].filter(e => e.getBoundingClientRect().right > w + 1).slice(-3).map(e => `${e.tagName.toLowerCase()} "${(e.textContent ?? '').trim().slice(0, 30)}"`);
+            const split: string[] = [];
+            for (const el of document.querySelectorAll('th, button, nav a')) {
+                const walk = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+                for (let n = walk.nextNode() as Text | null; n; n = walk.nextNode() as Text | null) {
+                    if (n.parentElement?.closest('.sr-only')) continue;
+                    for (const m of n.data.matchAll(/\S+/g)) {
+                        const r = document.createRange();
+                        r.setStart(n, m.index);
+                        r.setEnd(n, m.index + m[0].length);
+                        if (new Set([...r.getClientRects()].map(c => Math.round(c.top))).size > 1) split.push(`split "${m[0]}"`);
+                    }
+                }
+            }
+            return [...wide, ...split];
         })]).toEqual([what, []]);
         await page.setViewportSize({ width: 280, height: 700 });
         await page.goto(path);
         await fits('280px');
-        for (const [width, size] of [[280, '150%'], [320, '200%'], [360, '200%'], [390, '130%'], [390, '200%'], [768, '130%']] as const) {
+        for (const [width, size] of [[280, '150%'], [320, '130%'], [320, '200%'], [360, '200%'], [390, '130%'], [390, '200%'], [768, '100%'], [768, '130%'], [800, '115%'], [920, '100%'], [920, '115%'], [1024, '200%']] as const) {
             await page.setViewportSize({ width, height: 844 });
             await page.evaluate(s => { document.documentElement.style.fontSize = s; }, size);
             await fits(`${width}px at ${size} text`);
@@ -141,6 +155,6 @@ test('the mobile menu closes on a tap outside it', async ({ page, isMobile }) =>
     await page.goto('/');
     await page.getByRole('button', { name: 'Menu' }).click();
     await expect(page.getByRole('button', { name: 'Close' })).toBeVisible();
-    await page.mouse.click(200, 700);
+    await page.getByRole('heading', { name: 'What you get' }).click(); // plain text, below the open menu
     await expect(page.getByRole('button', { name: 'Menu' })).toBeVisible();
 });
