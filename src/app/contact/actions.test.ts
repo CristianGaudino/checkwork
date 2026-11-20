@@ -45,13 +45,9 @@ it('skips the limiter when there is no IP (local dev)', async () => {
     expect(limit).not.toHaveBeenCalled();
 });
 
-it('a failed spam check says JavaScript is needed only when the page never ran its script', async () => {
+it('a failed spam check asks to send again, and stores nothing', async () => {
     limit.mockResolvedValue({ success: true });
     verify.mockResolvedValue(false);
-    const noScript = form();
-    noScript.set('cf-turnstile-response', '');
-    expect((await sendEnquiry({ status: 'idle' }, noScript)).message).toMatch(/^This form needs JavaScript/);
-    noScript.set('js', '1'); // the script ran, the check didn't finish
-    expect((await sendEnquiry({ status: 'idle' }, noScript)).message).toMatch(/^We couldn’t check that you’re a person/);
+    expect((await sendEnquiry({ status: 'idle' }, form())).message).toMatch(/^We couldn’t check that you’re a person/);
     expect(insert).not.toHaveBeenCalled();
 });

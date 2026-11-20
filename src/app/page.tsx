@@ -26,7 +26,7 @@ export default function Home() {
     return (
         <>
             <section className="py-12 md:py-14">
-                <Container className="grid items-center gap-14 lg:grid-cols-[1.15fr_0.85fr]">
+                <Container className="grid items-center gap-14 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
                     <div>
                         <h1 className="font-display text-4xl font-bold sm:text-5xl md:text-7xl">
                             Your own dealer website, on the stock you already list
@@ -42,7 +42,7 @@ export default function Home() {
                         <p className="rise mt-5 text-sm text-fg-muted" style={{ "--d": 3 } as CSSProperties}>The demo is a made-up dealer with sample stock. Nothing you send there reaches anyone.</p>
                     </div>
                     {/* The one light surface on the page: a sign-off sheet. Ticks draw in, then the stamp lands. */}
-                    <div className="rounded-sm bg-paper p-5 text-ink shadow-lift wrap-anywhere sm:p-7 md:p-9" aria-labelledby="sheet-title">
+                    <div className="rounded-sm bg-paper p-5 text-ink shadow-lift wrap-anywhere sm:p-7 md:p-8" aria-labelledby="sheet-title">
                         <h2 id="sheet-title" className="font-sans text-xl font-semibold tracking-tight">Before it goes live</h2>
                         <p className="mt-1 text-sm text-ink-muted">Every dealer site we launch has these, on every plan.</p>
                         <ul className="mt-6 border-t border-ink/15">
@@ -58,7 +58,7 @@ export default function Home() {
                                 </li>
                             ))}
                         </ul>
-                        <p className="stamp mt-7 w-fit rounded-md border-2 border-action-hover px-4 py-1.5 font-display text-base font-bold text-action-hover sm:text-lg">Checked</p>
+                        <p className="stamp mt-7 w-fit rounded-md border-2 border-action-hover px-4 py-1.5 font-display text-base font-bold text-action-hover">Checked</p>
                     </div>
                 </Container>
             </section>
@@ -108,7 +108,7 @@ export default function Home() {
                     </div>
                     <ul className="border-t border-line">
                         {TIERS.map(t => (
-                            <li key={t.id} className="relative grid gap-2 border-b border-line py-6 transition-colors hover:bg-surface has-[:focus-visible]:bg-surface lg:grid-cols-[minmax(0,9rem)_minmax(0,1fr)_minmax(0,15rem)] lg:items-baseline lg:gap-10 lg:px-4">
+                            <li key={t.id} className="relative grid gap-2 border-b border-line py-6 transition-colors hover:bg-surface has-[:focus-visible]:bg-surface lg:grid-cols-[auto_minmax(14rem,1fr)_auto] lg:items-baseline lg:gap-10 lg:px-4">
                                 <h3 className="font-display text-2xl font-semibold">
                                     {/* The link covers the whole row (bigger target) */}
                                     <Link href={`${ROUTES.pricing}#plan-${t.id}`} className="after:absolute after:inset-0">{t.name}</Link>

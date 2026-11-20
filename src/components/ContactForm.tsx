@@ -51,7 +51,7 @@ function Sent() {
     const heading = useRef<HTMLHeadingElement>(null);
     useEffect(() => { heading.current?.focus(); heading.current?.scrollIntoView({ block: 'center' }); }, []);
     return (
-        <div role="status" className="rise grid gap-4 self-start rounded-2xl border border-line bg-surface p-8">
+        <div className="rise grid gap-4 self-start rounded-2xl border border-line bg-surface p-8">
             <h2 ref={heading} tabIndex={-1} className="font-display text-2xl font-semibold">Message sent</h2>
             <p className="text-fg-muted">Thanks. We read every message ourselves and reply the way you asked.</p>
             <p className="text-fg-muted">While you wait, try the demo: search the stock, open a car and send it an enquiry.</p>
@@ -69,8 +69,10 @@ export function ContactForm({ need }: { need?: (typeof NEEDS)[number] }) {
     const hydrated = useSyncExternalStore(() => () => {}, () => true, () => false);
     const waiting = hydrated && check === 'waiting';
     const sendLabel = (label: string) => (pending ? 'Sending' : waiting ? 'Checking you’re a person…' : label);
-    // One copy under each Send button; only the first is announced. Hidden while the server's own message says the same thing.
-    const failed = (announce: boolean) => check === 'failed' && !state.message && <p role={announce ? 'status' : undefined} className="text-sm text-bad">The spam check hasn’t finished. Refresh the page, or email {mail}.</p>;
+    // One copy under each Send button, hidden while the server's own message says the same thing. The first is a live region that is
+    // always there (empty until it fails), so screen readers announce the text when it appears.
+    const showFailed = check === 'failed' && !state.message;
+    const failedText = <>The spam check hasn’t finished. Refresh the page, or email {mail}.</>;
 
     // After a failed send, put the cursor on the first field to fix (or the message) so keyboard and screen-reader users are not left at the button
     useEffect(() => {
@@ -105,14 +107,13 @@ export function ContactForm({ need }: { need?: (typeof NEEDS)[number] }) {
                 <Turnstile resetKey={state} onState={setCheck} />
                 {/* The server's message may name the contact email: shown as a link */}
                 {state.message && <p role="alert" tabIndex={-1} className="text-bad">{state.message.split(CONTACT_EMAIL).flatMap((part, i) => (i ? [<a key={i} href={`mailto:${CONTACT_EMAIL}`} className="underline underline-offset-4">{CONTACT_EMAIL}</a>, part] : [part]))}</p>}
-                {/* Sent once the page is interactive: a send without a spam-check token and without this came from a page with no script */}
-                {hydrated && <input type="hidden" name="js" value="1" />}
                 <noscript><p className="text-bad">This form needs JavaScript. Turn it on to send, or email {mail}.</p></noscript>
                 <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
                     <button type="submit" disabled={pending || waiting} className={button}>{sendLabel('Send now')}</button>
                     <p className="text-sm text-fg-muted">That is all we need. The rest is optional.</p>
+                    {/* Always rendered (display kept), so screen readers announce the text when it appears */}
+                    <p role="status" className="basis-full text-sm text-bad">{showFailed && failedText}</p>
                 </div>
-                {failed(true)}
             </div>
 
             <fieldset>
@@ -180,7 +181,7 @@ export function ContactForm({ need }: { need?: (typeof NEEDS)[number] }) {
                 <Field id="business" label="Business name" hint="(optional)" error={e.business}><input {...props('business')} type="text" autoComplete="organization" /></Field>
                 <div className="grid justify-items-start gap-2">
                     <button type="submit" disabled={pending || waiting} className={button}>{sendLabel('Send message')}</button>
-                    {failed(false)}
+                    {showFailed && <p className="text-sm text-bad">{failedText}</p>}
                 </div>
             </div>
         </form>

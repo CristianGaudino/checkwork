@@ -58,10 +58,13 @@
     h3 { letter-spacing: -0.012em; line-height: 1.25; }
     /* A long word never pushes the page sideways, at 280px or with large text */
     body { overflow-wrap: anywhere; }
-    /* Short labels keep whole words: a table header, a button or a menu link never splits mid-word. (FAQ questions are prose and may
-       still break a long word at 320px with 200% text, rather than push the page sideways.) */
-    th, button, nav a { overflow-wrap: normal; }
+    /* Short labels keep whole words: a table cell, a button (or a link drawn as one) or a menu link never splits mid-word. (FAQ
+       questions are prose and may still break a long word at 320px with 200% text, rather than push the page sideways.) */
+    th, td, button, [data-button], nav a { overflow-wrap: normal; }
+    /* From sm up, headings break a word only when it alone is wider than the line. Below sm they keep the body's anywhere: break-word
+       makes a grid column as wide as the longest heading word, which at 280 to 400px with large text pushes the page sideways. */
     h1, h2, h3 { hyphens: auto; }
+    @media (min-width: 40rem) { h1, h2, h3 { overflow-wrap: break-word; } }
     p { text-wrap: pretty; }
 }
 

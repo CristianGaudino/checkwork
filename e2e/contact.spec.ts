@@ -31,7 +31,7 @@ test('a name and a number is enough: sent as a call-back, need not sure', async 
     // Turnstile's test key passes on its own; wait for its token before sending
     await expect(page.locator('input[name="cf-turnstile-response"]')).not.toHaveValue('', { timeout: 20_000 });
     await page.getByRole('button', { name: 'Send now' }).click();
-    await expect(page.getByRole('status')).toContainText('Message sent');
+    await expect(page.getByRole('heading', { name: 'Message sent' })).toBeFocused();
     const row = rowsFor(name);
     expect(row).toContain('Not sure yet');
     expect(row).toContain('A phone call');
@@ -54,7 +54,7 @@ test('a filled honeypot looks like success but stores nothing', async ({ page })
     await page.getByLabel('Anything else?').fill('Buy now');
     await page.locator('input[name="company_website"]').evaluate((el: HTMLInputElement) => { el.value = 'http://spam.example'; });
     await page.getByRole('button', { name: 'Send message' }).click();
-    await expect(page.getByRole('status')).toContainText('Message sent');
+    await expect(page.getByRole('heading', { name: 'Message sent' })).toBeFocused();
     expect(rowsFor(email)).not.toContain('Bot');
 });
 
@@ -87,7 +87,7 @@ test('a dealer arriving from the Dealer plan card has it ticked, and can send wi
     await page.getByLabel('Phone', { exact: true }).fill('087 000 0000');
     await expect(page.locator('input[name="cf-turnstile-response"]')).not.toHaveValue('', { timeout: 20_000 });
     await page.getByRole('button', { name: 'Send message' }).click();
-    await expect(page.getByRole('status')).toContainText('try the demo');
+    await expect(page.getByText('try the demo')).toBeVisible();
     const row = rowsFor(email);
     expect(row).toContain('Website and dashboard (Dealer)');
     expect(row).toContain('60 to 150 cars');

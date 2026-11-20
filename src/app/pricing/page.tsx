@@ -83,7 +83,7 @@ export default function Pricing() {
                             <li key={t.id}>
                                 <a href={`#plan-${t.id}`} className="group grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-4 border-b border-line py-4">
                                     <span className="grid grid-cols-[minmax(0,1fr)_auto] items-baseline gap-x-4 gap-y-1">
-                                        <span className="font-display text-xl font-semibold">{t.name}</span>
+                                        <span className="font-display text-xl font-semibold wrap-normal">{t.name}</span>
                                         <span className="font-display text-xl font-semibold tabular-nums">{eur(t.eur)}<span className="font-sans text-sm font-normal text-fg-muted"> a month</span></span>
                                         <span className="col-span-2 text-sm text-fg-muted">{t.id === 'dealer' && <span className="font-semibold text-accent-alt">Recommended. </span>}{t.fits}{t.branchEur && `. Plus ${eur(t.branchEur)} a month for each branch after the first`}</span>
                                     </span>
@@ -99,13 +99,14 @@ export default function Pricing() {
             </Section>
 
             <Section className="border-t border-line">
-                <Container className="grid gap-10 md:grid-cols-[1fr_1.4fr] md:gap-16">
-                    <div className="grid content-start gap-3">
+                {/* The table sits under its heading, not beside it: four columns need the full width with large text */}
+                <Container className="grid gap-10">
+                    <div className="grid max-w-2xl content-start gap-3">
                         <h2 className="font-display text-4xl font-semibold">Included each month</h2>
                         <p className="text-fg-muted">Each plan includes these every month. Past them you pay per use, up to a limit.</p>
                     </div>
-                    {/* On a phone, one short list per plan: four columns don't fit a narrow screen with large text */}
-                    <div className="grid gap-6 sm:hidden">
+                    {/* Below md, one short list per plan: four columns don’t fit a phone with large text */}
+                    <div className="grid gap-6 md:hidden">
                         {TIERS.map(t => (
                             <div key={t.id} className="border-t border-line">
                                 <h3 className="py-3 font-display text-base font-semibold">{t.name}</h3>
@@ -120,7 +121,7 @@ export default function Pricing() {
                             </div>
                         ))}
                     </div>
-                    <table className="hidden w-full border-t border-line text-left sm:table">
+                    <table className="hidden w-full border-t border-line text-left md:table">
                         <caption className="sr-only">What each plan includes a month</caption>
                         <thead>
                             <tr className="border-b border-line">
@@ -174,7 +175,7 @@ export default function Pricing() {
                     <h2 className="font-display text-4xl font-semibold">Paying</h2>
                     <dl className="border-t border-line">
                         {TERMS.map(t => (
-                            <div key={t.title} className="grid gap-1 border-b border-line py-5 sm:grid-cols-[12rem_1fr] sm:gap-6">
+                            <div key={t.title} className="grid gap-1 border-b border-line py-5 sm:grid-cols-[minmax(0,12rem)_minmax(0,1fr)] sm:gap-6">
                                 <dt className="font-semibold">{t.title}</dt>
                                 <dd className="text-fg-muted">{t.text}</dd>
                             </div>

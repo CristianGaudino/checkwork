@@ -119,7 +119,7 @@ for (const path of PAGES) {
             const w = document.documentElement.clientWidth;
             const wide = [...document.body.querySelectorAll('*')].filter(e => e.getBoundingClientRect().right > w + 1).slice(-3).map(e => `${e.tagName.toLowerCase()} "${(e.textContent ?? '').trim().slice(0, 30)}"`);
             const split: string[] = [];
-            for (const el of document.querySelectorAll('th, button, nav a')) {
+            for (const el of document.querySelectorAll('th, td, button, [data-button], nav a')) {
                 const walk = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
                 for (let n = walk.nextNode() as Text | null; n; n = walk.nextNode() as Text | null) {
                     if (n.parentElement?.closest('.sr-only')) continue;
@@ -136,7 +136,7 @@ for (const path of PAGES) {
         await page.setViewportSize({ width: 280, height: 700 });
         await page.goto(path);
         await fits('280px');
-        for (const [width, size] of [[280, '150%'], [320, '130%'], [320, '200%'], [360, '200%'], [390, '130%'], [390, '200%'], [768, '100%'], [768, '130%'], [800, '115%'], [920, '100%'], [920, '115%'], [1024, '200%']] as const) {
+        for (const [width, size] of [[280, '130%'], [280, '150%'], [320, '130%'], [320, '200%'], [360, '200%'], [390, '130%'], [390, '200%'], [640, '200%'], [768, '100%'], [768, '115%'], [768, '130%'], [820, '200%'], [840, '130%'], [920, '100%'], [920, '115%'], [920, '130%'], [1024, '100%'], [1024, '150%'], [1024, '200%']] as const) {
             await page.setViewportSize({ width, height: 844 });
             await page.evaluate(s => { document.documentElement.style.fontSize = s; }, size);
             await fits(`${width}px at ${size} text`);
@@ -155,6 +155,7 @@ test('the mobile menu closes on a tap outside it', async ({ page, isMobile }) =>
     await page.goto('/');
     await page.getByRole('button', { name: 'Menu' }).click();
     await expect(page.getByRole('button', { name: 'Close' })).toBeVisible();
-    await page.getByRole('heading', { name: 'What you get' }).click(); // plain text, below the open menu
+    // The empty side gutter of the page, below the open panel (which covers the hero heading on a phone)
+    await page.locator('main').click({ position: { x: 4, y: 560 } });
     await expect(page.getByRole('button', { name: 'Menu' })).toBeVisible();
 });
