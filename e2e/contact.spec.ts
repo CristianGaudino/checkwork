@@ -23,6 +23,8 @@ test('a name and a number is enough: sent as a call-back, need not sure', async 
     await page.goto(ROUTES.contact);
     // Every visitor is a dealer: the dealer questions show with no need ticked
     await expect(page.getByRole('heading', { name: 'About your dealership', exact: true })).toBeVisible();
+    // A plain contact link ticks no plan
+    await expect(page.getByRole('radio', { checked: true })).toHaveCount(0);
     await page.getByLabel('Your name').fill(name);
     await page.getByLabel('Phone', { exact: true }).fill('087 000 0000');
     await page.getByText('Call me', { exact: true }).click();
@@ -33,6 +35,15 @@ test('a name and a number is enough: sent as a call-back, need not sure', async 
     const row = rowsFor(name);
     expect(row).toContain('Not sure yet');
     expect(row).toContain('A phone call');
+});
+
+test('a spam check that never loads says so, and lets the visitor send for the server to explain', async ({ page }) => {
+    await page.route('https://challenges.cloudflare.com/**', route => route.abort());
+    await page.goto(ROUTES.contact);
+    await expect(page.getByText('The spam check didn’t load.').first()).toBeVisible();
+    // Sending is open again, so the server's own message can explain (not sent here: the contact limit is 5 a minute for the whole run)
+    await expect(page.getByRole('button', { name: 'Send now' })).toBeEnabled();
+    await expect(page.getByRole('link', { name: 'contact@checkwork.ie' }).first()).toHaveAttribute('href', 'mailto:contact@checkwork.ie');
 });
 
 test('a filled honeypot looks like success but stores nothing', async ({ page }) => {
@@ -47,13 +58,13 @@ test('a filled honeypot looks like success but stores nothing', async ({ page })
     expect(rowsFor(email)).not.toContain('Bot');
 });
 
-test('a dealer arriving from the dealer page gets the dealer questions, and can send without a message', async ({ page }, info) => {
+test('a dealer arriving from the Dealer plan card has it ticked, and can send without a message', async ({ page }, info) => {
     const email = `dealer-${Date.now()}@example.ie`;
     await page.goto(`${ROUTES.contact}?need=dealer`);
     await expect(page.getByRole('radio', { name: /Website and dashboard \(Dealer\)/ })).toBeChecked();
     await expect(page.getByRole('heading', { name: 'About your dealership', exact: true })).toBeVisible();
     // A problem ticked shows how the demo answers it; one not ticked shows nothing
-    const answer = page.getByRole('figure').filter({ hasText: 'Every lead lands in one list' });
+    const answer = page.getByRole('figure').filter({ hasText: 'lands in one list' });
     await expect(answer).toBeHidden();
     await page.getByText('Enquiries get lost or answered late').click();
     await expect(answer).toBeVisible();

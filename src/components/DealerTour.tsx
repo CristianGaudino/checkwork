@@ -49,12 +49,12 @@ export function DealerTour() {
                 </div>
 
                 {/* On a phone the picture comes first, so a tap on the list below shows its change straight above */}
-                <figure className="order-first min-w-0 overflow-hidden rounded-2xl border border-line bg-surface shadow-[0_40px_90px_-50px_rgb(0_0_0/0.9)] lg:order-none">
+                <figure className="order-first min-w-0 overflow-hidden rounded-2xl border border-line bg-surface shadow-frame lg:order-none">
                     <div aria-hidden="true" className="flex items-center gap-3 border-b border-line px-4 py-2.5">
                         <span className="flex gap-1.5">{[0, 1, 2].map(i => <span key={i} className="size-2.5 rounded-full bg-fg/15" />)}</span>
                         <span className="min-w-0 flex-1 truncate rounded-md bg-canvas px-3 py-1 text-center text-xs text-fg-muted">{host}{stop.path === '/' ? '' : stop.path}</span>
                     </div>
-                    <Shot key={stop.src} src={stop.src} phone={stop.phone} alt={stop.alt} priority={side === 0 && at === 0} className="appear-now" />
+                    <Shot key={stop.src} src={stop.src} phone={stop.phone} alt={stop.alt} fetchPriority={side === 0 && at === 0 ? 'high' : undefined} className="appear-now" />
                     <figcaption className="sr-only">{stop.title}</figcaption>
                 </figure>
             </div>

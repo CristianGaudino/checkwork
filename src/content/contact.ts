@@ -11,15 +11,19 @@ export const NEEDS = [
 export const NEED_HINTS: Record<(typeof NEEDS)[number], string> = {
     'Website only (Showroom)': 'Your own site on your stock, with reviews, trade-ins and finance.',
     'Website and dashboard (Dealer)': 'The site plus leads, WhatsApp alerts, test drives and AI writing.',
-    'More than one branch (Group)': 'Dealer for every branch, plus margins, social posts and new cars.',
+    'More than one branch (Group)': 'Everything in Dealer for 2 or more branches on one site, plus margins, social posts and new cars.',
     'Not sure yet': 'We can work it out on a call.',
 };
 
 // Stored when nothing is picked: only a name and a way to reply are required
 export const NO_NEED = 'Not sure yet' satisfies (typeof NEEDS)[number];
 
-// What `?need=dealer` on the contact page picks (from the dealer pages' buttons): the plan we recommend
-export const DEALER_SITE = 'Website and dashboard (Dealer)' satisfies (typeof NEEDS)[number];
+// What `?need=<plan id>` on the contact page ticks: each plan card's Talk to us link (content/pricing.ts TIERS ids)
+export const PLAN_NEEDS: Record<string, (typeof NEEDS)[number]> = {
+    showroom: 'Website only (Showroom)',
+    dealer: 'Website and dashboard (Dealer)',
+    group: 'More than one branch (Group)',
+};
 
 // Matched to the plans' fit (content/pricing.ts). Old rows keep the old sizes; a stored value is shown as it is.
 export const STOCK_SIZES = ['Under 60 cars', '60 to 150 cars', 'More than 150 cars', 'Not sure'] as const;
@@ -47,7 +51,7 @@ export const CONCERNS = [
     },
     {
         id: 'lost', label: 'Enquiries get lost or answered late', show: 'group-has-[[data-concern=lost]:checked]:grid',
-        demo: { text: 'Every lead lands in one list, from the website or added by your team from a call or a message, with who has it and when to follow up.', src: shot('dash-leads'), alt: 'Demo dealer dashboard list of leads with their status and when they came in', path: null },
+        demo: { text: 'Every enquiry from the website lands in one list, with who has it and when to follow up.', src: shot('dash-leads'), alt: 'Demo dealer dashboard list of leads with their status and when they came in', path: null },
     },
     {
         id: 'phones', label: 'Our site is poor on phones', show: 'group-has-[[data-concern=phones]:checked]:grid',

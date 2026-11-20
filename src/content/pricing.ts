@@ -64,7 +64,7 @@ export const TIERS: readonly Tier[] = [
         lead: 'Everything in Dealer, plus:',
         items: [
             'Margins and reports',
-            'Social posts and ads, with AI writing raised to 300 uses a month. Each draft or rewrite is one use',
+            'Social posts and ads, with AI writing raised to 300 uses a month',
             'Newsletter and stock alerts',
             'New cars and factory orders for 2 brands',
             'Commercial vehicles',

@@ -33,11 +33,11 @@ function Plan({ tier }: { tier: Tier }) {
             <div className="grid gap-1">
                 <p><span className="font-display text-5xl font-semibold tracking-tight">{eur(tier.eur)}</span> <span className={pick ? 'text-ink-muted' : 'text-fg-muted'}>a month</span></p>
                 <p className={`text-sm ${pick ? 'text-ink-muted' : 'text-fg-muted'}`}>
-                    {tier.branchEur && <>Plus {eur(tier.branchEur)} a month for each extra branch. </>}
+                    {tier.branchEur && <>Plus {eur(tier.branchEur)} a month for each branch after the first. </>}
                     {eur(tier.setupEur)} setup. Before VAT.
                 </p>
             </div>
-            <Button href={DEALER_CONTACT} variant={pick ? 'primary' : 'secondary'}>Talk to us about {tier.name}</Button>
+            <Button href={`${ROUTES.contact}?need=${tier.id}`} variant={pick ? 'primary' : 'secondary'}>Talk to us about {tier.name}</Button>
             <div className={`grid content-start gap-3 border-t pt-6 ${pick ? 'border-ink/15' : 'border-line'}`}>
                 <p className="font-semibold">{tier.lead}</p>
                 <ul className="grid gap-2.5">
@@ -78,13 +78,16 @@ export default function Pricing() {
             <Section className="pt-12 md:pt-20">
                 <Container className="grid gap-10">
                     {/* On a phone the cards stack and run long: the three plans at a glance first, each a jump to its card */}
-                    <ul className="grid border-t border-line lg:hidden" aria-label="The plans at a glance">
+                    <ul className="mx-auto grid w-full max-w-xl border-t border-line lg:hidden" aria-label="The plans at a glance">
                         {TIERS.map(t => (
                             <li key={t.id}>
-                                <a href={`#plan-${t.id}`} className="flex flex-wrap items-baseline justify-between gap-x-4 border-b border-line py-4">
-                                    <span className="font-display text-xl font-semibold">{t.name}</span>
-                                    <span className="font-display text-xl font-semibold tabular-nums">{eur(t.eur)}<span className="font-sans text-sm font-normal text-fg-muted"> a month</span></span>
-                                    <span className="basis-full text-sm text-fg-muted">{t.fits}</span>
+                                <a href={`#plan-${t.id}`} className="group grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-4 border-b border-line py-4">
+                                    <span className="flex flex-wrap items-baseline justify-between gap-x-4">
+                                        <span className="font-display text-xl font-semibold">{t.name}{t.id === 'dealer' && <span className="ml-2 font-sans text-sm font-semibold text-accent-alt">Recommended</span>}</span>
+                                        <span className="font-display text-xl font-semibold tabular-nums">{eur(t.eur)}<span className="font-sans text-sm font-normal text-fg-muted"> a month</span></span>
+                                        <span className="basis-full text-sm text-fg-muted">{t.fits}{t.branchEur && `. Plus ${eur(t.branchEur)} a month for each branch after the first`}</span>
+                                    </span>
+                                    <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" className="size-4 text-fg-muted transition-transform group-hover:translate-y-0.5"><path d="m4 6 4 4 4-4" stroke="currentColor" strokeWidth="2" /></svg>
                                 </a>
                             </li>
                         ))}
@@ -101,10 +104,24 @@ export default function Pricing() {
                         <h2 className="font-display text-4xl font-semibold">Included each month</h2>
                         <p className="text-fg-muted">Each plan includes these every month. Past them you pay per use, up to a limit.</p>
                     </div>
-                    {/* Four narrow columns: fits a 320px phone without scrolling sideways */}
-                    <table className="w-full table-fixed border-t border-line text-left text-xs sm:text-base">
+                    {/* On a phone, one short list per plan: four columns don't fit a narrow screen with large text */}
+                    <div className="grid gap-6 sm:hidden">
+                        {TIERS.map(t => (
+                            <div key={t.id} className="border-t border-line">
+                                <h3 className="py-3 font-display text-base font-semibold">{t.name}</h3>
+                                <dl>
+                                {ALLOWANCES.map(a => (
+                                    <div key={a.label} className="flex flex-wrap justify-between gap-x-4 border-t border-line py-2.5">
+                                        <dt>{a.label}</dt>
+                                        <dd className={`tabular-nums ${a[t.id] ? '' : 'text-fg-muted'}`}>{a[t.id] ?? 'None'}</dd>
+                                    </div>
+                                ))}
+                                </dl>
+                            </div>
+                        ))}
+                    </div>
+                    <table className="hidden w-full border-t border-line text-left sm:table">
                         <caption className="sr-only">What each plan includes a month</caption>
-                        <colgroup><col className="w-[28%]" /><col /><col /><col /></colgroup>
                         <thead>
                             <tr className="border-b border-line">
                                 <td className="py-3" />
@@ -145,7 +162,7 @@ export default function Pricing() {
                     <div className="grid content-start gap-6">
                         <div className="grid gap-3">
                             <h2 className="font-display text-3xl font-semibold">Monthly limits</h2>
-                            <p className="text-fg-muted">Extra use stops at these amounts until the next month. On Dealer and Group you can set lower ones in the dashboard. On Showroom, ask us. We can raise a limit if you ask.</p>
+                            <p className="text-fg-muted">Extra use stops at these amounts until the next month. On Dealer and Group you can set lower ones in the dashboard. On Showroom, ask us. Ask us too if you need a limit raised.</p>
                         </div>
                         <PriceList rows={LIMITS} />
                     </div>

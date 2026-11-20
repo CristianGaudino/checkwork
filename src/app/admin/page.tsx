@@ -86,7 +86,7 @@ export default async function Admin({ searchParams }: PageProps<'/admin'>) {
                                     <button className="justify-self-start rounded-lg border border-fg/40 px-3 py-2 font-semibold hover:border-fg">Save notes</button>
                                 </form>
                                 <div className="flex flex-wrap items-center gap-4">
-                                    <a href={reply} className="rounded-lg bg-action px-4 py-2 font-semibold text-white hover:bg-action-hover">Reply</a>
+                                    <a href={reply} className="rounded-lg bg-action px-4 py-2 font-semibold text-on-action hover:bg-action-hover">Reply</a>
                                     <form action={setStatus.bind(null, r.id)} className="flex items-center gap-2">
                                         <label htmlFor={`status-${r.id}`} className="sr-only">Status</label>
                                         <select id={`status-${r.id}`} name="status" defaultValue={r.status} className={field}>
@@ -97,7 +97,7 @@ export default async function Admin({ searchParams }: PageProps<'/admin'>) {
                                     <details>
                                         <summary className="cursor-pointer text-fg-muted">Delete</summary>
                                         <form action={deleteEnquiry.bind(null, r.id)} className="mt-2">
-                                            <button className="rounded-lg border border-red-400 px-3 py-2 font-semibold text-red-300">Delete {r.name} for good</button>
+                                            <button className="rounded-lg border border-bad px-3 py-2 font-semibold text-bad">Delete {r.name} for good</button>
                                         </form>
                                     </details>
                                 </div>

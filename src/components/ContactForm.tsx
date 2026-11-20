@@ -1,19 +1,19 @@
 'use client';
 
 import Image from 'next/image';
-import { useActionState, useEffect, useRef, useState } from 'react';
+import { useActionState, useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { sendEnquiry, type ContactState } from '@/app/contact/actions';
 import { DemoButton } from '@/components/DemoButton';
-import { Turnstile } from '@/components/Turnstile';
+import { type CheckState, Turnstile } from '@/components/Turnstile';
 import { CONCERNS, NEED_HINTS, NEEDS, REPLIES, REPLY_LABELS, STOCK_SIZES, STOCK_SOURCES, TIMINGS } from '@/content/contact';
-import { DEMO_URL } from '@/lib/config';
+import { CONTACT_EMAIL, DEMO_URL } from '@/lib/config';
 
-const field = 'w-full rounded-xl border border-line bg-surface px-4 py-3 text-base text-fg placeholder:text-fg-muted aria-[invalid=true]:border-red-400';
+const field = 'w-full rounded-xl border border-line bg-surface px-4 py-3 text-base text-fg placeholder:text-fg-muted aria-[invalid=true]:border-bad';
 // A choice drawn as a chip or card: the input is visually hidden, the label shows its state and its keyboard focus
 // Forced colours drop border and background colours, so a ticked chip shows an outline instead
 const chip = 'cursor-pointer rounded-xl border border-line px-4 py-2.5 transition-colors hover:border-fg/40 has-[:checked]:border-accent-alt has-[:checked]:bg-accent/15 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-accent-alt forced-colors:has-[:checked]:outline-2';
 const legend = 'mb-3 font-medium';
-const button = 'inline-flex items-center justify-center rounded-xl border border-transparent bg-action px-5 py-3.5 text-base font-semibold text-white transition-[background-color,transform] duration-150 hover:bg-action-hover active:scale-[0.97] disabled:opacity-60';
+const button = 'inline-flex items-center justify-center rounded-xl border border-transparent bg-action px-5 py-3.5 text-base font-semibold text-on-action transition-[background-color,transform] duration-150 hover:bg-action-hover active:scale-[0.97] disabled:opacity-80';
 // The form's steps are numbered by a CSS counter, so a step added or removed renumbers the rest
 const step = `font-display text-2xl font-semibold [counter-increment:step] before:mr-3 before:inline-grid before:size-8 before:place-content-center before:rounded-full before:border before:border-line before:align-[0.2em] before:text-sm before:text-accent-alt before:content-[counter(step)_/_'']`;
 const hidden = 'sr-only';
@@ -23,7 +23,7 @@ function Field({ id, label, hint, error, children }: { id: string; label: React.
         <div className="grid gap-2">
             <label htmlFor={id} className="font-medium">{label}{hint && <>{' '}<span className="font-normal text-fg-muted">{hint}</span></>}</label>
             {children}
-            {error && <p id={`${id}-error`} className="text-sm text-red-300">{error}</p>}
+            {error && <p id={`${id}-error`} className="text-sm text-bad">{error}</p>}
         </div>
     );
 }
@@ -40,7 +40,7 @@ function Choices({ name, label, options, checked, labels, error }: { name: strin
                     </label>
                 ))}
             </div>
-            {error && <p id={`${name}-error`} className="mt-2 text-sm text-red-300">{error}</p>}
+            {error && <p id={`${name}-error`} className="mt-2 text-sm text-bad">{error}</p>}
         </fieldset>
     );
 }
@@ -59,9 +59,13 @@ function Sent() {
 export function ContactForm({ need }: { need?: (typeof NEEDS)[number] }) {
     const [state, action, pending] = useActionState<ContactState, FormData>(sendEnquiry, { status: 'idle' });
     const form = useRef<HTMLFormElement>(null);
-    // Sending waits for the spam check's token: without one the server can only refuse
-    const [checked, setChecked] = useState(false);
-    const sendLabel = (label: string) => (pending ? 'Sending' : checked ? label : 'Checking you’re a person…');
+    // Sending waits for the spam check's token: without one the server can only refuse. If the check fails or never loads, sending is
+    // allowed again so the server says what went wrong. Before hydration (or with no script) nothing is checking, so the button just says Send.
+    const [check, setCheck] = useState<CheckState>('waiting');
+    const hydrated = useSyncExternalStore(() => () => {}, () => true, () => false);
+    const waiting = hydrated && check === 'waiting';
+    const sendLabel = (label: string) => (pending ? 'Sending' : waiting ? 'Checking you’re a person…' : label);
+    const failed = check === 'failed' && <p className="text-sm text-bad">The spam check didn’t load. Refresh the page, or email <a href={`mailto:${CONTACT_EMAIL}`} className="underline underline-offset-4">{CONTACT_EMAIL}</a>.</p>;
 
     // After a failed send, put the cursor on the first field to fix (or the message) so keyboard and screen-reader users are not left at the button
     useEffect(() => {
@@ -93,13 +97,14 @@ export function ContactForm({ need }: { need?: (typeof NEEDS)[number] }) {
                 <Field id="phone" label="Phone" error={e.phone}><input {...props('phone')} type="tel" autoComplete="tel" /></Field>
                 <Field id="email" label="Email" error={e.email}><input {...props('email')} type="email" autoComplete="email" /></Field>
                 <Choices name="reply" label="How should we get back to you?" options={REPLIES} labels={REPLY_LABELS} checked={o => v.reply === o} />
-                <Turnstile resetKey={state} onToken={setChecked} />
-                {state.message && <p role="alert" tabIndex={-1} className="text-red-300">{state.message}</p>}
-                <noscript><p className="text-red-300">This form needs JavaScript to send.</p></noscript>
+                <Turnstile resetKey={state} onState={setCheck} />
+                {state.message && <p role="alert" tabIndex={-1} className="text-bad">{state.message}</p>}
+                <noscript><p className="text-bad">This form needs JavaScript. Turn it on to send, or email <a href={`mailto:${CONTACT_EMAIL}`} className="underline underline-offset-4">{CONTACT_EMAIL}</a>.</p></noscript>
                 <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-                    <button type="submit" disabled={pending || !checked} className={button}>{sendLabel('Send now')}</button>
+                    <button type="submit" disabled={pending || waiting} className={button}>{sendLabel('Send now')}</button>
                     <p className="text-sm text-fg-muted">That is all we need. The rest is optional.</p>
                 </div>
+                {failed}
             </div>
 
             <fieldset>
@@ -165,8 +170,9 @@ export function ContactForm({ need }: { need?: (typeof NEEDS)[number] }) {
                     <textarea {...props('message')} rows={4} placeholder="What is not working today, and what should the site do?" />
                 </Field>
                 <Field id="business" label="Business name" hint="(optional)" error={e.business}><input {...props('business')} type="text" autoComplete="organization" /></Field>
-                <div>
-                    <button type="submit" disabled={pending || !checked} className={button}>{sendLabel('Send message')}</button>
+                <div className="grid justify-items-start gap-2">
+                    <button type="submit" disabled={pending || waiting} className={button}>{sendLabel('Send message')}</button>
+                    {failed}
                 </div>
             </div>
         </form>

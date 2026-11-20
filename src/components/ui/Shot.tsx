@@ -4,8 +4,9 @@ import { getImageProps } from 'next/image';
  * A demo screenshot that swaps to the phone version of the same screen below the `sm` breakpoint, where a laptop screenshot is too small to
  * read. Without `phone` it is a plain image. Phone shots are tall, so they are cut at the top to keep the page short.
  */
-export function Shot({ src, phone, alt, sizes, priority, className = '' }: { src: string; phone?: string; alt: string; sizes?: string; priority?: boolean; className?: string }) {
-    const { props } = getImageProps({ src, alt, width: 1920, height: 1200, sizes, priority });
+// fetchPriority rather than preload: with two sources, preloading one would load both (Next 16 docs, Art Direction)
+export function Shot({ src, phone, alt, sizes, fetchPriority, className = '' }: { src: string; phone?: string; alt: string; sizes?: string; fetchPriority?: 'high'; className?: string }) {
+    const { props } = getImageProps({ src, alt, width: 1920, height: 1200, sizes, fetchPriority });
     // The <img> next/image would render, built by getImageProps so <picture> can wrap it
     // eslint-disable-next-line @next/next/no-img-element -- it is next/image's own output
     if (!phone) return <img {...props} alt={alt} className={`h-auto w-full ${className}`} />;

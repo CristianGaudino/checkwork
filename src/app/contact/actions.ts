@@ -7,6 +7,7 @@ import { getDb } from '@/lib/db';
 import { enquiries } from '@/lib/db/schema';
 import { type EnquiryErrors, parseEnquiry } from '@/lib/enquiry';
 import { verifyTurnstile } from '@/lib/turnstile';
+import { CONTACT_EMAIL } from '@/lib/config';
 
 export type ContactState = {
     status: 'idle' | 'sent' | 'error';
@@ -43,7 +44,7 @@ export async function sendEnquiry(_prev: ContactState, data: FormData): Promise<
         return { status: 'error', message: 'Too many messages in a short time. Wait a minute and try again.', values };
     }
     if (!(await verifyTurnstile(String(data.get('cf-turnstile-response') ?? ''), ip))) {
-        return { status: 'error', message: 'We couldn’t check that you’re a person. Wait a moment and press Send again.', values };
+        return { status: 'error', message: `We couldn’t check that you’re a person. Wait a moment and send again, or email ${CONTACT_EMAIL}.`, values };
     }
 
     try {

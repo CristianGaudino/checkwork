@@ -38,11 +38,11 @@ export default function CarDealerWebsites() {
                     </div>
                     {/* The desktop site with the phone version in front: the same stock, on both */}
                     <div className="relative pb-10 pr-10 sm:pb-14 sm:pr-16">
-                        <div className="overflow-hidden rounded-2xl border border-line bg-surface shadow-[0_40px_90px_-50px_rgb(0_0_0/0.9)]">
-                            <Image src="/dealer-demo/site-home.webp" alt="The demo dealer website on a laptop: a stock search over a photo of the showroom" width={1920} height={1200} priority className="h-auto w-full" />
+                        <div className="overflow-hidden rounded-2xl border border-line bg-surface shadow-frame">
+                            <Image src="/dealer-demo/site-home.webp" alt="The demo dealer website on a laptop: a stock search over a photo of the showroom" width={1920} height={1200} preload className="h-auto w-full" />
                         </div>
-                        <div className="absolute bottom-0 right-0 w-[30%] max-w-48 overflow-hidden rounded-[1.4rem] border-4 border-canvas bg-canvas shadow-[0_30px_60px_-20px_rgb(0_0_0/0.9)] outline outline-1 outline-line">
-                            <Image src="/dealer-demo/phone-stock.webp" alt="The same site on a phone: the used cars list" width={780} height={1688} priority className="h-auto w-full" />
+                        <div className="absolute bottom-0 right-0 w-[30%] max-w-48 overflow-hidden rounded-[1.4rem] border-4 border-canvas bg-canvas shadow-phone outline outline-1 outline-line">
+                            <Image src="/dealer-demo/phone-stock.webp" alt="The same site on a phone: the used cars list" width={780} height={1688} preload className="h-auto w-full" />
                         </div>
                     </div>
                 </Container>

@@ -25,7 +25,7 @@ export const TOUR: { id: 'site' | 'team'; label: string; lead: string; stops: To
         lead: 'The dashboard behind the site, where every lead and car is handled.',
         stops: [
             { id: 'overview', title: 'What needs doing today', text: 'Leads waiting for a reply, test drives to confirm and cars on sale too long, on one screen.', path: '/dashboard', src: shot('dash-overview'), alt: 'Demo dealer dashboard overview with leads each week and a list of what needs attention' },
-            { id: 'leads', title: 'Every lead in one place', text: 'From the website, or added by your team from a call or a Facebook message, each with its status, who has it and when to follow up.', path: '/dashboard/leads', src: shot('dash-leads'), alt: 'Demo dealer dashboard list of leads with their status and when they came in' },
+            { id: 'leads', title: 'Every lead in one place', text: 'Every enquiry from the website, each with its status, who has it and when to follow up.', path: '/dashboard/leads', src: shot('dash-leads'), alt: 'Demo dealer dashboard list of leads with their status and when they came in' },
             { id: 'lead', title: 'One press to reply', text: 'Call, email or WhatsApp from the lead, add notes, set a follow-up and look up the car they are selling.', path: '/dashboard/leads/1001', src: shot('dash-lead'), alt: 'A lead in the demo dealer dashboard with buttons to call, email or WhatsApp' },
             { id: 'stock', title: 'Stock, prices and margins', text: 'Add cars and photos, drop the price on several at once, and see days in stock and the margin on each.', path: '/dashboard/stock', src: shot('dash-stock'), alt: 'Demo dealer dashboard stock list with prices, margins and days in stock' },
             { id: 'drives', title: 'Test drives booked from the site', text: 'Requests land here to confirm, move, mark done or mark as a no-show.', path: '/dashboard/test-drives', src: shot('dash-drives'), alt: 'Demo dealer dashboard test drives for today and those waiting to be confirmed' },
@@ -54,7 +54,7 @@ export const DEALER_FAQS = [
     { q: 'Does my team need a new app for WhatsApp?', a: 'No. Alerts come to the WhatsApp they already use, from your dealership’s WhatsApp Business number. Each person picks the alerts they get and can set quiet hours.' },
     { q: 'Will buyers get WhatsApp messages they did not ask for?', a: 'No. A buyer gets WhatsApp messages only if they ticked the box on the form; otherwise they get an email, or your team is told to call. Every car page also has a WhatsApp button for buyers who want to message you.' },
     { q: 'Who can act on a WhatsApp alert?', a: 'Only the phones you link to your WhatsApp Business number, and every change made from WhatsApp is in the activity log. If WhatsApp can’t send, alerts go by email instead.' },
-    { q: 'What does it cost?', a: 'Showroom is €249 a month, Dealer €449 and Group €749 plus €149 for each extra branch, before VAT, plus a setup fee. The pricing page has what each includes.' },
+    { q: 'What does it cost?', a: 'Showroom is €249 a month, Dealer €449 and Group €749 plus €149 for each branch after the first, before VAT, plus a setup fee. The pricing page has what each includes.' },
     { q: 'Will the website rank on Google?', a: 'We set up what Google looks for: speed, page titles, structured data for each car and your local details. No one can promise a ranking.' },
 ] as const;
 

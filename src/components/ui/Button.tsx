@@ -7,7 +7,7 @@ const base =
     'transition-[background-color,border-color,transform] duration-150 active:scale-[0.97] active:duration-100';
 
 const variants = {
-    primary: 'border-transparent bg-action text-white hover:bg-action-hover',
+    primary: 'border-transparent bg-action text-on-action hover:bg-action-hover',
     secondary: 'border-fg/40 text-fg hover:border-fg',
 } as const;
 

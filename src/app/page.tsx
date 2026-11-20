@@ -48,8 +48,8 @@ export default function Home() {
                         <ul className="mt-6 border-t border-ink/15">
                             {CHECKS.map((c, i) => (
                                 <li key={c.title} className="grid grid-cols-[1.75rem_1fr] gap-4 border-b border-ink/15 py-4">
-                                    <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" className="mt-0.5 size-5">
-                                        <path d="M2.5 8.6 6.2 12 13.5 4" pathLength={1} className="tick" style={{ "--i": i } as CSSProperties} stroke="#4a4ede" strokeWidth="2.2" />
+                                    <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" className="mt-0.5 size-5 text-action-hover">
+                                        <path d="M2.5 8.6 6.2 12 13.5 4" pathLength={1} className="tick" style={{ "--i": i } as CSSProperties} stroke="currentColor" strokeWidth="2.2" />
                                     </svg>
                                     <div>
                                         <h3 className="font-sans text-base font-semibold">{c.title}</h3>
@@ -71,7 +71,7 @@ export default function Home() {
                     </div>
                     {/* One screen of the demo, then the four answers: only some have a screenshot, so none are shown per item (the dealer page tours them all) */}
                     <div className="overflow-hidden rounded-2xl border border-line bg-surface">
-                        <Shot src="/dealer-demo/site-stock.webp" phone="/dealer-demo/phone-stock.webp" alt="Demo dealer used cars page with filters down the side and car cards" sizes="(min-width: 1200px) 1200px, 100vw" />
+                        <Shot src="/dealer-demo/site-stock.webp" phone="/dealer-demo/phone-stock.webp" alt="Demo dealer used cars page with a search and car cards" sizes="(min-width: 1200px) 1200px, 100vw" />
                     </div>
                     <ul className="grid gap-x-10 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
                         {GETS.map(g => (
@@ -108,13 +108,13 @@ export default function Home() {
                     </div>
                     <ul className="border-t border-line">
                         {TIERS.map(t => (
-                            <li key={t.id} className="relative grid gap-2 border-b border-line py-6 transition-colors hover:bg-surface has-[:focus-visible]:bg-surface md:grid-cols-[9rem_1fr_15rem] md:items-baseline md:gap-10 md:px-4">
+                            <li key={t.id} className="relative grid gap-2 border-b border-line py-6 transition-colors hover:bg-surface has-[:focus-visible]:bg-surface lg:grid-cols-[9rem_minmax(0,1fr)_15rem] lg:items-baseline lg:gap-10 lg:px-4">
                                 <h3 className="font-display text-2xl font-semibold">
                                     {/* The link covers the whole row (bigger target) */}
                                     <Link href={`${ROUTES.pricing}#plan-${t.id}`} className="after:absolute after:inset-0">{t.name}</Link>
                                 </h3>
                                 <p className="text-fg-muted">{t.summary}</p>
-                                <p className="font-display text-xl font-semibold tabular-nums md:text-right">{eur(t.eur)}<span className="font-sans text-base font-normal text-fg-muted"> a month{t.branchEur && `, plus ${eur(t.branchEur)} for each extra branch`}</span></p>
+                                <p className="font-display text-xl font-semibold tabular-nums lg:text-right">{eur(t.eur)}<span className="font-sans text-base font-normal text-fg-muted"> a month{t.branchEur && `, plus ${eur(t.branchEur)} for each branch after the first`}</span></p>
                             </li>
                         ))}
                     </ul>

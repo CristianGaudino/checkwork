@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Container } from '@/components/ui/Container';
 import { CTA, NAV } from '@/lib/config';
@@ -13,6 +13,9 @@ export function Header() {
     const [open, setOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const menu = useRef<HTMLButtonElement>(null);
+    const bar = useRef<HTMLElement>(null);
+    // Before hydration (or with no script) the bar can't tell when content is under it, so it stays solid
+    const hydrated = useSyncExternalStore(() => () => {}, () => true, () => false);
     const current = (href: string) => (path === href || path.startsWith(`${href}/`) ? 'page' : undefined);
 
     // The divider and the blur appear only once content is under the bar: a scroll edge, not a permanent rule
@@ -27,20 +30,24 @@ export function Header() {
         if (!open) return;
         // Escape closes the menu and puts focus back on the button that opened it
         const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') { setOpen(false); menu.current?.focus(); } };
+        // A tap outside the bar and its menu closes it
+        const onTap = (e: PointerEvent) => { if (!bar.current?.contains(e.target as Node)) setOpen(false); };
         window.addEventListener('keydown', onKey);
-        return () => window.removeEventListener('keydown', onKey);
+        document.addEventListener('pointerdown', onTap);
+        return () => { window.removeEventListener('keydown', onKey); document.removeEventListener('pointerdown', onTap); };
     }, [open]);
 
     return (
         <header
+            ref={bar}
             style={{ viewTransitionName: 'site-header' }}
             className={`sticky top-0 z-50 border-b transition-[border-color,background-color] duration-200 ${
-                scrolled || open ? 'glass border-line bg-canvas/80 backdrop-blur-xl' : 'border-transparent bg-canvas/0'
+                scrolled || open ? 'glass border-line bg-canvas/80 backdrop-blur-xl' : hydrated ? 'border-transparent bg-canvas/0' : 'border-transparent bg-canvas'
             }`}
         >
             <Container className="flex min-h-[4.5rem] items-center justify-between gap-6">
                 <Link href="/" aria-label="Checkwork, home" onClick={() => setOpen(false)}>
-                    <Image src="/brand/checkwork-logo-on-dark.svg" alt="Checkwork" width={190} height={30} priority className="h-[30px] w-auto forced-colors:bg-canvas forced-colors:[forced-color-adjust:none]" />
+                    <Image src="/brand/checkwork-logo-on-dark.svg" alt="Checkwork" width={190} height={30} preload className="h-[30px] w-auto forced-colors:rounded-md forced-colors:bg-canvas forced-colors:p-1 forced-colors:[forced-color-adjust:none]" />
                 </Link>
                 <button
                     ref={menu}

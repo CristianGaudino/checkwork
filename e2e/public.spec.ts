@@ -122,10 +122,10 @@ for (const path of PAGES) {
         await page.setViewportSize({ width: 280, height: 700 });
         await page.goto(path);
         await fits('280px');
-        for (const size of ['130%', '200%']) {
-            await page.setViewportSize({ width: 390, height: 844 });
+        for (const [width, size] of [[280, '150%'], [320, '200%'], [360, '200%'], [390, '130%'], [390, '200%'], [768, '130%']] as const) {
+            await page.setViewportSize({ width, height: 844 });
             await page.evaluate(s => { document.documentElement.style.fontSize = s; }, size);
-            await fits(`390px at ${size} text`);
+            await fits(`${width}px at ${size} text`);
         }
         for (const width of [320, 390]) {
             await page.setViewportSize({ width, height: 800 });
@@ -135,3 +135,12 @@ for (const path of PAGES) {
         }
     });
 }
+
+test('the mobile menu closes on a tap outside it', async ({ page, isMobile }) => {
+    test.skip(!isMobile, 'The menu is a phone layout');
+    await page.goto('/');
+    await page.getByRole('button', { name: 'Menu' }).click();
+    await expect(page.getByRole('button', { name: 'Close' })).toBeVisible();
+    await page.mouse.click(200, 700);
+    await expect(page.getByRole('button', { name: 'Menu' })).toBeVisible();
+});

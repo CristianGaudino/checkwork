@@ -4,8 +4,8 @@ import { ContactForm } from '@/components/ContactForm';
 import { DemoButton } from '@/components/DemoButton';
 import { Container, Section } from '@/components/ui/Container';
 import { PageHead } from '@/components/ui/PageHead';
-import { DEALER_SITE } from '@/content/contact';
-import { ROUTES } from '@/lib/config';
+import { PLAN_NEEDS } from '@/content/contact';
+import { CONTACT_EMAIL, ROUTES } from '@/lib/config';
 import { pageMetadata } from '@/lib/metadata';
 
 export const metadata = pageMetadata({
@@ -22,15 +22,16 @@ const NEXT = [
 ] as const;
 
 export default async function Contact({ searchParams }: PageProps<'/contact'>) {
-    // `?need=dealer` (from the dealer pages' buttons) opens the form with the dealer website ticked
-    const dealer = (await searchParams).need === 'dealer';
+    // `?need=showroom`, `dealer` or `group` (each plan card's link) ticks that plan; anything else ticks nothing
+    const need = (await searchParams).need;
+    const plan = typeof need === 'string' && Object.hasOwn(PLAN_NEEDS, need) ? PLAN_NEEDS[need] : undefined;
 
     return (
         <>
             <PageHead title="Talk to us about your dealership" lead="Leave your name and a number or email, and we will get back to you. Everything else is optional." />
             <Section className="pt-10 md:pt-14">
                 <Container className="grid gap-14 lg:grid-cols-[1.4fr_1fr] lg:gap-16">
-                    <ContactForm need={dealer ? DEALER_SITE : undefined} />
+                    <ContactForm need={plan} />
                     <aside className="grid content-start gap-10 lg:sticky lg:top-28 lg:self-start">
                         <div className="grid gap-5">
                             <h2 className="font-display text-2xl font-semibold">What happens next</h2>
@@ -46,6 +47,7 @@ export default async function Contact({ searchParams }: PageProps<'/contact'>) {
                                 ))}
                             </ol>
                             <p className="text-fg-muted">Want the numbers first? Every plan and price is on the <Link href={ROUTES.pricing} className="text-accent-alt underline underline-offset-4">pricing page</Link>.</p>
+                            <p className="text-fg-muted">Or email <a href={`mailto:${CONTACT_EMAIL}`} className="text-accent-alt underline underline-offset-4">{CONTACT_EMAIL}</a>.</p>
                         </div>
 
                         <div className="grid gap-4 overflow-hidden rounded-2xl border border-line bg-surface">

@@ -21,7 +21,7 @@ const chip = 'rounded-full border border-line px-3 py-1 text-sm text-accent-alt'
 function Draft() {
     return (
         <figure className="mx-auto grid w-full max-w-md gap-3">
-            <div className="grid gap-4 rounded-2xl border border-line bg-surface p-5 shadow-[0_40px_90px_-50px_rgb(0_0_0/0.9)] sm:p-6">
+            <div className="grid gap-4 rounded-2xl border border-line bg-surface p-5 shadow-frame sm:p-6">
                 <p className="font-medium">{DRAFT.label}</p>
                 <p className="whitespace-pre-line rounded-xl border border-line bg-canvas px-4 py-3 text-sm">{DRAFT.text}</p>
                 <div className="flex flex-wrap items-center gap-3 text-sm">

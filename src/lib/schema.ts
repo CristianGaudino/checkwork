@@ -1,5 +1,5 @@
 import { eur, TIERS } from '@/content/pricing';
-import { ROUTES, SITE, SITE_URL } from '@/lib/config';
+import { CONTACT_EMAIL, ROUTES, SITE, SITE_URL } from '@/lib/config';
 
 // schema.org structured data. Only facts the site already states: no address, phone, ratings or social profiles until they exist (issue #2).
 
@@ -16,6 +16,7 @@ export const siteGraph = () => ({
             url: url('/'),
             logo: `${SITE_URL}/apple-touch-icon.png`,
             description: SITE.description,
+            email: CONTACT_EMAIL,
             areaServed: { '@type': 'Country', name: 'Ireland' },
             hasOfferCatalog: {
                 '@type': 'OfferCatalog',
@@ -26,7 +27,7 @@ export const siteGraph = () => ({
                     url: url(ROUTES.pricing),
                     itemOffered: { '@type': 'Service', name: `${t.name} plan`, description: `${t.lead} ${t.items.join('. ')}.` },
                     priceSpecification: { '@type': 'UnitPriceSpecification', price: t.eur, priceCurrency: 'EUR', unitText: 'MONTH', valueAddedTaxIncluded: false },
-                    description: `${eur(t.eur)} a month and ${eur(t.setupEur)} setup, before VAT${t.branchEur ? `, plus ${eur(t.branchEur)} a month for each extra branch` : ''}.`,
+                    description: `${eur(t.eur)} a month and ${eur(t.setupEur)} setup, before VAT${t.branchEur ? `, plus ${eur(t.branchEur)} a month for each branch after the first` : ''}.`,
                 })),
             },
         },
