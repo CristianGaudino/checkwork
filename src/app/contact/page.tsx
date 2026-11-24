@@ -9,8 +9,8 @@ import { CONTACT_EMAIL, ROUTES } from '@/lib/config';
 import { pageMetadata } from '@/lib/metadata';
 
 export const metadata = pageMetadata({
-    title: 'Talk to us about a website for your dealership',
-    description: 'Tell Checkwork about your dealership: your stock, your leads and what is not working. Try the live demo first. We read every message and reply the way you ask.',
+    title: 'Talk to us about your dealership',
+    description: 'Tell Checkwork about your dealership and how you want a reply. We read every message.',
     path: ROUTES.contact,
 });
 
@@ -18,11 +18,11 @@ const NEXT = [
     { title: 'We read it', text: 'A person reads every message.' },
     { title: 'We reply', text: 'By email or a call, as you asked, with any questions we have.' },
     { title: 'We talk it through', text: 'If it looks like a fit, a short call and a walk through the demo.' },
-    { title: 'You pick a plan', text: 'We go through which plan fits your yard, how your stock and leads would work, and what it costs. Then you decide.' },
+    { title: 'You pick a plan', text: 'We go through which plan fits your yard and what it costs. Then you decide.' },
 ] as const;
 
 export default async function Contact({ searchParams }: PageProps<'/contact'>) {
-    // `?need=showroom`, `dealer` or `group` (each plan card's link) ticks that plan; anything else ticks nothing
+    // `?need=website`, `dashboard` or `both` (each plan card's link, and the old plan ids) ticks that choice; anything else ticks nothing
     const need = (await searchParams).need;
     const plan = typeof need === 'string' && Object.hasOwn(PLAN_NEEDS, need) ? PLAN_NEEDS[need] : undefined;
 

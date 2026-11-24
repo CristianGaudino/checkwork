@@ -13,7 +13,7 @@ export default function NotFound() {
                 <p className="max-w-xl text-lg text-fg-muted">The page you wanted does not exist, or it has moved. Try one of these instead.</p>
                 <div className="flex flex-wrap gap-3">
                     <Button href={ROUTES.home}>Go to the home page</Button>
-                    <Button href={ROUTES.dealers} variant="secondary">See the dealer websites</Button>
+                    <Button href={ROUTES.dealers} variant="secondary">See the dealer website</Button>
                     <Button href={ROUTES.contact} variant="secondary">Contact us</Button>
                 </div>
             </Container>

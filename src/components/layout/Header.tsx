@@ -1,11 +1,11 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Container } from '@/components/ui/Container';
+import { Logo } from '@/components/ui/Logo';
 import { CTA, NAV } from '@/lib/config';
 
 export function Header() {
@@ -47,7 +47,7 @@ export function Header() {
         >
             <Container className="flex min-h-[4.5rem] items-center justify-between gap-6">
                 <Link href="/" aria-label="Checkwork, home" onClick={() => setOpen(false)}>
-                    <Image src="/brand/checkwork-logo-on-dark.svg" alt="Checkwork" width={190} height={30} preload className="h-[30px] w-auto forced-colors:rounded-md forced-colors:bg-canvas forced-colors:p-1 forced-colors:[forced-color-adjust:none]" />
+                    <Logo alt="Checkwork" height={30} preload />
                 </Link>
                 <button
                     ref={menu}

@@ -28,7 +28,7 @@ export function Turnstile({ resetKey, onState }: { resetKey: unknown; onState: (
     const wait = useCallback(() => { set('waiting'); timer.current = setTimeout(() => report.current('failed'), GIVE_UP_MS); }, [set]);
 
     const render = useCallback(() => {
-        if (el.current && window.turnstile && !id.current) id.current = window.turnstile.render(el.current, { sitekey: location.hostname === new URL(SITE_URL).hostname ? TURNSTILE_SITE_KEY : TURNSTILE_TEST_SITE_KEY, theme: 'dark', callback: () => set('ready'), 'expired-callback': wait, 'error-callback': () => set('failed') });
+        if (el.current && window.turnstile && !id.current) id.current = window.turnstile.render(el.current, { sitekey: location.hostname === new URL(SITE_URL).hostname ? TURNSTILE_SITE_KEY : TURNSTILE_TEST_SITE_KEY, theme: 'auto', callback: () => set('ready'), 'expired-callback': wait, 'error-callback': () => set('failed') });
     }, [set, wait]);
     useEffect(() => {
         wait();

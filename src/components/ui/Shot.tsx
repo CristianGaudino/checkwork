@@ -5,7 +5,16 @@ import { getImageProps } from 'next/image';
  * read. Without `phone` it is a plain image. Phone shots are tall, so they are cut at the top to keep the page short.
  */
 // fetchPriority rather than preload: with two sources, preloading one would load both (Next 16 docs, Art Direction)
-export function Shot({ src, phone, alt, sizes, fetchPriority, className = '' }: { src: string; phone?: string; alt: string; sizes?: string; fetchPriority?: 'high'; className?: string }) {
+export function Shot({ src, phone, alt, sizes, fetchPriority, className = '' }: { src: string | null; phone?: string; alt: string; sizes?: string; fetchPriority?: 'high'; className?: string }) {
+    // Not captured yet: a marked placeholder in the screenshot's shape, saying what will be there (listed in issue #2). Never a made-up image.
+    if (!src) {
+        return (
+            <div className={`grid aspect-[16/10] w-full place-content-center gap-1 bg-surface p-6 text-center ${className}`}>
+                <p className="font-semibold">Screenshot to come</p>
+                <p className="text-sm text-fg-muted">{alt}</p>
+            </div>
+        );
+    }
     const { props } = getImageProps({ src, alt, width: 1920, height: 1200, sizes, fetchPriority });
     // The <img> next/image would render, built by getImageProps so <picture> can wrap it
     // eslint-disable-next-line @next/next/no-img-element -- it is next/image's own output

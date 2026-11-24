@@ -1,7 +1,8 @@
 @layer theme, base, components, utilities;
 @import "tailwindcss";
 
-/* Brand tokens (checkwork-brand-pack). Components use the semantic utilities below, never raw colours. */
+/* Brand tokens (checkwork-brand-pack). Components use the semantic utilities below, never raw colours. Two themes, following the phone's
+   setting (#58): dark (Midnight) here, light below. Every text pair keeps 4.5:1 or more in both (axe checks it in the E2E suite). */
 :root {
     --canvas:     #0b0f1f; /* Midnight */
     --surface:    #121832;
@@ -12,12 +13,28 @@
     --accent-alt: #a78bfa; /* Lavender */
     --action:     #5a5deb; /* white text on it is 5:1 */
     --action-hover: #4a4ede;
-    --paper:      #f4f6fb; /* the one light surface: the home page's launch sheet and the recommended plan */
+    --paper:      #f4f6fb; /* the one light surface: the home page's launch sheet and the highlighted plan */
     --ink:        #161a33; /* 15:1 on paper */
     --ink-muted:  #4a5070; /* 7:1 on paper */
     --on-action:  #ffffff; /* text on the action colour */
     --bad:        #fca5a5; /* errors: 9:1 on canvas */
     color-scheme: dark;
+}
+
+@media (prefers-color-scheme: light) {
+    :root {
+        --canvas:     #f4f6fb;
+        --surface:    #ffffff;
+        --fg:         #161a33; /* 15.8:1 on canvas */
+        --fg-muted:   #4a5070; /* 7.3:1 on canvas */
+        --line:       rgb(22 26 51 / 0.12);
+        --accent-alt: #4f46e5; /* links: 5.8:1 on canvas, 5:1 on the accent tint */
+        --paper:      #ffffff; /* the sheet stays the lightest surface; its shadow lifts it */
+        --bad:        #b91c1c; /* 6:1 on canvas */
+        color-scheme: light;
+    }
+    /* The big shadows are softer on a light page (Tailwind's shadow utilities read this colour) */
+    .shadow-lift, .shadow-frame, .shadow-phone { --tw-shadow-color: rgb(22 26 51 / 0.22); }
 }
 
 @theme inline {
@@ -100,4 +117,7 @@
 }
 @media (prefers-contrast: more) {
     :root { --line: rgb(255 255 255 / 0.45); --fg-muted: #d9dcee; }
+}
+@media (prefers-contrast: more) and (prefers-color-scheme: light) {
+    :root { --line: rgb(22 26 51 / 0.5); --fg-muted: #30354f; }
 }

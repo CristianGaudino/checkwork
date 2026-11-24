@@ -6,12 +6,13 @@ export const SITE_URL = 'https://www.checkwork.ie';
 
 export const SITE = {
     name: 'Checkwork',
-    tagline: 'Websites for car dealers.',
+    tagline: 'Websites and a dashboard for car dealers.',
     description:
-        'Websites and a dealer dashboard for car dealers in Ireland. Your own site on your DoneDeal or CarsIreland stock, with your reviews, trade-ins and every lead in one place.',
+        'A website and a dashboard for car dealers in Ireland, on the stock you already list on DoneDeal or CarsIreland.',
 } as const;
 
-export const BRAND_COLORS = { midnight: '#0B0F1F' } as const;
+// The browser bar's colour in each theme: the canvas tokens in globals.css
+export const BRAND_COLORS = { midnight: '#0B0F1F', light: '#F4F6FB' } as const;
 
 /** Production lets search engines in; everything else (local, previews) does not. Read at request time: see robots.ts. */
 export const isProduction = (): boolean => process.env.APP_ENV === 'production';
@@ -19,7 +20,7 @@ export const isProduction = (): boolean => process.env.APP_ENV === 'production';
 export const ROUTES = {
     home: '/',
     dealers: '/car-dealer-websites',
-    dealerAI: '/car-dealer-ai',
+    dashboard: '/car-dealer-dashboard',
     pricing: '/pricing',
     about: '/about',
     contact: '/contact',
@@ -28,8 +29,8 @@ export const ROUTES = {
 } as const;
 
 export const NAV = [
-    { href: ROUTES.dealers, label: 'Car dealers' },
-    { href: ROUTES.dealerAI, label: 'AI for dealers' },
+    { href: ROUTES.dealers, label: 'Website' },
+    { href: ROUTES.dashboard, label: 'Dashboard' },
     { href: ROUTES.pricing, label: 'Pricing' },
     { href: ROUTES.about, label: 'About' },
 ] as const;

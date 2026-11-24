@@ -8,8 +8,9 @@ it('the service points at the organisation declared in the site graph', () => {
 
 it('the organisation lists the three dealer plans, priced a month before VAT', () => {
     const offers = siteGraph()['@graph'][0].hasOfferCatalog!.itemListElement;
-    expect(offers.map(o => o.itemOffered.name)).toEqual(['Showroom plan', 'Dealer plan', 'Group plan']);
-    expect(offers.map(o => o.priceSpecification.price)).toEqual([249, 449, 749]);
+    expect(offers.map(o => o.itemOffered.name)).toEqual(['Website plan', 'Dashboard plan', 'Website + Dashboard plan']);
+    expect(offers.map(o => o.priceSpecification.price)).toEqual([149, 149, 249]);
     expect(offers.every(o => o.priceSpecification.valueAddedTaxIncluded === false)).toBe(true);
-    expect(offers[2].description).toContain('€149 a month for each branch after the first');
+    expect(offers[0].description).toContain('€500 setup, none on a 2-year contract');
+    expect(offers[1].description).toContain('No setup fee');
 });
