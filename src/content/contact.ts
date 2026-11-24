@@ -4,7 +4,7 @@ export const NEEDS = ['The website', 'The dashboard', 'Both', 'Not sure yet'] as
 
 // One line under each choice, so a visitor can tell them apart without guessing
 export const NEED_HINTS: Record<(typeof NEEDS)[number], string> = {
-    'The website': 'Your own site on your stock, with finance, trade-ins and test drives.',
+    'The website': 'Your own site on your stock, with finance, trade-ins and test drive requests.',
     'The dashboard': 'Leads, stock, sales, margins and customers.',
     'Both': 'The site and the dashboard, with every enquiry in the dashboard.',
     'Not sure yet': 'We can work it out on a call.',
@@ -42,11 +42,11 @@ const shot = (name: string) => `/dealer-demo/${name}.webp`;
 export const CONCERNS = [
     {
         id: 'stock', label: 'Updating stock takes too long', show: 'group-has-[[data-concern=stock]:checked]:grid',
-        demo: { text: 'Keep listing cars on DoneDeal or CarsIreland and the website follows it. With the dashboard, add them there and the website changes at once.', src: shot('dash-stock'), alt: 'Demo dealer dashboard stock list with prices, margins and days in stock', path: null },
+        demo: { text: 'Keep listing cars on DoneDeal or CarsIreland and the website follows it. Or keep your stock in the dashboard instead of DoneDeal or CarsIreland, and the website changes at once.', src: shot('dash-stock'), alt: 'Demo dealer dashboard stock list with prices, margins and days in stock', path: null },
     },
     {
         id: 'enquiries', label: 'Not enough enquiries from the site', show: 'group-has-[[data-concern=enquiries]:checked]:grid',
-        demo: { text: 'Car pages show the photos, the key facts and a monthly estimate, with Enquire, Test drive, Call and WhatsApp in one place.', src: shot('site-car'), alt: 'Demo dealer car page with the price and buttons to enquire and book a test drive', path: '/used-cars/mini-clubman-2019-4710021' },
+        demo: { text: 'Car pages show the photos, the key facts and a monthly estimate, with Enquire, Call and WhatsApp in one place. Buyers can ask for a test drive, and the request comes to you by email.', src: shot('site-car'), alt: 'Demo dealer car page with the price and buttons to enquire and book a test drive', path: '/used-cars/mini-clubman-2019-4710021' },
     },
     {
         id: 'lost', label: 'Enquiries get lost or answered late', show: 'group-has-[[data-concern=lost]:checked]:grid',

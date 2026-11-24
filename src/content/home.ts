@@ -5,8 +5,7 @@ export const PRODUCTS = [
     {
         id: 'website',
         title: 'Dealer website',
-        text: 'Your own site, in your name and colours, on your stock. Buyers search, book a test drive, work out finance and send their car for a trade-in.',
-        tier: 'website',
+        text: 'Your own site, in your name and colours, on your stock. Buyers search, ask for a test drive, work out finance and send their car for a trade-in.',
         link: 'About the website',
         src: '/dealer-demo/site-home.webp',
         phone: '/dealer-demo/phone-stock.webp',
@@ -16,10 +15,8 @@ export const PRODUCTS = [
         id: 'dashboard',
         title: 'Dealer dashboard',
         text: 'Leads, test drives, stock, sales, margins, reviews and customers. On a laptop in the office or a phone on the yard.',
-        tier: 'dashboard',
         link: 'About the dashboard',
         src: '/dealer-demo/dash-overview.webp',
-        phone: undefined,
         alt: 'The demo dealer dashboard overview: leads each week and what needs attention',
     },
 ] as const;

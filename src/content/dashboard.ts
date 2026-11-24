@@ -55,7 +55,7 @@ export const FEATURES: readonly Feature[] = [
     {
         id: 'reports', title: 'Reports and the monthly report',
         text: [
-            'Sales, profit, days to sell and which lead sources bring buyers, month by month. Where your website visitors come from.',
+            'Sales, profit, days to sell and which lead sources bring buyers, month by month. With the website, where visitors come from.',
             'On the 1st of each month, a summary of the month before by email. A salesperson sees only their own figures.',
         ],
         src: shot('dash-reports'), alt: 'Demo dealer dashboard reports with sales by month',

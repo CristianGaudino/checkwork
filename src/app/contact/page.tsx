@@ -23,7 +23,8 @@ const NEXT = [
 
 export default async function Contact({ searchParams }: PageProps<'/contact'>) {
     // `?need=website`, `dashboard` or `both` (each plan card's link, and the old plan ids) ticks that choice; anything else ticks nothing
-    const need = (await searchParams).need;
+    // `&call=1` (a Book a call link) ticks Call me
+    const { need, call } = await searchParams;
     const plan = typeof need === 'string' && Object.hasOwn(PLAN_NEEDS, need) ? PLAN_NEEDS[need] : undefined;
 
     return (
@@ -31,7 +32,7 @@ export default async function Contact({ searchParams }: PageProps<'/contact'>) {
             <PageHead title="Talk to us about your dealership" lead="Leave your name and a number or email, and we will get back to you. Everything else is optional." />
             <Section className="pt-10 md:pt-14">
                 <Container className="grid gap-14 lg:grid-cols-[1.4fr_1fr] lg:gap-16">
-                    <ContactForm need={plan} />
+                    <ContactForm need={plan} call={call === '1'} />
                     <aside className="grid content-start gap-10 lg:sticky lg:top-28 lg:self-start">
                         <div className="grid gap-5">
                             <h2 className="font-display text-2xl font-semibold">What happens next</h2>

@@ -7,7 +7,7 @@ import { Mark } from '@/components/ui/Mark';
 import { Shot } from '@/components/ui/Shot';
 import { CHECKS } from '@/content/checks';
 import { LEAD_PATH, PRODUCTS, STEPS } from '@/content/home';
-import { eur, TIERS } from '@/content/pricing';
+import { eur, SETUP_SUMMARY, TIERS } from '@/content/pricing';
 import { DEMO_URL, ROUTES } from '@/lib/config';
 import { pageMetadata } from '@/lib/metadata';
 
@@ -71,14 +71,14 @@ export default function Home() {
                         {PRODUCTS.map(p => (
                             <li key={p.id} className="group relative grid content-start gap-4">
                                 <div className="overflow-hidden rounded-2xl border border-line bg-surface shadow-frame">
-                                    <Shot src={p.src} phone={p.phone} alt={p.alt} sizes="(min-width: 768px) 600px, 100vw" />
+                                    <Shot src={p.src} phone={'phone' in p ? p.phone : undefined} alt={p.alt} sizes="(min-width: 768px) 600px, 100vw" />
                                 </div>
                                 <h3 className="font-display text-2xl font-semibold">
                                     {/* The link covers the whole card (bigger target) */}
                                     <Link href={p.id === 'website' ? ROUTES.dealers : ROUTES.dashboard} className="after:absolute after:inset-0">{p.title}</Link>
                                 </h3>
                                 <p className="text-fg-muted">{p.text}</p>
-                                <p className="font-display text-xl font-semibold tabular-nums">{eur(tier(p.tier).eur)}<span className="font-sans text-base font-normal text-fg-muted"> a month</span></p>
+                                <p className="font-display text-xl font-semibold tabular-nums">{eur(tier(p.id).eur)}<span className="font-sans text-base font-normal text-fg-muted"> a month</span></p>
                                 <p aria-hidden="true" className="text-accent-alt underline-offset-4 group-hover:underline">{p.link} <span className="inline-block transition-transform group-hover:translate-x-0.5">→</span></p>
                             </li>
                         ))}
@@ -119,7 +119,7 @@ export default function Home() {
                     {/* From xl the columns live on the list and each row takes them (subgrid), so the rows share their edges. Below xl they stack. */}
                     <ul className="border-t border-line xl:grid xl:grid-cols-[auto_minmax(14rem,1fr)_minmax(0,17rem)] xl:gap-x-10">
                         {TIERS.map(t => (
-                            <li key={t.id} className="relative grid gap-y-2 border-b border-line py-6 transition-colors hover:bg-surface has-[:focus-visible]:bg-surface xl:col-span-full xl:grid-cols-subgrid xl:items-baseline xl:px-4">
+                            <li key={t.id} className="relative grid gap-y-2 border-b border-line py-6 transition-[background-color] hover:bg-surface has-[:focus-visible]:bg-surface xl:col-span-full xl:grid-cols-subgrid xl:items-baseline xl:px-4">
                                 <h3 className="font-display text-2xl font-semibold">
                                     {/* The link covers the whole row (bigger target) */}
                                     <Link href={`${ROUTES.pricing}#plan-${t.id}`} className="after:absolute after:inset-0">{t.name}</Link>
@@ -129,7 +129,7 @@ export default function Home() {
                             </li>
                         ))}
                     </ul>
-                    <p className="text-fg-muted">€500 setup for a plan with the website, none on a 2-year contract.</p>
+                    <p className="text-fg-muted">{SETUP_SUMMARY}</p>
                     <div><Button href={ROUTES.pricing} variant="secondary">See what each plan includes</Button></div>
                 </Container>
             </Section>

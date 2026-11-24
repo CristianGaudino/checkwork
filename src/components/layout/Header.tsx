@@ -65,11 +65,12 @@ export function Header() {
                     aria-label="Main"
                     // Tabbing out of the open menu (to the page, not the Menu button) closes it, so it never hangs over what has focus
                     onBlur={e => { if (open && !e.currentTarget.contains(e.relatedTarget) && e.relatedTarget !== menu.current) setOpen(false); }}
-                    className={`absolute inset-x-0 top-full flex origin-top flex-col border-b border-line bg-canvas px-5 pb-6 pt-2 transition-[opacity,transform,visibility] duration-200 ease-out md:visible md:static md:translate-y-0 md:flex-row md:items-center md:gap-6 md:border-0 lg:gap-8 md:bg-transparent md:p-0 md:opacity-100 ${
+                    className={`absolute inset-x-0 top-full flex origin-top flex-col border-b border-line bg-canvas px-5 pb-6 pt-2 transition-[opacity,transform,visibility] duration-200 ease-out md:visible md:static md:min-w-0 md:flex-1 md:translate-y-0 md:flex-row md:flex-wrap md:items-center md:justify-end md:gap-x-6 md:gap-y-2 md:border-0 lg:gap-x-8 md:bg-transparent md:px-0 md:py-3 md:opacity-100 ${
                         open ? 'visible translate-y-0 opacity-100' : 'invisible -translate-y-2 opacity-0'
                     }`}
                 >
-                    <ul className="flex flex-col md:flex-row md:gap-5 lg:gap-8">
+                    {/* With large text the links wrap onto a second line rather than push the page sideways (no single-word label can break) */}
+                    <ul className="flex flex-col md:flex-row md:flex-wrap md:justify-end md:gap-x-5 md:gap-y-1 lg:gap-x-8">
                         {NAV.map(item => (
                             <li key={item.href}>
                                 <Link

@@ -60,7 +60,8 @@ function Sent() {
     );
 }
 
-export function ContactForm({ need }: { need?: (typeof NEEDS)[number] }) {
+/** `call`: the visitor came from a "Book a call" link, so Call me starts ticked (a call is this form with that choice: no calendar) */
+export function ContactForm({ need, call }: { need?: (typeof NEEDS)[number]; call?: boolean }) {
     const [state, action, pending] = useActionState<ContactState, FormData>(sendEnquiry, { status: 'idle' });
     const form = useRef<HTMLFormElement>(null);
     // Sending waits for the spam check's token: without one the server can only refuse. If the check fails or never loads, sending is
@@ -103,7 +104,7 @@ export function ContactForm({ need }: { need?: (typeof NEEDS)[number] }) {
                 <Field id="name" label="Your name" error={e.name}><input {...props('name')} type="text" autoComplete="name" required /></Field>
                 <Field id="phone" label="Phone" error={e.phone}><input {...props('phone')} type="tel" autoComplete="tel" /></Field>
                 <Field id="email" label="Email" error={e.email}><input {...props('email')} type="email" autoComplete="email" /></Field>
-                <Choices name="reply" label="How should we get back to you?" options={REPLIES} labels={REPLY_LABELS} checked={o => v.reply === o} />
+                <Choices name="reply" label="How should we get back to you?" options={REPLIES} labels={REPLY_LABELS} checked={o => (v.reply ?? (call ? 'A phone call' : undefined)) === o} />
                 <Turnstile resetKey={state} onState={setCheck} />
                 {/* The server's message may name the contact email: shown as a link */}
                 {state.message && <p role="alert" tabIndex={-1} className="text-bad">{state.message.split(CONTACT_EMAIL).flatMap((part, i) => (i ? [<a key={i} href={`mailto:${CONTACT_EMAIL}`} className="underline underline-offset-4">{CONTACT_EMAIL}</a>, part] : [part]))}</p>}

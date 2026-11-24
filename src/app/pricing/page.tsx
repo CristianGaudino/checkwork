@@ -143,7 +143,7 @@ export default function Pricing() {
                     <div className="grid content-start gap-6">
                         <div className="grid gap-3">
                             <h2 className="font-display text-3xl font-semibold">Past the allowance</h2>
-                            <p className="text-fg-muted">Each use, before VAT. Replies to buyers and reminders are billed from the first one. History checks are paid per check, with none included.</p>
+                            <p className="text-fg-muted">Each use, before VAT. Replies to buyers, reminders and review requests are billed from the first one. History checks are paid per check, with none included.</p>
                         </div>
                         <PriceList rows={USAGE} />
                     </div>

@@ -27,7 +27,8 @@ export const TIERS: readonly Tier[] = [
         lead: 'Your own website.',
         items: [
             'Your own site on your DoneDeal or CarsIreland stock',
-            'Car pages with enquire, test drive, call and WhatsApp',
+            'Car pages with enquire, call and WhatsApp',
+            'Test drive requests, sent to you by email',
             'Finance estimator with your lender’s wording',
             'Trade-in and sell your car',
             'Find me a car',
@@ -86,12 +87,13 @@ export const USAGE = [
     { title: 'Reg lookup', eur: '€0.30' },
     { title: 'WhatsApp alert or confirmation', eur: '€0.05' },
     { title: 'WhatsApp reply to a buyer', eur: '€0.03' },
-    { title: 'WhatsApp NCT or service reminder', eur: '€0.12' },
+    { title: 'WhatsApp reminder or review request', eur: '€0.12' },
 ] as const;
 
-/** Where extra use stops each month unless the dealer sets a lower limit (checkwork-dash DEFAULT_CEILINGS) */
+/** Where extra use stops each month unless the dealer sets a lower limit (checkwork-dash DEFAULT_CEILINGS). A cap, never a price per use. */
 export const LIMITS = [
     { title: 'Reg lookups', eur: '€15' },
+    { title: 'History checks', eur: '€25' },
     { title: 'WhatsApp', eur: '€20' },
 ] as const;
 
@@ -113,3 +115,6 @@ export const eur = (n: number) => `€${n.toLocaleString('en-IE')}`;
 
 /** The setup line under a plan's price */
 export const setupLine = (t: Tier) => (t.setupEur ? `${eur(t.setupEur)} setup, none on a 2-year contract.` : 'No setup fee.');
+
+/** The setup terms in one line, from the plans: "€500 setup for a plan with the website, none on a 2-year contract." */
+export const SETUP_SUMMARY = `${eur(Math.max(...TIERS.map(t => t.setupEur)))} setup for a plan with the website, none on a 2-year contract.`;

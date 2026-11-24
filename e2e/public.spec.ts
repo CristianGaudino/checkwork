@@ -30,6 +30,7 @@ for (const path of PAGES) {
         await page.addScriptTag({ content: axe.source });
         for (const colorScheme of ['light', 'dark'] as const) {
             await page.emulateMedia({ colorScheme });
+            await settled(page); // a colour that transitions would otherwise be measured half way
             const violations = await page.evaluate(async () => (await (window as unknown as { axe: typeof axe }).axe.run(document)).violations.map(v => `${v.id}: ${v.nodes.map(n => n.target.join(' ')).join(' | ')}`));
             expect([colorScheme, violations]).toEqual([colorScheme, []]);
         }
@@ -109,6 +110,9 @@ test('old plan links still land: the pricing anchors and the contact form choice
         await page.goto(`${ROUTES.contact}?need=${need}`);
         await expect(page.locator(`input[name=need][value="${label}"]`)).toBeChecked();
     }
+    // Book a call: the form with Call me ticked
+    await page.goto(`${ROUTES.contact}?need=dashboard&call=1`);
+    await expect(page.locator('input[name=reply][value="A phone call"]')).toBeChecked();
 });
 
 test('pricing fits a 320px phone without scrolling sideways, and has FAQ data', async ({ page }) => {
@@ -159,11 +163,12 @@ for (const path of PAGES) {
             await page.evaluate(s => { document.documentElement.style.fontSize = s; }, size);
             await fits(`${width}px at ${size} text`);
         }
-        for (const width of [320, 390]) {
+        for (const width of [320, 390]) for (const colorScheme of ['light', 'dark'] as const) {
             await page.setViewportSize({ width, height: 800 });
+            await page.emulateMedia({ colorScheme });
             await page.goto(path);
             await settled(page);
-            await page.screenshot({ path: `test-results/screenshots/w${width}${path === '/' ? '-home' : path.replaceAll('/', '-')}.png`, fullPage: true });
+            await page.screenshot({ path: `test-results/screenshots/w${width}-${colorScheme}${path === '/' ? '-home' : path.replaceAll('/', '-')}.png`, fullPage: true });
         }
     });
 }

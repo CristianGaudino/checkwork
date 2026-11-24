@@ -67,10 +67,10 @@ export default function CarDealerDashboard() {
                     <div className="grid content-start gap-4 lg:order-last">
                         <h2 className="font-display text-4xl font-semibold md:text-5xl">Alerts on your phone</h2>
                         <p className="text-lg text-fg-muted">Add the dashboard to your phone’s home screen and new leads and test drive requests arrive as notifications.</p>
-                        <p className="text-lg text-fg-muted">On WhatsApp, your team can answer from the yard: reply to a trade-in with a price, confirm a test drive, or drop the price on a car that has been in stock too long. Buyers only get WhatsApp messages if they asked for them.</p>
+                        <p className="text-lg text-fg-muted">On WhatsApp, your team can answer from the yard: confirm a test drive, drop the price on a car that has been in stock too long, or, with the website, reply to a trade-in with a price. Buyers only get WhatsApp messages if they asked for them.</p>
                         <p className="text-fg-muted">We connect your WhatsApp Business number when we set you up.</p>
                     </div>
-                    <WhatsAppChat title="Checkwork Motors" caption="From the demo, with a made-up buyer. In the demo, messages stay inside it." lines={TRADE_IN_CHAT} who={{ in: 'Your dashboard', out: 'Salesperson' }} />
+                    <WhatsAppChat title="Checkwork Motors" caption="A trade-in sent from the website. From the demo, with a made-up buyer: in the demo, messages stay inside it." lines={TRADE_IN_CHAT} who={{ in: 'Your dashboard', out: 'Salesperson' }} />
                 </Container>
             </Section>
 
@@ -91,7 +91,7 @@ export default function CarDealerDashboard() {
 
             <Faqs faqs={DASHBOARD_FAQS} title="Questions" />
 
-            <CtaBand title="See the dashboard on a call" text="Tell us a little about your dealership and we will show you around it." href={`${ROUTES.contact}?need=dashboard`} />
+            <CtaBand title="See the dashboard on a call" text="Tell us a little about your dealership and we will show you around it." href={`${ROUTES.contact}?need=dashboard&call=1`} label="Book a call" />
         </>
     );
 }
