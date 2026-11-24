@@ -1,13 +1,14 @@
 # Checkwork
 
-The website for Checkwork: websites and a dealer dashboard for car dealers in Ireland, on the stock they already list on DoneDeal or CarsIreland. The live demo is at https://www.demo.checkwork.ie.
+The website for Checkwork: two products for car dealers in Ireland, a dealer website on the stock they already list on DoneDeal or CarsIreland, and a dealer dashboard. The demo dealer website is at https://www.demo.checkwork.ie. The design and content contract is `docs/site-contract.md`.
 
 Live at **https://www.checkwork.ie** (the bare `checkwork.ie` redirects to it).
 
 ## What is in it
 
-- Public pages: home, car dealer websites, AI for dealers, pricing, about, contact and privacy. The old `/services` and `/work` addresses redirect to pricing and the car dealer page (`next.config.ts`).
-- Plan prices live in `src/content/pricing.ts`, copied from the pricing model in the checkwork-demo repo (`docs/sales/pricing-strategy.md`, `src/lib/billing/rules.ts`). Change them there first.
+- Public pages: home, the dealer website (`/car-dealer-websites`), the dealer dashboard (`/car-dealer-dashboard`), pricing, about, contact and privacy. The old `/services`, `/work` and `/car-dealer-ai` addresses redirect to pricing, the website page and the dashboard page (`next.config.ts`).
+- Light and dark themes, following the phone's setting. Colours are semantic tokens in `src/styles/globals.css`, one set per theme.
+- Plan prices live in `src/content/pricing.ts`, copied from the dashboard's pricing (checkwork-dash: `docs/decisions.md`, Pricing, and `src/lib/billing/rules.ts`). Change them there first.
 - A contact form. Enquiries are checked with Turnstile, rate limited, stored in Cloudflare D1 and, once switched on, emailed to the owner.
 - `/admin`: the owner's list of enquiries with status, search and private notes. It sits behind Cloudflare Access and is not in the sitemap.
 

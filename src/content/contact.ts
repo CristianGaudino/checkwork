@@ -1,32 +1,31 @@
 // The contact form's choices. The `need` strings are stored with each enquiry: rename one and old rows keep the old text, which the admin
-// list shows as it is (rows from before #56 have the old agency choices, such as 'A custom web app').
-export const NEEDS = [
-    'Website only (Showroom)',
-    'Website and dashboard (Dealer)',
-    'More than one branch (Group)',
-    'Not sure yet',
-] as const;
+// list shows as it is (rows from before #58 have the old plans, such as 'The website', and before #56 the agency choices).
+export const NEEDS = ['The website', 'The dashboard', 'Both', 'Not sure yet'] as const;
 
 // One line under each choice, so a visitor can tell them apart without guessing
 export const NEED_HINTS: Record<(typeof NEEDS)[number], string> = {
-    'Website only (Showroom)': 'Your own site on your stock, with reviews, trade-ins and finance.',
-    'Website and dashboard (Dealer)': 'The site plus leads, WhatsApp alerts, test drives and AI writing.',
-    'More than one branch (Group)': 'Everything in Dealer for 2 or more branches on one site, plus margins, social posts and new cars.',
+    'The website': 'Your own site on your stock, with finance, trade-ins and test drive requests.',
+    'The dashboard': 'Leads, stock, sales, margins and customers.',
+    'Both': 'The site and the dashboard, with every enquiry in the dashboard.',
     'Not sure yet': 'We can work it out on a call.',
 };
 
 // Stored when nothing is picked: only a name and a way to reply are required
 export const NO_NEED = 'Not sure yet' satisfies (typeof NEEDS)[number];
 
-// What `?need=<plan id>` on the contact page ticks: each plan card's Talk to us link (content/pricing.ts TIERS ids)
+// What `?need=<plan id>` on the contact page ticks: each plan card's Talk to us link (content/pricing.ts TIERS ids), and the old plan ids
+// (Showroom, Dealer, Group) so links from before #58 still tick the choice that replaced them
 export const PLAN_NEEDS: Record<string, (typeof NEEDS)[number]> = {
-    showroom: 'Website only (Showroom)',
-    dealer: 'Website and dashboard (Dealer)',
-    group: 'More than one branch (Group)',
+    website: 'The website',
+    dashboard: 'The dashboard',
+    both: 'Both',
+    showroom: 'The website',
+    dealer: 'Both',
+    group: 'Both',
 };
 
-// Matched to the plans' fit (content/pricing.ts). Old rows keep the old sizes; a stored value is shown as it is.
-export const STOCK_SIZES = ['Under 60 cars', '60 to 150 cars', 'More than 150 cars', 'Not sure'] as const;
+// The plans are flat (#58), so this is only to know the yard. Old rows keep the old sizes; a stored value is shown as it is.
+export const STOCK_SIZES = ['Under 30 cars', '30 to 80 cars', 'More than 80 cars', 'Not sure'] as const;
 export const STOCK_SOURCES = ['On DoneDeal', 'On CarsIreland', 'On another listing site', 'In our own system or a spreadsheet', 'Not sure'] as const;
 // Stored values; the form shows REPLY_LABELS. A call needs a phone number, email an email address.
 export const REPLIES = ['A phone call', 'By email'] as const;
@@ -43,11 +42,11 @@ const shot = (name: string) => `/dealer-demo/${name}.webp`;
 export const CONCERNS = [
     {
         id: 'stock', label: 'Updating stock takes too long', show: 'group-has-[[data-concern=stock]:checked]:grid',
-        demo: { text: 'Keep listing cars on DoneDeal or CarsIreland and the website follows it. Or, on Dealer and Group, add them in the dashboard and the website changes at once.', src: shot('dash-stock'), alt: 'Demo dealer dashboard stock list with prices, margins and days in stock', path: null },
+        demo: { text: 'Keep listing cars on DoneDeal or CarsIreland and the website follows it. Or, with the dashboard, keep your stock there instead of DoneDeal or CarsIreland, and the website changes at once.', src: shot('dash-stock'), alt: 'Demo dealer dashboard stock list with prices, margins and days in stock', path: null },
     },
     {
         id: 'enquiries', label: 'Not enough enquiries from the site', show: 'group-has-[[data-concern=enquiries]:checked]:grid',
-        demo: { text: 'Car pages show the photos, the key facts and a monthly estimate, with Enquire, Test drive, Call and WhatsApp in one place.', src: shot('site-car'), alt: 'Demo dealer car page with the price and buttons to enquire and book a test drive', path: '/used-cars/mini-clubman-2019-4710021' },
+        demo: { text: 'Car pages show the photos, the key facts and a monthly estimate, with Enquire, Call and WhatsApp in one place. Buyers can ask for a test drive, and the request comes to you by email.', src: shot('site-car'), alt: 'Demo dealer car page with the price and buttons to enquire and book a test drive', path: '/used-cars/mini-clubman-2019-4710021' },
     },
     {
         id: 'lost', label: 'Enquiries get lost or answered late', show: 'group-has-[[data-concern=lost]:checked]:grid',

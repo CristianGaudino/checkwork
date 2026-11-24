@@ -4,7 +4,7 @@ import { launch } from 'chrome-launcher';
 import lighthouse from 'lighthouse';
 
 const BASE = process.env.BASE_URL ?? 'http://127.0.0.1:3100';
-const PAGES = ['/', '/car-dealer-websites', '/car-dealer-ai', '/pricing', '/about', '/contact', '/privacy'];
+const PAGES = ['/', '/car-dealer-websites', '/car-dealer-dashboard', '/pricing', '/about', '/contact', '/privacy'];
 // Performance is lower here than on the real edge (no CDN, no HTTP/2): the floor catches regressions, not the best case
 const MIN = { performance: 0.9, accessibility: 0.95, 'best-practices': 0.95, seo: 0.95 };
 

@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import type { ChatLine } from '@/content/dealer';
+import type { ChatLine } from '@/content/dashboard';
 
 /** A WhatsApp conversation as it looks on a phone: drawn in code from the demo's own messages, so it stays sharp and true to the demo */
 export function WhatsAppChat({ title, caption, lines, who }: { title: string; caption: string; lines: readonly ChatLine[]; who: { in: string; out: string } }) {

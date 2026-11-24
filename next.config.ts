@@ -51,6 +51,8 @@ const nextConfig: NextConfig = {
             { source: "/services", destination: "/pricing", permanent: true },
             { source: "/work", destination: "/car-dealer-websites", permanent: true },
             { source: "/work/:slug", destination: "/car-dealer-websites", permanent: true },
+            // AI writing is a dashboard feature, not a product (#58): the old AI page lands on its section of the dashboard page
+            { source: "/car-dealer-ai", destination: "/car-dealer-dashboard#ai-writing", permanent: true },
         ];
     },
     async headers() {

@@ -34,16 +34,16 @@ it('treats a missing field (no form value) as an error, not a crash', () => {
     expect(parseEnquiry({ ...valid, name: null }).ok).toBe(false);
 });
 
-const dealer = { ...valid, need: 'Website and dashboard (Dealer)', message: '', reply: 'By email', stock: '60 to 150 cars', source: 'On DoneDeal', website: 'www.example.ie', concerns: ['Our site is poor on phones', 'Our site is poor on phones', 'Hack'], timing: 'In the next few months' };
+const dealer = { ...valid, need: 'Both', message: '', reply: 'By email', stock: '30 to 80 cars', source: 'On DoneDeal', website: 'www.example.ie', concerns: ['Our site is poor on phones', 'Our site is poor on phones', 'Hack'], timing: 'In the next few months' };
 
 it('keeps the dealer answers for a dealer, without needing a message', () => {
     const r = parseEnquiry(dealer);
-    expect(r.ok && r.data.details).toEqual({ reply: 'By email', concerns: ['Our site is poor on phones'], timing: 'In the next few months', stock: '60 to 150 cars', source: 'On DoneDeal', website: 'www.example.ie' });
+    expect(r.ok && r.data.details).toEqual({ reply: 'By email', concerns: ['Our site is poor on phones'], timing: 'In the next few months', stock: '30 to 80 cars', source: 'On DoneDeal', website: 'www.example.ie' });
 });
 
 it('keeps the dealer answers whatever the need, and reads a removed need as not sure', () => {
     const r = parseEnquiry({ ...dealer, need: 'A custom web app' });
-    expect(r.ok && [r.data.need, r.data.details.stock]).toEqual(['Not sure yet', '60 to 150 cars']);
+    expect(r.ok && [r.data.need, r.data.details.stock]).toEqual(['Not sure yet', '30 to 80 cars']);
 });
 
 it('needs a phone number for a call, and reports it with the other errors at once', () => {

@@ -6,7 +6,7 @@ import { ROUTES } from '@/lib/config';
 const settled = (page: Page) => page.waitForFunction(() => document.getAnimations().every(a => a.playState === 'finished'));
 
 // Add each page here as it lands.
-const PAGES = [ROUTES.home, ROUTES.contact, ROUTES.dealers, ROUTES.dealerAI, ROUTES.pricing, ROUTES.about, ROUTES.privacy];
+const PAGES = [ROUTES.home, ROUTES.contact, ROUTES.dealers, ROUTES.dashboard, ROUTES.pricing, ROUTES.about, ROUTES.privacy];
 
 // Live site: skip Next's link prefetches (about 10 a page). Cloudflare's rate limit counts each as a page visit and blocks at 50 in 10 seconds
 test.beforeEach(async ({ page }) => {
@@ -26,17 +26,24 @@ for (const path of PAGES) {
         // Every block of structured data must parse
         for (const block of await page.locator('script[type="application/ld+json"]').allTextContents()) JSON.parse(block);
         await settled(page);
-        // Include colour contrast: the brand is dark-on-dark and easy to get wrong
+        // Include colour contrast, in both themes (the site follows the phone's setting): dark-on-dark is easy to get wrong, and so is light
         await page.addScriptTag({ content: axe.source });
-        const violations = await page.evaluate(async () => (await (window as unknown as { axe: typeof axe }).axe.run(document)).violations.map(v => `${v.id}: ${v.nodes.map(n => n.target.join(' ')).join(' | ')}`));
-        expect(violations).toEqual([]);
+        for (const colorScheme of ['light', 'dark'] as const) {
+            await page.emulateMedia({ colorScheme });
+            await settled(page); // a colour that transitions would otherwise be measured half way
+            const violations = await page.evaluate(async () => (await (window as unknown as { axe: typeof axe }).axe.run(document)).violations.map(v => `${v.id}: ${v.nodes.map(n => n.target.join(' ')).join(' | ')}`));
+            expect([colorScheme, violations]).toEqual([colorScheme, []]);
+        }
     });
 
-    // Looked at by a person: screenshots land in test-results/screenshots (git-ignored)
+    // Looked at by a person, in each theme: screenshots land in test-results/screenshots (git-ignored)
     test(`${path}: screenshot`, async ({ page }, info) => {
-        await page.goto(path);
-        await settled(page);
-        await page.screenshot({ path: `test-results/screenshots/${info.project.name}${path === '/' ? '-home' : path.replaceAll('/', '-')}.png`, fullPage: true });
+        for (const colorScheme of ['light', 'dark'] as const) {
+            await page.emulateMedia({ colorScheme });
+            await page.goto(path);
+            await settled(page);
+            await page.screenshot({ path: `test-results/screenshots/${info.project.name}-${colorScheme}${path === '/' ? '-home' : path.replaceAll('/', '-')}.png`, fullPage: true });
+        }
     });
 }
 
@@ -75,22 +82,37 @@ test('skip link is first on the tab order and the mobile menu opens and closes',
     await expect(page.getByRole('button', { name: 'Menu' })).toBeFocused();
 });
 
-test('dealer page has site, service and FAQ structured data', async ({ page }) => {
+for (const path of [ROUTES.dealers, ROUTES.dashboard]) {
+    test(`${path} has site, service and FAQ structured data`, async ({ page }) => {
+        await page.goto(path);
+        const types = (await page.locator('script[type="application/ld+json"]').allTextContents()).map(t => JSON.parse(t)['@type'] ?? 'graph');
+        expect(types).toEqual(expect.arrayContaining(['graph', 'Service', 'FAQPage']));
+    });
+}
+
+test('the website page tour switches screens, and shows a marked placeholder for a screen not captured yet', async ({ page }) => {
     await page.goto(ROUTES.dealers);
-    const types = (await page.locator('script[type="application/ld+json"]').allTextContents()).map(t => JSON.parse(t)['@type'] ?? 'graph');
-    expect(types).toEqual(expect.arrayContaining(['graph', 'Service', 'FAQPage']));
+    const tour = page.locator('figure').filter({ hasText: 'demo.checkwork.ie' });
+    await expect(tour.getByRole('img')).toHaveAttribute('alt', /home page/);
+    await page.getByRole('button', { name: /Every way to get in touch/ }).click();
+    await expect(tour.getByRole('img')).toHaveAttribute('alt', /MINI Clubman/);
+    await page.getByRole('button', { name: /Test drive requests online/ }).click();
+    await expect(tour.getByText('Screenshot to come')).toBeVisible();
+    await expect(page.getByRole('link', { name: /Try the demo website/ }).first()).toHaveAttribute('href', 'https://www.demo.checkwork.ie');
 });
 
-test('the dealer page tour switches screens and sides', async ({ page }) => {
-    await page.goto(ROUTES.dealers);
-    const tour = page.locator('figure').filter({ has: page.locator('img[alt^="Demo dealer"], img[alt^="A lead"]') });
-    await expect(tour.getByRole('img')).toHaveAttribute('alt', /home page/);
-    await page.getByRole('button', { name: /Car pages with every way to get in touch/ }).click();
-    await expect(tour.getByRole('img')).toHaveAttribute('alt', /MINI Clubman/);
-    await page.getByRole('button', { name: 'What your team sees' }).click();
-    await expect(page.getByRole('button', { name: 'What your team sees' })).toHaveAttribute('aria-pressed', 'true');
-    await expect(tour.getByRole('img')).toHaveAttribute('alt', /dashboard overview/);
-    await expect(page.getByRole('link', { name: /Try the live demo/ }).first()).toHaveAttribute('href', 'https://www.demo.checkwork.ie');
+test('old plan links still land: the pricing anchors and the contact form choice', async ({ page }) => {
+    await page.goto(ROUTES.pricing);
+    for (const [old, card] of [['showroom', 'website'], ['dealer', 'both'], ['group', 'both']]) {
+        await expect(page.locator(`#plan-${card} #plan-${old}`)).toHaveCount(1);
+    }
+    for (const [need, label] of [['dealer', 'Both'], ['showroom', 'The website'], ['dashboard', 'The dashboard']]) {
+        await page.goto(`${ROUTES.contact}?need=${need}`);
+        await expect(page.locator(`input[name=need][value="${label}"]`)).toBeChecked();
+    }
+    // Book a call: the form with Call me ticked
+    await page.goto(`${ROUTES.contact}?need=dashboard&call=1`);
+    await expect(page.locator('input[name=reply][value="A phone call"]')).toBeChecked();
 });
 
 test('pricing fits a 320px phone without scrolling sideways, and has FAQ data', async ({ page }) => {
@@ -101,8 +123,8 @@ test('pricing fits a 320px phone without scrolling sideways, and has FAQ data', 
     expect(types).toEqual(expect.arrayContaining(['graph', 'FAQPage']));
 });
 
-test('old agency pages redirect to their dealer pages', async ({ request }) => {
-    for (const [from, to] of [['/services', ROUTES.pricing], ['/work', ROUTES.dealers], ['/work/how-many', ROUTES.dealers], ['/work/blacktail-archive', ROUTES.dealers]]) {
+test('old pages redirect to their new pages', async ({ request }) => {
+    for (const [from, to] of [['/services', ROUTES.pricing], ['/work', ROUTES.dealers], ['/work/how-many', ROUTES.dealers], ['/work/blacktail-archive', ROUTES.dealers], ['/car-dealer-ai', ROUTES.dashboard]]) {
         const r = await request.get(from, { maxRedirects: 0 });
         expect([from, r.status(), new URL(r.headers().location, 'http://x').pathname]).toEqual([from, 308, to]);
     }
@@ -141,11 +163,12 @@ for (const path of PAGES) {
             await page.evaluate(s => { document.documentElement.style.fontSize = s; }, size);
             await fits(`${width}px at ${size} text`);
         }
-        for (const width of [320, 390]) {
+        for (const width of [320, 390]) for (const colorScheme of ['light', 'dark'] as const) {
             await page.setViewportSize({ width, height: 800 });
+            await page.emulateMedia({ colorScheme });
             await page.goto(path);
             await settled(page);
-            await page.screenshot({ path: `test-results/screenshots/w${width}${path === '/' ? '-home' : path.replaceAll('/', '-')}.png`, fullPage: true });
+            await page.screenshot({ path: `test-results/screenshots/w${width}-${colorScheme}${path === '/' ? '-home' : path.replaceAll('/', '-')}.png`, fullPage: true });
         }
     });
 }
@@ -158,4 +181,21 @@ test('the mobile menu closes on a tap outside it', async ({ page, isMobile }) =>
     // The empty side gutter of the page, below the open panel (which covers the hero heading on a phone)
     await page.locator('main').click({ position: { x: 4, y: 560 } });
     await expect(page.getByRole('button', { name: 'Menu' })).toBeVisible();
+});
+
+test('an anchor lands below the header, even when large text makes the header wrap', async ({ page }, info) => {
+    test.skip(info.project.name !== 'desktop', 'One run is enough: it sets its own sizes');
+    await page.setViewportSize({ width: 768, height: 900 });
+    for (const [path, id] of [[ROUTES.pricing, 'plan-dealer'], [ROUTES.dashboard, 'ai-writing']]) {
+        await page.goto(path);
+        const [head, top] = await page.evaluate(async id => {
+            document.documentElement.style.fontSize = '200%';
+            document.documentElement.style.scrollBehavior = 'auto';
+            await new Promise(r => setTimeout(r, 300)); // the header reports its new height
+            document.getElementById(id)!.scrollIntoView();
+            await new Promise(r => requestAnimationFrame(r));
+            return [document.querySelector('header')!.getBoundingClientRect().bottom, document.getElementById(id)!.getBoundingClientRect().top];
+        }, id);
+        expect([id, top >= head]).toEqual([id, true]);
+    }
 });

@@ -9,8 +9,8 @@ import { CONTACT_EMAIL, ROUTES } from '@/lib/config';
 import { pageMetadata } from '@/lib/metadata';
 
 export const metadata = pageMetadata({
-    title: 'Talk to us about a website for your dealership',
-    description: 'Tell Checkwork about your dealership: your stock, your leads and what is not working. Try the live demo first. We read every message and reply the way you ask.',
+    title: 'Talk to us about your dealership',
+    description: 'Tell Checkwork about your dealership and how you want a reply. We read every message.',
     path: ROUTES.contact,
 });
 
@@ -18,12 +18,13 @@ const NEXT = [
     { title: 'We read it', text: 'A person reads every message.' },
     { title: 'We reply', text: 'By email or a call, as you asked, with any questions we have.' },
     { title: 'We talk it through', text: 'If it looks like a fit, a short call and a walk through the demo.' },
-    { title: 'You pick a plan', text: 'We go through which plan fits your yard, how your stock and leads would work, and what it costs. Then you decide.' },
+    { title: 'You pick a plan', text: 'We go through which plan fits your yard and what it costs. Then you decide.' },
 ] as const;
 
 export default async function Contact({ searchParams }: PageProps<'/contact'>) {
-    // `?need=showroom`, `dealer` or `group` (each plan card's link) ticks that plan; anything else ticks nothing
-    const need = (await searchParams).need;
+    // `?need=website`, `dashboard` or `both` (each plan card's link, and the old plan ids) ticks that choice; anything else ticks nothing
+    // `&call=1` (a Book a call link) ticks Call me
+    const { need, call } = await searchParams;
     const plan = typeof need === 'string' && Object.hasOwn(PLAN_NEEDS, need) ? PLAN_NEEDS[need] : undefined;
 
     return (
@@ -31,8 +32,8 @@ export default async function Contact({ searchParams }: PageProps<'/contact'>) {
             <PageHead title="Talk to us about your dealership" lead="Leave your name and a number or email, and we will get back to you. Everything else is optional." />
             <Section className="pt-10 md:pt-14">
                 <Container className="grid gap-14 lg:grid-cols-[1.4fr_1fr] lg:gap-16">
-                    <ContactForm need={plan} />
-                    <aside className="grid content-start gap-10 lg:sticky lg:top-28 lg:self-start">
+                    <ContactForm need={plan} call={call === '1'} />
+                    <aside className="grid min-w-0 grid-cols-[minmax(0,1fr)] content-start gap-10 lg:sticky lg:top-28 lg:self-start">
                         <div className="grid gap-5">
                             <h2 className="font-display text-2xl font-semibold">What happens next</h2>
                             <ol className="grid gap-5">
@@ -50,9 +51,10 @@ export default async function Contact({ searchParams }: PageProps<'/contact'>) {
                             <p className="text-fg-muted">Rather email? <a href={`mailto:${CONTACT_EMAIL}`} className="text-accent-alt underline underline-offset-4">{CONTACT_EMAIL}</a></p>
                         </div>
 
-                        <div className="grid gap-4 overflow-hidden rounded-2xl border border-line bg-surface">
+                        {/* minmax(0,1fr): the box never grows past its column, whatever the font or text size (CI's Linux fonts are wider) */}
+                        <div className="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-4 overflow-hidden rounded-2xl border border-line bg-surface">
                             <Image src="/dealer-demo/dash-overview.webp" alt="The demo dealer dashboard: leads each week and what needs attention" width={1920} height={1200} className="h-auto w-full border-b border-line" />
-                            <div className="grid gap-3 px-5 pb-5">
+                            <div className="grid min-w-0 gap-3 px-5 pb-5">
                                 <h2 className="font-display text-xl font-semibold">Try it first</h2>
                                 <p className="text-fg-muted">Use the demo site yourself, or <Link href={ROUTES.dealers} className="text-accent-alt underline underline-offset-4">see what is in it</Link>.</p>
                                 <div><DemoButton variant="secondary" /></div>

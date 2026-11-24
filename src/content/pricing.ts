@@ -1,15 +1,16 @@
-// The dealer plans (issue #56). Prices are a month, before VAT, from the owner's pricing model (checkwork-demo: docs/sales/pricing-strategy.md
-// and src/lib/billing/rules.ts, TIERS). Change them there first, then here. No launch discount: a year upfront and a 2-year contract are the only deals.
+// The dealer plans (issue #58). Prices are a month, before VAT, for one dealership, from the owner's pricing (checkwork-dash:
+// docs/decisions.md, Pricing, and src/lib/billing/rules.ts, PLANS). Change them there first, then here. The first month free and the
+// 12-month price lock for first dealers are contract terms and stay off the site (owner, 2026-11-24), as does the Social and ads add-on.
 
 const VAT_PCT = 23;
 
 export type Tier = {
-    id: 'showroom' | 'dealer' | 'group';
+    id: 'website' | 'dashboard' | 'both';
+    /** Ids of the old plans (Showroom, Dealer, Group) whose links should still land on this card */
+    oldIds: readonly string[];
     name: string;
     eur: number;
-    branchEur?: number;
     setupEur: number;
-    fits: string;
     summary: string; // one line for the home page
     lead: string;
     items: readonly string[];
@@ -17,110 +18,103 @@ export type Tier = {
 
 export const TIERS: readonly Tier[] = [
     {
-        id: 'showroom',
-        name: 'Showroom',
-        eur: 249,
-        setupEur: 950,
-        fits: 'For 30 to 70 cars',
-        summary: 'The website, with no dashboard. For 30 to 70 cars.',
+        id: 'website',
+        oldIds: ['showroom'],
+        name: 'Website',
+        eur: 149,
+        setupEur: 500,
+        summary: 'Your own site on your stock.',
         lead: 'Your own website.',
         items: [
-            'Your own site, with stock synced from DoneDeal or CarsIreland',
-            'Your Google reviews on the site',
-            'Enquiries by email, and WhatsApp click to chat',
-            'Finance estimator',
-            'Trade-ins with 25 reg lookups a month',
-            'Car finder for cars you don’t have in stock',
+            'Your own site on your DoneDeal or CarsIreland stock',
+            'Car pages with enquire, call and WhatsApp',
+            'Test drive requests, sent to you by email',
+            'Finance estimator with your lender’s wording',
+            'Trade-in and sell your car',
+            'Find me a car',
+            'Vans with prices before VAT',
+            'Your Google reviews',
+            'Enquiries by email',
         ],
     },
     {
-        id: 'dealer',
-        name: 'Dealer',
-        eur: 449,
-        setupEur: 950,
-        fits: 'For 60 to 150 cars',
-        summary: 'The website plus the dashboard: leads, WhatsApp alerts, test drives and AI writing. For 60 to 150 cars.',
-        lead: 'Everything in Showroom, plus the dashboard.',
+        id: 'dashboard',
+        oldIds: [],
+        name: 'Dashboard',
+        eur: 149,
+        setupEur: 0,
+        summary: 'Leads, stock, sales and customers.',
+        lead: 'Everything to run the yard.',
         items: [
-            'Leads inbox with follow-ups',
-            'WhatsApp alerts to your team and confirmations to buyers, 500 a month',
-            'Test drive booking',
-            'Trade-ins with 100 reg lookups a month',
-            'Reply to Google reviews from the dashboard',
-            'AI writing, 100 uses a month, including better car descriptions to paste into DoneDeal. Each draft or rewrite is one use',
-            'Deposits and sales records',
-            'Site analytics: visitors, and which ads bring leads',
-            'Staff logins with roles, as many as you need',
+            'Leads and follow-ups',
+            'Alerts on your phone, and on WhatsApp',
+            'Test drives',
+            'Stock with days in stock and suggested price drops',
+            'Sales, margins and prep costs',
+            'Reviews, with replies',
+            'Customers with NCT and service reminders',
+            'Reports and the monthly report',
+            'Reg lookup and history check for staff',
+            'AI writing',
+            'Logins for your whole team, each with a role',
         ],
     },
     {
-        id: 'group',
-        name: 'Group',
-        eur: 749,
-        branchEur: 149,
-        setupEur: 1950,
-        fits: '2 or more branches on one site',
-        summary: 'Dealer plus margins and reports, social posts, a newsletter and new cars. 2 or more branches on one site.',
-        lead: 'Everything in Dealer, plus:',
-        items: [
-            'Margins and reports',
-            'Social posts and ads, with AI writing raised to 300 uses a month',
-            'Newsletter and stock alerts',
-            'New cars and factory orders for 2 brands',
-            'Commercial vehicles',
-            'Reg lookups and WhatsApp alerts for each branch',
-        ],
+        id: 'both',
+        oldIds: ['dealer', 'group'],
+        name: 'Website + Dashboard',
+        eur: 249,
+        setupEur: 500,
+        summary: 'Both, with every enquiry in the dashboard.',
+        lead: 'Both, working together.',
+        items: ['Everything in Website and Dashboard', 'Every enquiry from your website in the dashboard'],
     },
 ];
 
+/** The plan card lifted out as the light sheet. No label says so (owner, 2026-11-24). */
+export const PICK: Tier['id'] = 'both';
+
 /** What each plan includes every month. Null: not in that plan. */
 export const ALLOWANCES = [
-    { label: 'Reg lookups', showroom: '25', dealer: '100', group: '100 a branch' },
-    { label: 'WhatsApp alerts', showroom: null, dealer: '500', group: '500 a branch' },
-    { label: 'AI writing', showroom: null, dealer: '100', group: '300' },
+    { label: 'Reg lookups', website: null, dashboard: '100', both: '100' },
+    { label: 'WhatsApp alerts and confirmations', website: null, dashboard: '500', both: '500' },
+    { label: 'History checks', website: null, dashboard: 'Paid per check', both: 'Paid per check' },
+    { label: 'AI writing', website: null, dashboard: 'Included', both: 'Included' },
 ] as const;
 
-export const ADDONS = [
-    { title: 'Commercial vehicles', on: 'any plan', eur: '€29' },
-    { title: 'Service and aftersales', on: 'Dealer or Group', eur: '€49', text: 'Service booking and warranty claims, for dealers with a workshop.' },
-    { title: 'Margins and reports', on: 'Dealer', eur: '€49' },
-    { title: 'New cars', on: 'Dealer', eur: '€99', text: 'New cars and factory orders for up to 2 brands. €400 setup. Each extra brand is €29 a month and €100 setup, on Group too.' },
-    { title: 'Social posts and ads', on: 'Dealer', eur: '€99', text: 'With 200 more AI uses a month. €150 setup.' },
-    { title: 'Newsletter and stock alerts', on: 'Dealer', eur: '€59' },
-] as const;
-
-/** Each use past the allowance, before VAT */
+/** Each use past the allowance, before VAT (checkwork-dash UNIT_PRICE_EUR). No history check price on the site (owner, 2026-11-24). */
 export const USAGE = [
     { title: 'Reg lookup', eur: '€0.30' },
     { title: 'WhatsApp alert or confirmation', eur: '€0.05' },
-    { title: 'WhatsApp reply to a buyer', eur: '€0.03' },
-    { title: 'WhatsApp marketing message', eur: '€0.12' },
-    { title: 'AI writing, Standard', eur: '€0.04' },
-    { title: 'AI writing, Premium (the stronger model, if you choose it)', eur: '€0.08' },
+    { title: 'WhatsApp reply to a buyer or review request', eur: '€0.03' },
+    { title: 'WhatsApp NCT or service reminder', eur: '€0.12' },
 ] as const;
 
-/** Where extra use stops each month unless the dealer sets a lower limit */
+/** Where extra use stops each month unless the dealer sets a lower limit (checkwork-dash DEFAULT_CEILINGS). A cap, never a price per use. */
 export const LIMITS = [
     { title: 'Reg lookups', eur: '€15' },
-    { title: 'WhatsApp', eur: '€20', note: 'per branch on Group' },
-    { title: 'AI writing', eur: '€50' },
+    { title: 'History checks', eur: '€25' },
+    { title: 'WhatsApp', eur: '€20' },
 ] as const;
 
 export const TERMS = [
-    { title: 'Monthly', text: 'The prices on this page.' },
-    { title: 'A year upfront', text: 'Pay for 11 months and get the 12th free.' },
-    { title: 'A 2-year contract', text: 'No setup fee.' },
-    { title: 'Moving up a plan', text: 'You pay only the difference in setup. Nothing on a 2-year contract.' },
+    { title: 'A 1-year contract', text: 'The monthly price, and €500 setup for a plan with the website.' },
+    { title: 'A 2-year contract', text: 'The monthly price, with no setup fee.' },
 ] as const;
 
 export const PRICING_FAQS = [
     { q: 'Do the prices include VAT?', a: `No. Every price on this page is before VAT, which is added at ${VAT_PCT}%.` },
-    { q: 'What does the setup fee cover?', a: 'Building your site: your brand and content, connecting your stock, Google profile, WhatsApp and email, and the launch. There is no setup fee on a 2-year contract.' },
-    { q: 'Do we keep DoneDeal or CarsIreland?', a: 'Yes. Keep listing there and your site follows your stock, or, on Dealer and Group, keep your stock in the dashboard instead.' },
-    { q: 'What happens when we go past the allowance?', a: 'Each extra use is billed at the prices above, up to the monthly limit. At the limit it stops until next month: buyers type their car in themselves instead of a lookup. On Dealer and Group you can set lower limits in the dashboard. On Showroom, ask us.' },
-    { q: 'Can we change plan later?', a: 'Yes. Moving up a plan costs only the difference in setup. Add-ons and branches you drop stop from the 1st of the next month.' },
-    { q: 'Is there a launch discount?', a: 'No. A year paid upfront gets a month free, and a 2-year contract has no setup fee.' },
-    { q: 'Is everything in the demo included?', a: 'Everything in the demo is on offer, in the plan that has it. At setup we connect your own accounts: DoneDeal or CarsIreland, WhatsApp, Google, Facebook and Instagram, and email.' },
+    { q: 'What does the setup fee cover?', a: 'Building your website: your brand and content, connecting your stock, your Google listing, WhatsApp and email, and the launch. The dashboard alone has no setup fee.' },
+    { q: 'Does the price go up with more cars?', a: 'No. The plans are flat for one dealership, whatever your stock.' },
+    { q: 'We have more than one branch.', a: 'Talk to us. The plans are for one dealership for now.' },
+    { q: 'What happens at the monthly limit?', a: 'That service stops until the next month. Staff type the car’s details in, and WhatsApp alerts go by email instead.' },
+    { q: 'Are DoneDeal or CarsIreland fees included?', a: 'No. You keep your own account with them and pay them as now.' },
 ] as const;
 
 export const eur = (n: number) => `€${n.toLocaleString('en-IE')}`;
+
+/** The setup line under a plan's price */
+export const setupLine = (t: Tier) => (t.setupEur ? `${eur(t.setupEur)} setup, none on a 2-year contract.` : 'No setup fee.');
+
+/** The setup terms in one line, from the plans: "€500 setup for a plan with the website, none on a 2-year contract." */
+export const SETUP_SUMMARY = `${eur(Math.max(...TIERS.map(t => t.setupEur)))} setup for a plan with the website, none on a 2-year contract.`;

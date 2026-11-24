@@ -1,6 +1,6 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { Container } from '@/components/ui/Container';
+import { Logo } from '@/components/ui/Logo';
 import { CONTACT_EMAIL, LEGAL, NAV, ROUTES, SITE } from '@/lib/config';
 
 export function Footer() {
@@ -10,7 +10,7 @@ export function Footer() {
             <Container className="grid gap-10">
                 <div className="grid gap-10 md:grid-cols-[1.4fr_1fr]">
                     <div className="grid content-start gap-4">
-                        <Image src="/brand/checkwork-logo-on-dark.svg" alt="" width={160} height={25} className="h-[25px] w-auto forced-colors:rounded-md forced-colors:bg-canvas forced-colors:p-1 forced-colors:[forced-color-adjust:none]" />
+                        <Logo alt="" height={25} />
                         <p className="max-w-sm">{SITE.description}</p>
                         <a href={`mailto:${CONTACT_EMAIL}`} className="w-fit text-accent-alt underline underline-offset-4">{CONTACT_EMAIL}</a>
                     </div>

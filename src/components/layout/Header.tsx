@@ -1,11 +1,11 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Container } from '@/components/ui/Container';
+import { Logo } from '@/components/ui/Logo';
 import { CTA, NAV } from '@/lib/config';
 
 export function Header() {
@@ -24,6 +24,17 @@ export function Header() {
         update();
         window.addEventListener('scroll', update, { passive: true });
         return () => window.removeEventListener('scroll', update);
+    }, []);
+
+    // The header's height, for the page's scroll padding (globals.css): with large text its links wrap and it grows
+    useEffect(() => {
+        const el = bar.current;
+        if (!el) return;
+        const set = () => document.documentElement.style.setProperty('--header-h', `${el.offsetHeight}px`);
+        set();
+        const watch = new ResizeObserver(set);
+        watch.observe(el);
+        return () => watch.disconnect();
     }, []);
 
     useEffect(() => {
@@ -47,7 +58,7 @@ export function Header() {
         >
             <Container className="flex min-h-[4.5rem] items-center justify-between gap-6">
                 <Link href="/" aria-label="Checkwork, home" onClick={() => setOpen(false)}>
-                    <Image src="/brand/checkwork-logo-on-dark.svg" alt="Checkwork" width={190} height={30} preload className="h-[30px] w-auto forced-colors:rounded-md forced-colors:bg-canvas forced-colors:p-1 forced-colors:[forced-color-adjust:none]" />
+                    <Logo alt="Checkwork" height={30} preload />
                 </Link>
                 <button
                     ref={menu}
@@ -65,11 +76,12 @@ export function Header() {
                     aria-label="Main"
                     // Tabbing out of the open menu (to the page, not the Menu button) closes it, so it never hangs over what has focus
                     onBlur={e => { if (open && !e.currentTarget.contains(e.relatedTarget) && e.relatedTarget !== menu.current) setOpen(false); }}
-                    className={`absolute inset-x-0 top-full flex origin-top flex-col border-b border-line bg-canvas px-5 pb-6 pt-2 transition-[opacity,transform,visibility] duration-200 ease-out md:visible md:static md:translate-y-0 md:flex-row md:items-center md:gap-6 md:border-0 lg:gap-8 md:bg-transparent md:p-0 md:opacity-100 ${
+                    className={`absolute inset-x-0 top-full flex origin-top flex-col border-b border-line bg-canvas px-5 pb-6 pt-2 transition-[opacity,transform,visibility] duration-200 ease-out md:visible md:static md:min-w-0 md:flex-1 md:translate-y-0 md:flex-row md:flex-wrap md:items-center md:justify-end md:gap-x-6 md:gap-y-2 md:border-0 lg:gap-x-8 md:bg-transparent md:px-0 md:py-3 md:opacity-100 ${
                         open ? 'visible translate-y-0 opacity-100' : 'invisible -translate-y-2 opacity-0'
                     }`}
                 >
-                    <ul className="flex flex-col md:flex-row md:gap-5 lg:gap-8">
+                    {/* With large text the links wrap onto a second line rather than push the page sideways (no single-word label can break) */}
+                    <ul className="flex flex-col md:flex-row md:flex-wrap md:justify-end md:gap-x-5 md:gap-y-1 lg:gap-x-8">
                         {NAV.map(item => (
                             <li key={item.href}>
                                 <Link

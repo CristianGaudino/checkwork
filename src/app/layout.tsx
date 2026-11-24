@@ -19,7 +19,14 @@ export const metadata: Metadata = {
     icons: { icon: '/favicon.svg', apple: '/apple-touch-icon.png' },
 };
 
-export const viewport: Viewport = { width: 'device-width', initialScale: 1, themeColor: BRAND_COLORS.midnight };
+export const viewport: Viewport = {
+    width: 'device-width',
+    initialScale: 1,
+    themeColor: [
+        { media: '(prefers-color-scheme: light)', color: BRAND_COLORS.light },
+        { media: '(prefers-color-scheme: dark)', color: BRAND_COLORS.midnight },
+    ],
+};
 
 export default function RootLayout({ children }: LayoutProps<'/'>) {
     return (
