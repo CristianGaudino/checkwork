@@ -5,8 +5,9 @@ the build needs that is not here is a question for the owner, not a guess.
 
 Sources: issue #58 (the products and prices), issue #2 (the placeholder register), the dealer dashboard (`checkwork-dash`:
 `docs/dealer-admin.md`, `docs/decisions.md` Pricing, `src/lib/billing/rules.ts` `PLANS`) and the dealer website template
-(`checkwork-demo`). Every claim below was checked against those repos on 2026-11-24. Where a claim depends on a connection that is not
-live yet, the copy says so (section 3, "What needs an account or approval").
+(`checkwork-demo`). Every claim below was checked against those repos on 2026-11-24. The owner answered the open questions the same
+day (section 8): the outside connections are presented as working features that we connect when we set a dealer up (section 3,
+"Connected at setup").
 
 ## 1. Aim and reader
 
@@ -21,8 +22,9 @@ we do. Not technical.
 4. That a real person sets it up with them.
 
 **What they should do:** send an enquiry (the contact form, which asks how they want a reply: "Call me" or "Email me"). That is the one
-primary action on every page, labelled **Talk to us**. The secondary action is trying the demo website (it opens in a new tab). There is
-no public demo of the dashboard: we show it on a call.
+primary action on every page, labelled **Talk to us**. A "call" is that form with "Call me" ticked: there is no calendar booking. The
+secondary action is trying the demo website (it opens in a new tab). There is no public demo of the dashboard and never a public link to
+one: we show it on a call.
 
 **What success looks like:** a dealer who reads one page on a phone can say what each product does and what it costs, and sends an
 enquiry without needing to read another page.
@@ -70,19 +72,20 @@ dealers, quotes or results. Prices are before VAT and say so. Built copy uses ty
 Button labels are verbs. "Try the demo website" always opens in a new tab with "(opens in a new tab)" for screen readers (the existing
 `DemoButton`).
 
-### What needs an account or approval (said wherever the feature is)
+### Connected at setup (owner, 2026-11-24)
 
-Checked in `checkwork-dash` today: the product side is built and runs on the demo dealer; each outside connection below still needs
-something before it is live for a real dealer. The copy says so in these words, never more confidently.
+The outside connections are working features that we connect during onboarding, and the copy presents them that way, with no caveat.
+Where the dealer's own account is involved, one plain line says we connect it when we set them up.
 
-| Connection | What it needs | The line we use |
-|---|---|---|
-| DoneDeal or CarsIreland stock | The dealer's account and the listing site's approval (each gives access for a dealer's own site, with the dealer's written consent) | "This needs your DoneDeal or CarsIreland account and their approval. We apply with you at setup." |
-| Carzone | No connection yet | "On Carzone? Ask us." |
-| WhatsApp alerts and messages | The dealer's WhatsApp Business number and Meta's approval of the message templates | "WhatsApp needs your WhatsApp Business number and Meta’s approval, which we set up with you. Until then, alerts come by email and on your phone." |
-| Google review replies | The dealer signs in to Google once as their Business Profile owner or manager | "Replying needs you to connect your Google Business Profile once." |
-| Reviews on the website | The dealer's public Google listing only | (nothing to say: no sign-in needed) |
-| Reg lookup and history check | Our account with the data provider (One Auto, Irish data) | "The reg lookup and history check switch on once our data provider account is live. Until then, staff type the car’s details in." |
+| Connection | The line we use, where it fits |
+|---|---|
+| DoneDeal or CarsIreland stock (website and dashboard) | We connect your DoneDeal or CarsIreland account when we set you up. |
+| DoneDeal and CarsIreland enquiries into the dashboard | Enquiries from DoneDeal and CarsIreland come in too. |
+| WhatsApp alerts and messages | We connect your WhatsApp Business number when we set you up. |
+| Google review replies | We connect your Google Business Profile when we set you up. |
+| Reg lookup and history check | (nothing to add: the provider account is ours) |
+
+Carzone is not mentioned.
 
 ### 3.1 Home `/`
 
@@ -95,7 +98,7 @@ something before it is live for a real dealer. The copy says so in these words, 
 - Line under the buttons: [Try the demo website ↗] The demo is a made-up dealer with sample stock.
 - Right column: the launch sheet (kept, the site's signature), with corrected checks (`src/content/checks.ts`):
   - Heading: **Before it goes live**. Under it: Every dealer website we launch has these.
-  - Your stock on it: From DoneDeal or CarsIreland, or kept in the dashboard.
+  - Your stock on it: From your DoneDeal or CarsIreland account.
   - Your reviews on it: From your Google listing, as Google shows them.
   - Finance with your wording: A monthly estimate at your lender’s rate.
   - Trade-ins and cars to sell: Buyers send the reg, the mileage and photos.
@@ -127,7 +130,7 @@ something before it is live for a real dealer. The copy says so in these words, 
 - H2: **From a buyer’s tap to your phone**
 - 01 **A buyer gets in touch.** On a car page: Enquire, Test drive, Call or WhatsApp.
 - 02 **It lands in your dashboard.** With the car, what they asked and how they want a reply.
-- 03 **Your team hears at once.** A notification on their phone and an email. On WhatsApp too, once it is set up.
+- 03 **Your team hears at once.** A notification on their phone, an email, or a WhatsApp message.
 - Link: **More about the dashboard**
 
 **Section 4: Prices.** The existing three-row list (`TIERS` on the home page), one row per plan, each row a link to its card.
@@ -136,7 +139,7 @@ something before it is live for a real dealer. The copy says so in these words, 
 - Lead: A month, before VAT, for one dealership.
 - Rows: **Website** Your own site on your stock. €149 a month. / **Dashboard** Leads, stock, sales and customers. €149 a month. /
   **Website + Dashboard** Both, with every enquiry in the dashboard. €249 a month.
-- Line: €500 setup for a plan with the website, none on a 2-year contract. The first month is free for our first dealers.
+- Line: €500 setup for a plan with the website, none on a 2-year contract.
 - Button: **See what each plan includes** (secondary)
 
 **Section 5: How you get set up.** Four numbered steps (`STEPS` in `src/content/home.ts`).
@@ -145,8 +148,8 @@ something before it is live for a real dealer. The copy says so in these words, 
 - Lead: You deal with one person from the first call to the launch, and after it.
 - 01 **Talk to us.** A short call about your yard, your stock and how leads reach you now.
 - 02 **See it working.** Try the demo website yourself. We show you the dashboard on a call.
-- 03 **Connect your accounts.** DoneDeal or CarsIreland, your Google listing and WhatsApp. Some need the provider’s approval, so we apply
-  with you.
+- 03 **Connect your accounts.** We connect your DoneDeal or CarsIreland account, your Google Business Profile and your WhatsApp
+  Business number.
 - 04 **Go live.** We build the site in your brand, check it on phones and launch it. Then we stay on for changes and support.
 
 **Section 6: CTA band** (`CtaBand`).
@@ -155,8 +158,7 @@ something before it is live for a real dealer. The copy says so in these words, 
 - Tell us a little about your dealership. We reply the way you ask.
 - Button: **Talk to us**
 
-The home page's WhatsApp chat section goes (WhatsApp is not live for a real dealer yet; it moves to the dashboard page with its
-caveat).
+The home page's WhatsApp chat section moves to the dashboard page.
 
 ### 3.2 Dealer website `/car-dealer-websites`
 
@@ -174,8 +176,8 @@ caveat).
 - H2: **List once, on the site you already use**
 - Keep listing on DoneDeal or CarsIreland and your website follows it, checking every 15 minutes. New ads go up, price changes follow,
   and a car that comes down leaves the site.
-- Or keep your stock in the dashboard instead, and the site changes as soon as you save.
-- Small print: This needs your DoneDeal or CarsIreland account and their approval. We apply with you at setup. On Carzone? Ask us.
+- We connect your DoneDeal or CarsIreland account when we set you up. With the dashboard, you can also add cars there and the site
+  changes as soon as you save.
 
 **Section 3: What buyers can do.** The existing `DealerTour` with the site tab only (pick a screen, see the screenshot). H2 **What
 buyers see**, lead: Pick a screen. Every one is from the demo, with its made-up dealer and sample stock.
@@ -211,8 +213,8 @@ buyers see**, lead: Pick a screen. Every one is from the demo, with its made-up 
 **Section 6: Questions** (`Faqs`, H2 **Questions**)
 
 - **Can we try it before we talk to you?** Yes. The demo website is live for anyone, with a made-up dealer and sample stock.
-- **Do we keep DoneDeal or CarsIreland?** Yes. Keep listing there and the site follows it. It needs your account and their approval,
-  which we apply for with you.
+- **Do we keep DoneDeal or CarsIreland?** Yes. Keep listing there and the site follows it. We connect your account when we set
+  you up.
 - **Can our team update cars without a developer?** Yes. Change the ad on DoneDeal or CarsIreland and the site follows within 15
   minutes. With the dashboard you can also keep stock there.
 - **Where do enquiries go?** By email to the addresses you choose, and into the dashboard if you have it.
@@ -239,7 +241,7 @@ ask. Button **Talk to us**.
 from `lg`; on a phone the text is always first and the phone screenshot is used. Each has an `id` so it can be linked.
 
 2. `#leads` **Leads and follow-ups** (`dash-leads`, `dash-lead`)
-   - Every enquiry from your website lands here with the car and what they asked. Each one has an owner and a follow-up date, so
+   - Every enquiry from your website, DoneDeal and CarsIreland lands here with the car and what they asked. Each one has an owner and a follow-up date, so
      nothing waits in someone’s inbox.
    - Reply in one tap by call, email or WhatsApp, with a first reply already written: the car, its price and its link. Each morning,
      everyone gets an email of the follow-ups due.
@@ -248,8 +250,7 @@ from `lg`; on a phone the text is always first and the phone screenshot is used.
    - Add the dashboard to your phone’s home screen and new leads and test drive requests arrive as notifications.
    - On WhatsApp, your team can answer from the yard: reply to a trade-in with a price, confirm a test drive, or drop the price on a car
      that has been in stock too long. Buyers only get WhatsApp messages if they asked for them.
-   - Small print: WhatsApp needs your WhatsApp Business number and Meta’s approval, which we set up with you. Until then, alerts come by
-     email and on your phone.
+   - We connect your WhatsApp Business number when we set you up.
    - Chat caption: From the demo, with a made-up buyer. In the demo, messages stay inside it.
 
 4. `#test-drives` **Test drives** (`dash-drives`)
@@ -268,7 +269,7 @@ from `lg`; on a phone the text is always first and the phone screenshot is used.
 
 7. `#reviews` **Reviews** (`dash-reviews`)
    - Your Google reviews in one list, the low ones first. Reply from the dashboard. After a sale, ask the buyer for a review in one tap.
-   - Small print: Replying needs you to connect your Google Business Profile once.
+   - We connect your Google Business Profile when we set you up.
 
 8. `#customers` **Customers and reminders** (`dash-customer`)
    - A page for each customer with what they bought and its warranty, and any warranty claims.
@@ -281,12 +282,10 @@ from `lg`; on a phone the text is always first and the phone screenshot is used.
 10. `#history` **Reg lookup and history check** (`dash-history`)
     - Staff look a car up from its reg to fill in the make, model and year. A history check shows finance owed, a write-off, mileage
       that does not add up, an import, the number of owners and the NCT date.
-    - Small print: The reg lookup and history check switch on once our data provider account is live. Until then, staff type the car’s
-      details in.
 
 **Section 11: Your team, and AI writing.** Two short columns, no screenshot.
 
-- `#team` H2 **Your team**: Owner, manager, sales and finance roles. Costs and margins only for the roles that need them. Every change is
+- `#team` H2 **Your team**: Logins for as many people as you need, each with a role: owner, manager, sales or finance. Costs and margins only for the roles that need them. Every change is
   in the activity history, with who made it.
 - `#ai-writing` H2 **AI writing**: First drafts of car descriptions, replies to leads and review replies, from your own stock. Your team
   reads and changes them before anything is sent. Included in the plan.
@@ -294,15 +293,15 @@ from `lg`; on a phone the text is always first and the phone screenshot is used.
 **Section 12: Questions** (`Faqs`)
 
 - **Can we see it before we sign up?** Yes. We show you the dashboard on a call, with a made-up dealer and sample data.
-- **Do we need the website too?** No. The dashboard works on its own for stock, sales, customers, reviews and reports. Enquiries from a
-  Checkwork website land in it.
+- **Do we need the website too?** No. The dashboard works on its own. Enquiries from DoneDeal and CarsIreland come into it, as well as
+  those from a Checkwork website.
 - **Who sees our margins?** Only the people you choose. Without the right role, costs and margins never reach their screen.
 - **Does it work on a phone?** Yes. Add it to your home screen and it opens like an app, with notifications. On an iPhone this needs
   iOS 16.4 or later.
 - **Will buyers get WhatsApp messages they did not ask for?** No. A buyer gets WhatsApp messages only if they ticked the box on the
   form. Otherwise they get an email, or your team is told to call.
-- **What happens past the allowance?** Each extra lookup, history check or WhatsApp message is billed at the price on the pricing page,
-  up to a monthly limit you can set. At the limit it stops until the next month.
+- **What happens past the allowance?** Each extra lookup or WhatsApp message is billed at the price on the pricing page, and history
+  checks are paid per check, up to a monthly limit you can set. At the limit it stops until the next month.
 
 **Section 13: CTA band.** H2 **See the dashboard on a call**. Text: Tell us a little about your dealership and we will show you around
 it. Button **Talk to us**.
@@ -325,9 +324,7 @@ we have no dealers yet to back a label.
 | Under the price | €500 setup, none on a 2-year contract. Before VAT. | No setup fee. Before VAT. | €500 setup, none on a 2-year contract. Before VAT. |
 | Button | Talk to us about the website (`/contact?need=website`) | Talk to us about the dashboard (`?need=dashboard`) | Talk to us about both (`?need=both`) |
 | List lead | Your own website. | Everything to run the yard. | Both, working together. |
-| List | Your own site on your DoneDeal or CarsIreland stock; Car pages with enquire, test drive, call and WhatsApp; Finance estimator with your lender’s wording; Trade-in and sell your car; Find me a car; Vans with prices before VAT; Your Google reviews; Enquiries by email | Leads and follow-ups; Alerts on your phone, and on WhatsApp; Test drives; Stock with days in stock and suggested price drops; Sales, margins and prep costs; Reviews, with replies; Customers with NCT and service reminders; Reports and the monthly report; Reg lookup and history check for staff; AI writing; Roles for your team | Everything in Website and Dashboard; Every enquiry from your website in the dashboard |
-
-Line under the cards: **First dealers get their first month free.**
+| List | Your own site on your DoneDeal or CarsIreland stock; Car pages with enquire, test drive, call and WhatsApp; Finance estimator with your lender’s wording; Trade-in and sell your car; Find me a car; Vans with prices before VAT; Your Google reviews; Enquiries by email | Leads and follow-ups; Alerts on your phone, and on WhatsApp; Test drives; Stock with days in stock and suggested price drops; Sales, margins and prep costs; Reviews, with replies; Customers with NCT and service reminders; Reports and the monthly report; Reg lookup and history check for staff; AI writing; Logins for your whole team, each with a role | Everything in Website and Dashboard; Every enquiry from your website in the dashboard |
 
 **Section 3: Included each month.** Table from `md`, one short list per plan below it (existing pattern).
 
@@ -338,20 +335,19 @@ Line under the cards: **First dealers get their first month free.**
 |---|---|---|---|
 | Reg lookups | None | 100 | 100 |
 | WhatsApp alerts and confirmations | None | 500 | 500 |
-| History checks | None | None | None |
+| History checks | None | Paid per check | Paid per check |
 | AI writing | None | Included | Included |
 
 **Section 4: Past the allowance, and limits.** Two columns from `md` (existing `PriceList`).
 
-- H2: **Past the allowance**. Lead: Each use, before VAT. Replies to buyers and reminders are billed from the first one.
+- H2: **Past the allowance**. Lead: Each use, before VAT. Replies to buyers and reminders are billed from the first one. History checks
+  are paid per check, with none included.
   - Reg lookup €0.30
-  - History check €2.50 (placeholder until the provider’s price is confirmed: #2)
   - WhatsApp alert or confirmation €0.05
   - WhatsApp reply to a buyer €0.03
   - WhatsApp NCT or service reminder €0.12
 - H2: **Monthly limits**. Lead: Extra use stops at these amounts until the next month. You can set lower ones in the dashboard.
   - Reg lookups €15
-  - History checks €25
   - WhatsApp €20
 
 **Section 5: Paying.** (existing `dl` layout)
@@ -359,7 +355,6 @@ Line under the cards: **First dealers get their first month free.**
 - H2: **Paying**
 - **A 1-year contract.** The monthly price, and €500 setup for a plan with the website.
 - **A 2-year contract.** The monthly price, with no setup fee.
-- **First dealers.** The first month free.
 
 **Section 6: Questions** (H2 **Questions about prices**)
 
@@ -375,8 +370,9 @@ Line under the cards: **First dealers get their first month free.**
 **Section 7: CTA band.** H2 **Find the right plan for your yard**. Text: Tell us about your dealership. We will reply and price it
 with you. Button **Talk to us**.
 
-Removed from pricing: the three old plans and their sizes ("30 to 70 cars"), branches, add-ons, AI usage prices and AI limits (AI
-writing is fair use, never billed), "a year upfront, 12th month free", and "moving up a plan".
+Removed from pricing: the three old plans and their sizes ("30 to 70 cars"), branches, add-ons (Social and ads stays off the site), AI
+usage prices and AI limits (AI writing is fair use, never billed), "a year upfront, 12th month free", "moving up a plan", the history
+check's price, the first month free and the 12-month price lock (owner: both stay off the site).
 
 ### 3.5 About `/about`
 
@@ -386,7 +382,7 @@ Kept as it is, with these changes:
 - "Why only car dealers", second paragraph: All of it is in the [demo website] and the [dashboard] pages. AI writes first drafts of
   descriptions and replies for your team to check. (The link to the AI page goes.)
 - Principle "Your own accounts": Your stock stays on DoneDeal or CarsIreland, your reviews on Google and your WhatsApp Business number
-  with you. We connect them with you at setup.
+  with you. We connect them when we set you up.
 - Principle "Prices you can see": Every plan and every price per use is on the pricing page, before VAT.
 - The owner’s name and photo stay a placeholder in #2 until the owner wants them shown.
 
@@ -423,9 +419,9 @@ size together, tracking and leading that follow size, respect for reduced motion
 ### Colour tokens (semantic only)
 
 Components use the semantic utilities (`bg-canvas`, `text-fg-muted`, `border-line`), never a raw colour. The site gains a light theme
-that follows the system setting (`prefers-color-scheme`); dark stays the brand’s home look and the default when the system says
-nothing. Both sets live in `src/styles/globals.css` as `:root` values; no component changes for the theme. The logo swaps between
-`checkwork-logo-on-dark.svg` and `checkwork-logo-on-light.svg` (both in the brand pack) with a `<picture>` media query.
+that follows the phone’s setting (`prefers-color-scheme`); dark is the other. Both sets live in `src/styles/globals.css` as `:root` values; no component changes for the theme. The logo swaps between
+`checkwork-logo-on-dark.svg` and `checkwork-logo-on-light.svg` (both in the brand pack, copied to `public/brand/`). The big shadows
+are lighter in the light theme.
 
 | Token | Use | Dark (now) | Light (new) |
 |---|---|---|---|
@@ -482,10 +478,10 @@ leading as already set in `globals.css` (h1 -0.03em / 1.04, h2 -0.022em / 1.1, h
 | `ProductCard` | New: a screenshot, an H3, two lines, the price and a link; the whole card is the link target | Home, section 2 |
 | `Feature` | New: an H2 section with text and a screenshot, alternating sides from `lg`, an `id` for linking | Dashboard page, website section 2 |
 | `Steps` | New, from the home page’s inline steps: numbered list, used for setup and "from a tap to your phone" | Home |
-| `Note` | New: the small print line for a connection that needs approval (`text-sm text-fg-muted`, no icon, no pill) | Website and dashboard pages |
+| `Shot` placeholder | `Shot` with no image yet: a `surface` box marked "Screenshot to come" with what it will show (section 5) | Wherever a shot is not captured |
 | `Plan`, `PriceList` (pricing page) | Reuse, new data | Pricing |
 
-No badges or pills ("New", "Coming soon", "Beta"): a connection that is not live is said in a plain sentence (`Note`).
+No badges or pills ("New", "Coming soon", "Beta").
 
 ### Motion (restrained)
 
@@ -506,8 +502,9 @@ phone or email on screen. Format WebP, in `public/dealer-demo/`.
 - Taken in the product’s light theme, so they read on both site themes. The demo bar, if shown, is cropped out.
 - Alt text says what the screen shows and that it is the demo ("Demo dealer dashboard list of leads with their status").
 
-Until a shot is captured, its slot shows a marked placeholder (a `surface` box with the line "Screenshot to come: <name>") and the shot
-is listed in #2. The placeholder is the only thing on the site that says something is missing.
+Until a shot is captured, its slot shows a marked placeholder (a `surface` box with the line "Screenshot to come" and what it will show)
+and the shot is listed in #2. The older dashboard shots (`dash-*`) are real screenshots of the demo dealer and stay in use until they are
+recaptured.
 
 | File | Screen | Used in | Status |
 |---|---|---|---|
@@ -556,7 +553,8 @@ Structured data (`src/lib/schema.ts`), only facts the site states:
   `valueAddedTaxIncluded: false`, and the setup in the offer’s description.
 - `Service` on the website page (serviceType "Website design for car dealerships") and on the dashboard page (serviceType "Dealer
   management software"), each with `provider` the organisation.
-- No `FAQPage` (Google shows those for few sites now), no ratings or reviews (we have none), no address or phone until #2 has them.
+- `FAQPage` from each page's questions (the existing `Faqs` component). No ratings or reviews (we have none), no address or phone until
+  #2 has them.
 
 Sitemap (`src/app/sitemap.ts`): remove `/car-dealer-ai`, add `/car-dealer-dashboard`. Robots unchanged. Every page keeps one H1, a
 canonical and share tags (the E2E check).
@@ -570,8 +568,8 @@ canonical and share tags (the E2E check).
 - The old plans Showroom, Dealer and Group (€249, €449, €749), branches, add-ons, AI usage prices and limits, the year-upfront deal,
   and the plan sizes, from `src/content/pricing.ts`, the home page, the FAQs and the structured data.
 - The home page’s WhatsApp section, the website page’s WhatsApp section and its dashboard tour tab (all move to the dashboard page).
-- Claims the products no longer make: a reg lookup on the website’s trade-in form; "price alerts" for buyers (the alert emails are not
-  sent yet); the old `FEATURES` list on the website page.
+- Claims the products no longer make: a reg lookup on the website’s trade-in form; "price alerts" for buyers; the old `FEATURES` list
+  on the website page.
 
 **Stays**
 - The contact form, Turnstile, rate limit, D1 storage, alert email.
@@ -585,19 +583,18 @@ canonical and share tags (the E2E check).
 `src/app/car-dealer-dashboard/page.tsx`, `src/styles/globals.css` (light tokens), `e2e/public.spec.ts` (`PAGES` and the redirect test),
 `scripts/lighthouse.mjs`, the README’s page list.
 
-## 8. Open questions for the owner
+## 8. Owner decisions (2026-11-24)
 
-1. **Website without the dashboard: where does the stock come from** until DoneDeal or CarsIreland approves access? Stock kept by hand
-   needs the dashboard. Do we sell the Website plan alone before that approval, or say "stock by email to us" for now?
-2. **Dashboard without our website: how do leads get in?** Today only a Checkwork website sends leads. Should the page say anything
-   about connecting a dealer’s existing site (the site API), or nothing?
-3. **First dealers:** how many, or until when? And do we say the 12-month price lock on the site, or keep it for the contract?
-4. **History check price:** €2.50 is a placeholder until One Auto’s price is known. Show it marked as a placeholder, or leave the line
-   out until confirmed?
-5. **Social and ads add-on (€99, #148):** left off the site, as the publishing is not connected and the issue drops those claims. Agree?
-6. **Carzone:** "On Carzone? Ask us." Is that the line, or leave Carzone out until there is a way in?
-7. **Light theme:** add the light theme that follows the system (section 4), or keep the site dark only?
-8. **Showing the dashboard on a call:** is a screen share of the demo dealer on a call fine under "no public demo of the dashboard"?
-9. **"Book a call":** the action is the enquiry form with "Call me". Do you want a calendar link (a real booking) instead or as well?
-10. **Team size:** may the page say "as many people as you need" for dashboard logins, while sign-in is through Access with named emails?
-11. **Recommended plan:** the light card goes to Website + Dashboard with no label. Agree?
+1. Connections (DoneDeal and CarsIreland stock, One Auto lookups and history checks, WhatsApp, Google review replies) are presented as
+   working features set up during onboarding, with no caveat.
+2. Website-only stock comes from the dealer's DoneDeal or CarsIreland account, connected at setup.
+3. Dashboard-only: enquiries from DoneDeal and CarsIreland come into the dashboard, as well as those from our websites.
+4. The first month free and the 12-month price lock stay off the site.
+5. No history check price: "paid per check".
+6. The Social and ads add-on stays off the site.
+7. Carzone is left out.
+8. A light theme that follows the phone's setting, with dark as the other. Semantic tokens only, both themes checked.
+9. The demo dashboard is shown on a call only, never a public link.
+10. "Book a call" is the enquiry form with the call option. No calendar booking.
+11. Logins for as many people as needed.
+12. Website + Dashboard is the highlighted card, with no "Recommended" label.
