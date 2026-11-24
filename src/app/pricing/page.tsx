@@ -24,9 +24,9 @@ function Plan({ tier }: { tier: Tier }) {
     return (
         // At lg the card's four parts sit on rows shared with the other cards (subgrid), so prices and buttons line up. The picked card's
         // lift (-my-4, 16px) is made up by its padding (py-11, 44px = 16px + the others' 28px), so its content sits on the same lines.
-        <article id={`plan-${tier.id}`} aria-labelledby={`plan-${tier.id}-name`} className={`relative grid min-w-0 scroll-mt-24 content-start gap-6 rounded-2xl p-5 wrap-anywhere sm:p-7 lg:row-span-4 lg:grid-rows-subgrid ${pick ? 'bg-paper text-ink shadow-lift lg:-my-4 lg:py-11' : 'border border-line bg-surface'}`}>
+        <article id={`plan-${tier.id}`} aria-labelledby={`plan-${tier.id}-name`} className={`relative grid min-w-0 content-start gap-6 rounded-2xl p-5 wrap-anywhere sm:p-7 lg:row-span-4 lg:grid-rows-subgrid ${pick ? 'bg-paper text-ink shadow-lift lg:-my-4 lg:py-11' : 'border border-line bg-surface'}`}>
             {/* Old plan links (#plan-showroom, #plan-dealer, #plan-group) still land on the card that replaced them */}
-            {tier.oldIds.map(id => <span key={id} id={`plan-${id}`} className="absolute top-0 scroll-mt-24" aria-hidden="true" />)}
+            {tier.oldIds.map(id => <span key={id} id={`plan-${id}`} className="absolute top-0" aria-hidden="true" />)}
             <div className="grid gap-1">
                 <h2 id={`plan-${tier.id}-name`} className="font-display text-2xl font-semibold">{tier.name}</h2>
                 <p className={pick ? 'text-ink-muted' : 'text-fg-muted'}>{tier.summary}</p>

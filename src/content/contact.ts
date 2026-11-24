@@ -42,7 +42,7 @@ const shot = (name: string) => `/dealer-demo/${name}.webp`;
 export const CONCERNS = [
     {
         id: 'stock', label: 'Updating stock takes too long', show: 'group-has-[[data-concern=stock]:checked]:grid',
-        demo: { text: 'Keep listing cars on DoneDeal or CarsIreland and the website follows it. Or keep your stock in the dashboard instead of DoneDeal or CarsIreland, and the website changes at once.', src: shot('dash-stock'), alt: 'Demo dealer dashboard stock list with prices, margins and days in stock', path: null },
+        demo: { text: 'Keep listing cars on DoneDeal or CarsIreland and the website follows it. Or, with the dashboard, keep your stock there instead of DoneDeal or CarsIreland, and the website changes at once.', src: shot('dash-stock'), alt: 'Demo dealer dashboard stock list with prices, margins and days in stock', path: null },
     },
     {
         id: 'enquiries', label: 'Not enough enquiries from the site', show: 'group-has-[[data-concern=enquiries]:checked]:grid',

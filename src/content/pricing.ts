@@ -86,8 +86,8 @@ export const ALLOWANCES = [
 export const USAGE = [
     { title: 'Reg lookup', eur: '€0.30' },
     { title: 'WhatsApp alert or confirmation', eur: '€0.05' },
-    { title: 'WhatsApp reply to a buyer', eur: '€0.03' },
-    { title: 'WhatsApp reminder or review request', eur: '€0.12' },
+    { title: 'WhatsApp reply to a buyer or review request', eur: '€0.03' },
+    { title: 'WhatsApp NCT or service reminder', eur: '€0.12' },
 ] as const;
 
 /** Where extra use stops each month unless the dealer sets a lower limit (checkwork-dash DEFAULT_CEILINGS). A cap, never a price per use. */

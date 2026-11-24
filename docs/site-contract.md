@@ -176,7 +176,7 @@ The home page's WhatsApp chat section moves to the dashboard page.
 - H2: **List once, on the site you already use**
 - Keep listing on DoneDeal or CarsIreland and your website follows it, checking every 15 minutes. New ads go up, price changes follow,
   and a car that comes down leaves the site.
-- We connect your DoneDeal or CarsIreland account when we set you up. Or keep your stock in the dashboard instead of DoneDeal or
+- We connect your DoneDeal or CarsIreland account when we set you up. Or, with the dashboard, keep your stock there instead of DoneDeal or
   CarsIreland, and the site changes as soon as you save.
 
 **Section 3: What buyers can do.** The existing `DealerTour` with the site tab only (pick a screen, see the screenshot). H2 **What
@@ -187,7 +187,7 @@ buyers see**, lead: Pick a screen. Every one is from the demo, with its made-up 
 | home | Search from the first screen | Make, model, body type and price, right on the home page. | `site-home` |
 | stock | Stock that is easy to search | Filters with live counts, a grid or a list, and saved cars and compare with no account needed. | `site-stock`, `phone-stock` |
 | car | Every way to get in touch | Photos, the key facts and a monthly estimate, with Enquire, Test drive, Call and WhatsApp in one place. | `site-car`, `phone-car` |
-| drive | Test drives booked online | The buyer picks a car, a day and a time you are open. The request comes to you by email, and with the dashboard it lands in your calendar. | `site-test-drive` |
+| drive | Test drive requests online | The buyer picks a car, a day and a time you are open. The request comes to you by email, and with the dashboard it lands in Test drives. | `site-test-drive` |
 | finance | Finance with your wording | A monthly estimate at your lender’s rate, with the representative example you must show. We never make up rates. | `site-finance` |
 | trade | Trade-ins and cars to sell | The buyer sends the reg, the mileage and photos. You reply with a price. | `site-trade-in` (recapture) |
 | finder | Find me a car | Can’t see the car they want? They tell you what they are after, and you look for it. | `site-find-a-car` |
@@ -216,7 +216,7 @@ buyers see**, lead: Pick a screen. Every one is from the demo, with its made-up 
 - **Do we keep DoneDeal or CarsIreland?** Yes. Keep listing there and the site follows it. We connect your account when we set
   you up.
 - **Can our team update cars without a developer?** Yes. Change the ad on DoneDeal or CarsIreland and the site follows within 15
-  minutes. Or keep your stock in the dashboard instead of DoneDeal or CarsIreland.
+  minutes. Or, with the dashboard, keep your stock there instead of DoneDeal or CarsIreland.
 - **Where do enquiries go?** By email to the addresses you choose, and into the dashboard if you have it.
 - **Can we show finance?** Yes. The estimator uses your lender’s rate and the representative example and warnings you must show. We
   never make up rates.
@@ -345,8 +345,8 @@ we have no dealers yet to back a label.
   are paid per check, with none included.
   - Reg lookup €0.30
   - WhatsApp alert or confirmation €0.05
-  - WhatsApp reply to a buyer €0.03
-  - WhatsApp reminder or review request €0.12
+  - WhatsApp reply to a buyer or review request €0.03
+  - WhatsApp NCT or service reminder €0.12
 - H2: **Monthly limits**. Lead: Extra use stops at these amounts until the next month. You can set lower ones in the dashboard.
   - Reg lookups €15
   - History checks €25 (a cap, not a price per check)
@@ -399,7 +399,7 @@ Kept: the form, Turnstile, the rate limit, D1, the alert email and the steps bes
 - `PLAN_NEEDS`: `website`, `dashboard`, `both`, plus the old `showroom` (The website), `dealer` and `group` (Both).
 - `STOCK_SIZES`: Under 30 cars, 30 to 80 cars, More than 80 cars, Not sure. (The old sizes matched the old plans; the new plans are
   flat. Old rows keep their text.)
-- `CONCERNS`: the stock answer loses "on Dealer and Group" (Or keep your stock in the dashboard instead of DoneDeal or CarsIreland, and the website changes at once.); the
+- `CONCERNS`: the stock answer loses "on Dealer and Group" (Or, with the dashboard, keep your stock there instead of DoneDeal or CarsIreland, and the website changes at once.); the
   rest stay.
 - PageHead and the steps stay. The step "You pick a plan" says: We go through which plan fits your yard and what it costs. Then you
   decide.

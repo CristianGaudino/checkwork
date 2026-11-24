@@ -53,7 +53,7 @@ export default function CarDealerWebsites() {
                     <div className="grid content-start gap-4">
                         <h2 className="font-display text-4xl font-semibold md:text-5xl">List once, on the site you already use</h2>
                         <p className="text-lg text-fg-muted">Keep listing on DoneDeal or CarsIreland and your website follows it, checking every 15 minutes. New ads go up, price changes follow, and a car that comes down leaves the site.</p>
-                        <p className="text-fg-muted">We connect your DoneDeal or CarsIreland account when we set you up. Or keep your stock in the dashboard instead of DoneDeal or CarsIreland, and the site changes as soon as you save.</p>
+                        <p className="text-fg-muted">We connect your DoneDeal or CarsIreland account when we set you up. Or, with the dashboard, keep your stock there instead of DoneDeal or CarsIreland, and the site changes as soon as you save.</p>
                     </div>
                     <div className="overflow-hidden rounded-2xl border border-line bg-surface shadow-frame">
                         <Shot src="/dealer-demo/site-stock.webp" alt="Demo dealer used cars page with filters down the side and car cards" sizes="(min-width: 1024px) 640px, 100vw" />

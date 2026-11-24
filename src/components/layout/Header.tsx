@@ -26,6 +26,17 @@ export function Header() {
         return () => window.removeEventListener('scroll', update);
     }, []);
 
+    // The header's height, for the page's scroll padding (globals.css): with large text its links wrap and it grows
+    useEffect(() => {
+        const el = bar.current;
+        if (!el) return;
+        const set = () => document.documentElement.style.setProperty('--header-h', `${el.offsetHeight}px`);
+        set();
+        const watch = new ResizeObserver(set);
+        watch.observe(el);
+        return () => watch.disconnect();
+    }, []);
+
     useEffect(() => {
         if (!open) return;
         // Escape closes the menu and puts focus back on the button that opened it

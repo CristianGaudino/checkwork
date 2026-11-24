@@ -96,7 +96,7 @@ test('the website page tour switches screens, and shows a marked placeholder for
     await expect(tour.getByRole('img')).toHaveAttribute('alt', /home page/);
     await page.getByRole('button', { name: /Every way to get in touch/ }).click();
     await expect(tour.getByRole('img')).toHaveAttribute('alt', /MINI Clubman/);
-    await page.getByRole('button', { name: /Test drives booked online/ }).click();
+    await page.getByRole('button', { name: /Test drive requests online/ }).click();
     await expect(tour.getByText('Screenshot to come')).toBeVisible();
     await expect(page.getByRole('link', { name: /Try the demo website/ }).first()).toHaveAttribute('href', 'https://www.demo.checkwork.ie');
 });
@@ -181,4 +181,21 @@ test('the mobile menu closes on a tap outside it', async ({ page, isMobile }) =>
     // The empty side gutter of the page, below the open panel (which covers the hero heading on a phone)
     await page.locator('main').click({ position: { x: 4, y: 560 } });
     await expect(page.getByRole('button', { name: 'Menu' })).toBeVisible();
+});
+
+test('an anchor lands below the header, even when large text makes the header wrap', async ({ page }, info) => {
+    test.skip(info.project.name !== 'desktop', 'One run is enough: it sets its own sizes');
+    await page.setViewportSize({ width: 768, height: 900 });
+    for (const [path, id] of [[ROUTES.pricing, 'plan-dealer'], [ROUTES.dashboard, 'ai-writing']]) {
+        await page.goto(path);
+        const [head, top] = await page.evaluate(async id => {
+            document.documentElement.style.fontSize = '200%';
+            document.documentElement.style.scrollBehavior = 'auto';
+            await new Promise(r => setTimeout(r, 300)); // the header reports its new height
+            document.getElementById(id)!.scrollIntoView();
+            await new Promise(r => requestAnimationFrame(r));
+            return [document.querySelector('header')!.getBoundingClientRect().bottom, document.getElementById(id)!.getBoundingClientRect().top];
+        }, id);
+        expect([id, top >= head]).toEqual([id, true]);
+    }
 });

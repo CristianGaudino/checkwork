@@ -20,7 +20,7 @@ export const metadata = pageMetadata({
 /** One job the dashboard does: the words, then the screen. From lg they sit side by side, alternating; on a phone the words come first. */
 function Job({ f, flip }: { f: Feature; flip: boolean }) {
     return (
-        <Section id={f.id} className="scroll-mt-20 border-t border-line">
+        <Section id={f.id} className="border-t border-line">
             <Container className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
                 <div className={`grid content-start gap-4 ${flip ? 'lg:order-last' : ''}`}>
                     <h2 className="font-display text-4xl font-semibold md:text-5xl">{f.title}</h2>
@@ -62,7 +62,7 @@ export default function CarDealerDashboard() {
 
             <Job f={leads} flip={false} />
 
-            <Section id="alerts" className="scroll-mt-20 border-t border-line">
+            <Section id="alerts" className="border-t border-line">
                 <Container className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
                     <div className="grid content-start gap-4 lg:order-last">
                         <h2 className="font-display text-4xl font-semibold md:text-5xl">Alerts on your phone</h2>
@@ -78,11 +78,11 @@ export default function CarDealerDashboard() {
 
             <Section className="border-t border-line bg-surface">
                 <Container className="grid gap-12 md:grid-cols-2 md:gap-16">
-                    <div id="team" className="grid scroll-mt-20 content-start gap-3">
+                    <div id="team" className="grid content-start gap-3">
                         <h2 className="font-display text-4xl font-semibold">Your team</h2>
                         <p className="text-lg text-fg-muted">Logins for as many people as you need, each with a role: owner, manager, sales or finance. Costs and margins only for the roles that need them. Every change is in the activity history, with who made it.</p>
                     </div>
-                    <div id="ai-writing" className="grid scroll-mt-20 content-start gap-3">
+                    <div id="ai-writing" className="grid content-start gap-3">
                         <h2 className="font-display text-4xl font-semibold">AI writing</h2>
                         <p className="text-lg text-fg-muted">First drafts of car descriptions, replies to leads and review replies, from your own stock. Your team reads and changes them before anything is sent. Included in the plan.</p>
                     </div>
