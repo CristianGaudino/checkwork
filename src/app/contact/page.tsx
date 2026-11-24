@@ -33,7 +33,7 @@ export default async function Contact({ searchParams }: PageProps<'/contact'>) {
             <Section className="pt-10 md:pt-14">
                 <Container className="grid gap-14 lg:grid-cols-[1.4fr_1fr] lg:gap-16">
                     <ContactForm need={plan} call={call === '1'} />
-                    <aside className="grid content-start gap-10 lg:sticky lg:top-28 lg:self-start">
+                    <aside className="grid min-w-0 grid-cols-[minmax(0,1fr)] content-start gap-10 lg:sticky lg:top-28 lg:self-start">
                         <div className="grid gap-5">
                             <h2 className="font-display text-2xl font-semibold">What happens next</h2>
                             <ol className="grid gap-5">
@@ -51,9 +51,10 @@ export default async function Contact({ searchParams }: PageProps<'/contact'>) {
                             <p className="text-fg-muted">Rather email? <a href={`mailto:${CONTACT_EMAIL}`} className="text-accent-alt underline underline-offset-4">{CONTACT_EMAIL}</a></p>
                         </div>
 
-                        <div className="grid gap-4 overflow-hidden rounded-2xl border border-line bg-surface">
+                        {/* minmax(0,1fr): the box never grows past its column, whatever the font or text size (CI's Linux fonts are wider) */}
+                        <div className="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-4 overflow-hidden rounded-2xl border border-line bg-surface">
                             <Image src="/dealer-demo/dash-overview.webp" alt="The demo dealer dashboard: leads each week and what needs attention" width={1920} height={1200} className="h-auto w-full border-b border-line" />
-                            <div className="grid gap-3 px-5 pb-5">
+                            <div className="grid min-w-0 gap-3 px-5 pb-5">
                                 <h2 className="font-display text-xl font-semibold">Try it first</h2>
                                 <p className="text-fg-muted">Use the demo site yourself, or <Link href={ROUTES.dealers} className="text-accent-alt underline underline-offset-4">see what is in it</Link>.</p>
                                 <div><DemoButton variant="secondary" /></div>
