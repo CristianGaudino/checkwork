@@ -9,6 +9,10 @@ Sources: issue #58 (the products and prices), issue #2 (the placeholder register
 day (section 8): the outside connections are presented as working features that we connect when we set a dealer up (section 3,
 "Connected at setup").
 
+> **Prices are off the site (2026-11-25, owner).** The pricing page, the home page plans, the "See prices" buttons, the prices in page
+> descriptions, FAQs and structured data are removed; prices are given on a call. `/pricing` and `/services` redirect to `/contact`
+> (`/pricing` not permanently). Where this contract still describes prices, it is history.
+
 ## 1. Aim and reader
 
 **The reader:** the owner of an independent used-car dealership in Ireland, 20 to 150 cars, listing on DoneDeal or CarsIreland. Reading

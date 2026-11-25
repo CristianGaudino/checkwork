@@ -13,7 +13,7 @@ export const NEED_HINTS: Record<(typeof NEEDS)[number], string> = {
 // Stored when nothing is picked: only a name and a way to reply are required
 export const NO_NEED = 'Not sure yet' satisfies (typeof NEEDS)[number];
 
-// What `?need=<plan id>` on the contact page ticks: each plan card's Talk to us link (content/pricing.ts TIERS ids), and the old plan ids
+// What `?need=<plan id>` on the contact page ticks: the product pages' Talk to us links, and the old plan ids
 // (Showroom, Dealer, Group) so links from before #58 still tick the choice that replaced them
 export const PLAN_NEEDS: Record<string, (typeof NEEDS)[number]> = {
     website: 'The website',

@@ -48,7 +48,9 @@ const nextConfig: NextConfig = {
             { source: "/:path*", has: [{ type: "host" as const, value: "checkwork.ie" }], destination: "https://www.checkwork.ie/:path*", permanent: true },
             // The site is for car dealers only (#56): the old agency pages go to their dealer pages rather than a 404. One level under /work
             // covers every old case study (the taken-down /work/blacktail-archive too); nothing is served from /work any more.
-            { source: "/services", destination: "/pricing", permanent: true },
+            { source: "/services", destination: "/contact", permanent: true },
+            // Prices are given on a call for now, not on the site: not permanent, so a pricing page can come back
+            { source: "/pricing", destination: "/contact", permanent: false },
             { source: "/work", destination: "/car-dealer-websites", permanent: true },
             { source: "/work/:slug", destination: "/car-dealer-websites", permanent: true },
             // AI writing is a dashboard feature, not a product (#58): the old AI page lands on its section of the dashboard page

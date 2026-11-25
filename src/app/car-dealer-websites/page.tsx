@@ -14,7 +14,7 @@ import { service } from '@/lib/schema';
 
 export const metadata = pageMetadata({
     title: 'Car dealer websites in Ireland',
-    description: 'Your own dealer website on your DoneDeal or CarsIreland stock, with finance, trade-ins, test drive requests and your Google reviews. €149 a month before VAT. Try the demo.',
+    description: 'Your own dealer website on your DoneDeal or CarsIreland stock, with finance, trade-ins, test drive requests and your Google reviews. Try the demo.',
     path: ROUTES.dealers,
 });
 

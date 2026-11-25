@@ -6,7 +6,7 @@ import { ROUTES } from '@/lib/config';
 const settled = (page: Page) => page.waitForFunction(() => document.getAnimations().every(a => a.playState === 'finished'));
 
 // Add each page here as it lands.
-const PAGES = [ROUTES.home, ROUTES.contact, ROUTES.dealers, ROUTES.dashboard, ROUTES.pricing, ROUTES.about, ROUTES.privacy];
+const PAGES = [ROUTES.home, ROUTES.contact, ROUTES.dealers, ROUTES.dashboard, ROUTES.about, ROUTES.privacy];
 
 // Live site: skip Next's link prefetches (about 10 a page). Cloudflare's rate limit counts each as a page visit and blocks at 50 in 10 seconds
 test.beforeEach(async ({ page }) => {
@@ -69,16 +69,16 @@ test('skip link is first on the tab order and the mobile menu opens and closes',
     await page.keyboard.press('Tab');
     await expect(page.getByRole('link', { name: 'Skip to content' })).toBeFocused();
     if (!isMobile) return;
-    const pricing = page.getByRole('navigation', { name: 'Main' }).getByRole('link', { name: 'Pricing' });
+    const about = page.getByRole('navigation', { name: 'Main' }).getByRole('link', { name: 'About' });
     await page.getByRole('button', { name: 'Menu' }).click();
-    await expect(pricing).toBeVisible();
+    await expect(about).toBeVisible();
     await page.getByRole('button', { name: 'Close' }).click();
-    await expect(pricing).toBeHidden();
+    await expect(about).toBeHidden();
     // Escape closes it too, and focus goes back to the Menu button
     await page.getByRole('button', { name: 'Menu' }).click();
-    await pricing.focus();
+    await about.focus();
     await page.keyboard.press('Escape');
-    await expect(pricing).toBeHidden();
+    await expect(about).toBeHidden();
     await expect(page.getByRole('button', { name: 'Menu' })).toBeFocused();
 });
 
@@ -101,11 +101,7 @@ test('the website page tour switches screens, and shows a marked placeholder for
     await expect(page.getByRole('link', { name: /Try the demo website/ }).first()).toHaveAttribute('href', 'https://www.demo.checkwork.ie');
 });
 
-test('old plan links still land: the pricing anchors and the contact form choice', async ({ page }) => {
-    await page.goto(ROUTES.pricing);
-    for (const [old, card] of [['showroom', 'website'], ['dealer', 'both'], ['group', 'both']]) {
-        await expect(page.locator(`#plan-${card} #plan-${old}`)).toHaveCount(1);
-    }
+test('old plan links still tick the contact form choice', async ({ page }) => {
     for (const [need, label] of [['dealer', 'Both'], ['showroom', 'The website'], ['dashboard', 'The dashboard']]) {
         await page.goto(`${ROUTES.contact}?need=${need}`);
         await expect(page.locator(`input[name=need][value="${label}"]`)).toBeChecked();
@@ -115,19 +111,14 @@ test('old plan links still land: the pricing anchors and the contact form choice
     await expect(page.locator('input[name=reply][value="A phone call"]')).toBeChecked();
 });
 
-test('pricing fits a 320px phone without scrolling sideways, and has FAQ data', async ({ page }) => {
-    await page.setViewportSize({ width: 320, height: 640 });
-    await page.goto(ROUTES.pricing);
-    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(320);
-    const types = (await page.locator('script[type="application/ld+json"]').allTextContents()).map(t => JSON.parse(t)['@type'] ?? 'graph');
-    expect(types).toEqual(expect.arrayContaining(['graph', 'FAQPage']));
-});
-
 test('old pages redirect to their new pages', async ({ request }) => {
-    for (const [from, to] of [['/services', ROUTES.pricing], ['/work', ROUTES.dealers], ['/work/how-many', ROUTES.dealers], ['/work/blacktail-archive', ROUTES.dealers], ['/car-dealer-ai', ROUTES.dashboard]]) {
+    for (const [from, to] of [['/services', ROUTES.contact], ['/work', ROUTES.dealers], ['/work/how-many', ROUTES.dealers], ['/work/blacktail-archive', ROUTES.dealers], ['/car-dealer-ai', ROUTES.dashboard]]) {
         const r = await request.get(from, { maxRedirects: 0 });
         expect([from, r.status(), new URL(r.headers().location, 'http://x').pathname]).toEqual([from, 308, to]);
     }
+    // No prices on the site for now: the old pricing page goes to the contact page, not permanently
+    const priced = await request.get('/pricing', { maxRedirects: 0 });
+    expect([priced.status(), new URL(priced.headers().location, 'http://x').pathname]).toEqual([307, ROUTES.contact]);
     // The demo screenshots are served, not caught by a redirect
     expect((await request.get('/dealer-demo/site-home.webp')).status()).toBe(200);
 });
@@ -186,7 +177,7 @@ test('the mobile menu closes on a tap outside it', async ({ page, isMobile }) =>
 test('an anchor lands below the header, even when large text makes the header wrap', async ({ page }, info) => {
     test.skip(info.project.name !== 'desktop', 'One run is enough: it sets its own sizes');
     await page.setViewportSize({ width: 768, height: 900 });
-    for (const [path, id] of [[ROUTES.pricing, 'plan-dealer'], [ROUTES.dashboard, 'ai-writing']]) {
+    for (const [path, id] of [[ROUTES.dashboard, 'ai-writing']]) {
         await page.goto(path);
         const [head, top] = await page.evaluate(async id => {
             document.documentElement.style.fontSize = '200%';

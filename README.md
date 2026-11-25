@@ -6,9 +6,9 @@ Live at **https://www.checkwork.ie** (the bare `checkwork.ie` redirects to it).
 
 ## What is in it
 
-- Public pages: home, the dealer website (`/car-dealer-websites`), the dealer dashboard (`/car-dealer-dashboard`), pricing, about, contact and privacy. The old `/services`, `/work` and `/car-dealer-ai` addresses redirect to pricing, the website page and the dashboard page (`next.config.ts`).
+- Public pages: home, the dealer website (`/car-dealer-websites`), the dealer dashboard (`/car-dealer-dashboard`), about, contact and privacy. The old `/services`, `/work` and `/car-dealer-ai` addresses redirect to contact, the website page and the dashboard page (`next.config.ts`).
 - Light and dark themes, following the phone's setting. Colours are semantic tokens in `src/styles/globals.css`, one set per theme.
-- Plan prices live in `src/content/pricing.ts`, copied from the dashboard's pricing (checkwork-dash: `docs/decisions.md`, Pricing, and `src/lib/billing/rules.ts`). Change them there first.
+- No prices on the site for now: they are given on a call. `/pricing` redirects to contact, not permanently, so a pricing page can come back (the old one is in git history).
 - A contact form. Enquiries are checked with Turnstile, rate limited, stored in Cloudflare D1 and, once switched on, emailed to the owner.
 - `/admin`: the owner's list of enquiries with status, search and private notes. It sits behind Cloudflare Access and is not in the sitemap.
 

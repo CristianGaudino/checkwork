@@ -16,7 +16,6 @@ export const metadata = pageMetadata({
 const PRINCIPLES = [
     { title: 'One person, start to finish', text: 'The person on the first call builds your site, launches it and answers when you need a change.' },
     { title: 'Your own accounts', text: 'Your stock stays on DoneDeal or CarsIreland, your reviews on Google and your WhatsApp Business number with you. We connect them when we set you up.' },
-    { title: 'Prices you can see', text: 'Every plan and every price per use is on the pricing page, before VAT.' },
     { title: 'Checked before launch', text: 'Nothing goes live until it passes the same checks, every time, on a phone as well as a laptop.' },
 ];
 
@@ -51,7 +50,6 @@ export default function About() {
                             </li>
                         ))}
                     </ul>
-                    <p className="mt-8 text-fg-muted">See the <Link href={ROUTES.pricing} className={link}>plans and prices</Link>.</p>
                 </Container>
             </Section>
             <CtaBand title="Talk to the person who builds it" text="Tell us a little about your dealership. You will hear back from the same person who would build your site." />
