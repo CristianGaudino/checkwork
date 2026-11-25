@@ -32,5 +32,5 @@ export const DEALER_FAQS = [
     { q: 'Where do enquiries go?', a: 'By email to the addresses you choose, and into the dashboard if you have it.' },
     { q: 'Can we show finance?', a: 'Yes. The estimator uses your lender’s rate and the representative example and warnings you must show. We never make up rates.' },
     { q: 'Will the website rank on Google?', a: 'We set up what Google looks for: speed, page titles, details for each car and your local details. No one can promise a ranking.' },
-    { q: 'What does it cost?', a: '€149 a month before VAT, plus €500 setup, or no setup on a 2-year contract. With the dashboard, €249 a month for both.' },
+    { q: 'What does it cost?', a: 'It depends on what you need. Tell us about your dealership and we will give you a price on the call.' },
 ] as const;

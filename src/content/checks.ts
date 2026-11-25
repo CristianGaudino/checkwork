@@ -1,4 +1,4 @@
-// The launch checklist on the home page. Each check is in the Website plan (content/pricing.ts), so it is a promise: keep only what every
+// The launch checklist on the home page. Each check is part of every dealer website, so it is a promise: keep only what every
 // dealer website gets. No reg lookup here: the website takes the reg as typed, the lookup is the dashboard's (checkwork-dash #182).
 export const CHECKS = [
     { title: 'Your stock on it', text: 'From your DoneDeal or CarsIreland account.' },

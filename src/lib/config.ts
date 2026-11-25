@@ -21,7 +21,6 @@ export const ROUTES = {
     home: '/',
     dealers: '/car-dealer-websites',
     dashboard: '/car-dealer-dashboard',
-    pricing: '/pricing',
     about: '/about',
     contact: '/contact',
     privacy: '/privacy',
@@ -31,7 +30,6 @@ export const ROUTES = {
 export const NAV = [
     { href: ROUTES.dealers, label: 'Website' },
     { href: ROUTES.dashboard, label: 'Dashboard' },
-    { href: ROUTES.pricing, label: 'Pricing' },
     { href: ROUTES.about, label: 'About' },
 ] as const;
 

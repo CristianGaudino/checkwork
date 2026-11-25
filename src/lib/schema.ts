@@ -1,4 +1,3 @@
-import { eur, setupLine, TIERS } from '@/content/pricing';
 import { CONTACT_EMAIL, ROUTES, SITE, SITE_URL } from '@/lib/config';
 
 // schema.org structured data. Only facts the site already states: no address, phone, ratings or social profiles until they exist (issue #2).
@@ -18,18 +17,6 @@ export const siteGraph = () => ({
             description: SITE.description,
             email: CONTACT_EMAIL,
             areaServed: { '@type': 'Country', name: 'Ireland' },
-            hasOfferCatalog: {
-                '@type': 'OfferCatalog',
-                name: 'Plans for car dealers',
-                // The monthly price before VAT. Setup is on top for a plan with the website, so it is named in the description rather than left out silently.
-                itemListElement: TIERS.map(t => ({
-                    '@type': 'Offer',
-                    url: url(ROUTES.pricing),
-                    itemOffered: { '@type': 'Service', name: `${t.name} plan`, description: `${t.lead} ${t.items.join('. ')}.` },
-                    priceSpecification: { '@type': 'UnitPriceSpecification', price: t.eur, priceCurrency: 'EUR', unitText: 'MONTH', valueAddedTaxIncluded: false },
-                    description: `${eur(t.eur)} a month before VAT. ${setupLine(t)}`,
-                })),
-            },
         },
         { '@type': 'WebSite', '@id': `${SITE_URL}/#website`, url: url('/'), name: SITE.name, publisher: { '@id': ORG_ID } },
     ],

@@ -7,19 +7,16 @@ import { Mark } from '@/components/ui/Mark';
 import { Shot } from '@/components/ui/Shot';
 import { CHECKS } from '@/content/checks';
 import { LEAD_PATH, PRODUCTS, STEPS } from '@/content/home';
-import { eur, SETUP_SUMMARY, TIERS } from '@/content/pricing';
 import { DEMO_URL, ROUTES } from '@/lib/config';
 import { pageMetadata } from '@/lib/metadata';
 
 export const metadata = pageMetadata({
     title: { absolute: 'Checkwork: websites and a dashboard for car dealers in Ireland' },
-    description: 'A website on the stock you list on DoneDeal or CarsIreland, and a dashboard for your leads, stock, sales and customers. For car dealers in Ireland, from €149 a month.',
+    description: 'A website on the stock you list on DoneDeal or CarsIreland, and a dashboard for your leads, stock, sales and customers. For car dealers in Ireland.',
     path: '/',
 });
 
 const link = 'text-accent-alt underline underline-offset-4';
-const tier = (id: string) => TIERS.find(t => t.id === id)!;
-const both = tier('both');
 
 export default function Home() {
     return (
@@ -36,7 +33,6 @@ export default function Home() {
                         </p>
                         <div className="rise flex flex-wrap gap-3" style={{ "--d": 2 } as CSSProperties}>
                             <Button href={ROUTES.contact}>Talk to us</Button>
-                            <Button href={ROUTES.pricing} variant="secondary">See prices</Button>
                         </div>
                         <p className="rise mt-5 text-sm text-fg-muted" style={{ "--d": 3 } as CSSProperties}>
                             <a href={DEMO_URL} target="_blank" rel="noopener" className={link}>Try the demo website<span aria-hidden="true"> ↗</span><span className="sr-only"> (opens in a new tab)</span></a>. The demo is a made-up dealer with sample stock.
@@ -78,12 +74,11 @@ export default function Home() {
                                     <Link href={p.id === 'website' ? ROUTES.dealers : ROUTES.dashboard} className="after:absolute after:inset-0">{p.title}</Link>
                                 </h3>
                                 <p className="text-fg-muted">{p.text}</p>
-                                <p className="font-display text-xl font-semibold tabular-nums">{eur(tier(p.id).eur)}<span className="font-sans text-base font-normal text-fg-muted"> a month</span></p>
                                 <p aria-hidden="true" className="text-accent-alt underline-offset-4 group-hover:underline">{p.link} <span className="inline-block transition-transform group-hover:translate-x-0.5">→</span></p>
                             </li>
                         ))}
                     </ul>
-                    <p className="text-lg text-fg-muted">Both together, {eur(both.eur)} a month. With both, every enquiry from your website lands in the dashboard.</p>
+                    <p className="text-lg text-fg-muted">With both, every enquiry from your website lands in the dashboard.</p>
                 </Container>
             </Section>
 
@@ -107,30 +102,6 @@ export default function Home() {
                     <div className="overflow-hidden rounded-2xl border border-line bg-surface shadow-frame">
                         <Shot src="/dealer-demo/dash-lead.webp" alt="A lead in the demo dealer dashboard with buttons to call, email or WhatsApp" sizes="(min-width: 1024px) 640px, 100vw" />
                     </div>
-                </Container>
-            </Section>
-
-            <Section className="border-t border-line">
-                <Container className="grid gap-10">
-                    <div className="grid max-w-2xl gap-3">
-                        <h2 className="font-display text-4xl font-semibold md:text-5xl">Three plans</h2>
-                        <p className="text-lg text-fg-muted">A month, before VAT, for one dealership.</p>
-                    </div>
-                    {/* From xl the columns live on the list and each row takes them (subgrid), so the rows share their edges. Below xl they stack. */}
-                    <ul className="border-t border-line xl:grid xl:grid-cols-[auto_minmax(14rem,1fr)_minmax(0,17rem)] xl:gap-x-10">
-                        {TIERS.map(t => (
-                            <li key={t.id} className="relative grid gap-y-2 border-b border-line py-6 transition-[background-color] hover:bg-surface has-[:focus-visible]:bg-surface xl:col-span-full xl:grid-cols-subgrid xl:items-baseline xl:px-4">
-                                <h3 className="font-display text-2xl font-semibold">
-                                    {/* The link covers the whole row (bigger target) */}
-                                    <Link href={`${ROUTES.pricing}#plan-${t.id}`} className="after:absolute after:inset-0">{t.name}</Link>
-                                </h3>
-                                <p className="text-fg-muted">{t.summary}</p>
-                                <p className="font-display text-xl font-semibold tabular-nums xl:text-right"><span className="whitespace-nowrap">{eur(t.eur)}</span><span className="font-sans text-base font-normal text-fg-muted"> a month</span></p>
-                            </li>
-                        ))}
-                    </ul>
-                    <p className="text-fg-muted">{SETUP_SUMMARY}</p>
-                    <div><Button href={ROUTES.pricing} variant="secondary">See what each plan includes</Button></div>
                 </Container>
             </Section>
 

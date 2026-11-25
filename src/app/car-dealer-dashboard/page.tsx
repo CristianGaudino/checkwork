@@ -13,7 +13,7 @@ import { service } from '@/lib/schema';
 
 export const metadata = pageMetadata({
     title: 'Dealer dashboard for car dealers in Ireland',
-    description: 'Leads and follow-ups, test drives, stock and days in stock, margins and prep costs, reviews, customers with NCT reminders and reports. €149 a month before VAT.',
+    description: 'Leads and follow-ups, test drives, stock and days in stock, margins and prep costs, reviews, customers with NCT reminders and reports.',
     path: ROUTES.dashboard,
 });
 
@@ -50,7 +50,6 @@ export default function CarDealerDashboard() {
                         </p>
                         <div className="flex flex-wrap gap-3">
                             <Button href={`${ROUTES.contact}?need=dashboard`}>Talk to us</Button>
-                            <Button href={ROUTES.pricing} variant="secondary">See prices</Button>
                         </div>
                         <p className="text-sm text-fg-muted">We show you the dashboard on a call, with a made-up dealer.</p>
                     </div>

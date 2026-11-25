@@ -73,7 +73,7 @@ export const DASHBOARD_FAQS = [
     { q: 'Who sees our margins?', a: 'Only the people you choose. Without the right role, costs and margins never reach their screen.' },
     { q: 'Does it work on a phone?', a: 'Yes. Add it to your home screen and it opens like an app, with notifications. On an iPhone this needs iOS 16.4 or later.' },
     { q: 'Will buyers get WhatsApp messages they did not ask for?', a: 'No. A buyer gets WhatsApp messages only if they ticked the box on the form. Otherwise they get an email, or your team is told to call.' },
-    { q: 'What happens past the allowance?', a: 'Each extra lookup or WhatsApp message is billed at the price on the pricing page, and history checks are paid per check, up to a monthly limit you can set. At the limit it stops until the next month.' },
+    { q: 'What happens past the allowance?', a: 'Each extra lookup or WhatsApp message is billed at a small price per use that we agree with you up front, and history checks are paid per check, up to a monthly limit you can set. At the limit it stops until the next month.' },
 ] as const;
 
 // WhatsApp, from the demo dashboard (checkwork-dash, src/lib/whatsapp). The demo's own wording, with a made-up buyer; in the demo the
